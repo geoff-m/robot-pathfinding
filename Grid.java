@@ -22,7 +22,7 @@ public class Grid
 	{
 		int row = gridPoint.getX();
 		int col = gridPoint.getY();
-		if (row >= rows || row < 0 || col >= col || col < 0)
+		if (row >= rows || row < 0 || col >= cols || col < 0)
 			throw new RuntimeException("That point is not on the grid.");
 		
 		return new PointF(originX + row * row_spacing,
