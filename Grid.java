@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 // A zero-based 2D grid of points.
 public class Grid
 {
@@ -42,5 +45,49 @@ public class Grid
 			col = cols - 1;
 		
 		return new Point(row, col);
+	}
+	
+	public int getRowCount()
+	{
+		return rows;
+	}
+	
+	public int getColCount()
+	{
+		return cols;
+	}
+	
+	public List<Point> getNeighbors(Point p)
+	{
+		int x = p.getX();
+		int y = p.getY();
+		if (x >= rows || y >= cols || x < 0 || y < 0)
+		{
+			throw new RuntimeException("That point is not in the grid.");
+		}
+
+		ArrayList<Point> ret = new ArrayList<>(4);
+		boolean inTopRow = x == 0;
+		boolean inBottomRow = x == rows;
+		boolean inLeftColumn = y == 0;
+		boolean inRightColumn = y == cols;
+		
+		if (!inTopRow)
+		{
+			ret.add(new Point(x-1, y));
+		}
+		if (!inBottomRow)
+		{
+			ret.add(new Point(x+1, y));
+		}
+		if (!inLeftColumn)
+		{
+			ret.add(new Point(x, y-1));
+		}
+		if (!inRightColumn)
+		{
+			ret.add(new Point(x, y+1));
+		}
+		return ret;
 	}
 }
