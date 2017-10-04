@@ -65,14 +65,56 @@ public class VrepUtil {
 		 return api.simxAddStatusbarMessage(clientID, message, remoteApi.simx_opmode_oneshot);
 	 }
 	 
-	 // Returns the smallest angle (radians) between the two input angles.
+	 // Returns the smallest angle between the two input angles. The result will be between -Pi/2 and Pi/2. 
 	 public static float angleBetween(float x, float y)
 	 {
-		 float diff = y - x;
-		 if (diff < -Math.PI/2)
-			 diff += Math.PI * 2;
-		 if (diff > Math.PI/2)
-			 diff -= Math.PI * 2;
-		 return diff;
+		 double diff = y - x;
+		 //diff = Math.abs(diff);
+		 
+		 diff = mod(diff, 2 * Math.PI);
+		 
+		 if (diff > Math.PI)
+			 diff = Math.PI * 2 - diff;
+		 
+		 diff -= Math.PI / 2;
+		
+		 //if (Math.abs(diff) > Math.PI/2)
+		//	 diff *= 1; // break into debugger.
+		 return (float)diff;
 	 }
+	 
+	 private static double mod(double x, double m)
+	 {
+		 while (x < 0)
+			 x += m;
+		 return x % m;
+	 }
+	 
+	 static double radiansToDegrees(float radians)
+	 { 
+         double bearing = (radians - 1.5708) / Math.PI * 180.0;
+
+         if (bearing < 0.0){
+             bearing = 360 + bearing;
+         }
+         
+         return (bearing-180) * -1.0;
+    }
+
+    /*checking the difference between current angle & destination angle*/
+    double calcDegreeDifference(double currentBearingDegrees,double destinationBearingDegrees)
+    {    
+    	double diff = destinationBearingDegrees - currentBearingDegrees;
+
+         if (diff>180.0){
+             diff=diff-360.0;
+         }
+
+         if(diff<-180.0){
+             diff=diff+360.0;
+         }
+
+         return diff;
+    }
+	 
 }
