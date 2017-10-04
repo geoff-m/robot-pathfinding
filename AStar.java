@@ -70,7 +70,7 @@ public class AStar {
 		{
 			// Build the path from 'closed'.
 			Deque<Point> ret = new LinkedList<>();
-			while (newPoint != null) // It's inescapable
+			while (newPoint != null)
 			{
 				ret.addFirst(newPoint.getPoint());
 				newPoint = newPoint.getFromPoint();
