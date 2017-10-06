@@ -78,6 +78,35 @@ public class PioneerRobot implements IVrepRobot {
 		return width;
 	}
 	
+	boolean isStreamingPosition = false;
+	@Override
+	public PointF getLocation()
+	{
+		FloatWA ret = new FloatWA(3);
+		int result = 0;
+		if (!isStreamingPosition)
+		{
+			result |= api.simxGetObjectPosition(clientID, handle, -1, ret, remoteApi.simx_opmode_streaming);
+			isStreamingPosition = true;
+		}
+		if (result != remoteApi.simx_return_ok && result != remoteApi.simx_return_novalue_flag)
+			throw new RuntimeException("Error starting to get position: " + VrepUtil.decodeReturnCode(result));
+		do {
+			result = api.simxGetObjectPosition(clientID, handle, -1, ret, remoteApi.simx_opmode_buffer);
+			if (result == remoteApi.simx_return_novalue_flag)
+			{
+				result = api.simxGetObjectPosition(clientID, handle, -1, ret, remoteApi.simx_opmode_blocking); 
+			}
+		} while (result == remoteApi.simx_return_novalue_flag);
+		
+		if (result != 0 && result != remoteApi.simx_return_novalue_flag)
+		{
+			throw new RuntimeException("Failed to get position. Error: " + VrepUtil.decodeReturnCode(result));
+		} else {
+			return new PointF(ret.getArray()[0], ret.getArray()[1]); // these may be the wrong indices, i don't know
+		}
+	}
+	
 	boolean isStreamingHeading = false;
 	public float getHeading()
 	{
@@ -105,12 +134,48 @@ public class PioneerRobot implements IVrepRobot {
 			return ret.getArray()[2];
 		}
 	}
+	
+	@Override
+	public int facePoint(PointF point)
+	{
+		PointF loc = getLocation();
+		float angle = (float)Math.atan2(point.getY() - loc.getY(), point.getX() - loc.getX());
+		return faceDirection(angle);
+	}
+	
+	@Override
+	public int driveTo(PointF goal, float max_error)
+	{
+		System.out.format("Driving to %s...\n", goal.toString());
+		int ret = 0;
+		double errDist;
+		PointF myLocation;
+		
+		myLocation = getLocation();
+		errDist = myLocation.getManhattanDistance(goal);
+		while (errDist > max_error)
+		{
+			ret |= facePoint(goal);
+			goForward(1);
+			myLocation = getLocation();
+			errDist = myLocation.getManhattanDistance(goal);
+			//System.out.format("I am %.2fm away.\n", errDist);
+		}
+		stop();
+		
+		return ret;
+	}
 
 	@Override
 	public int goForward() {
+		return goForward(1.0f);
+	}
+	
+	public int goForward(float speed)
+	{
 		int ret = 0;
-		ret |= api.simxSetJointTargetVelocity(clientID, leftMotor, 1.0f, remoteApi.simx_opmode_oneshot);
-		ret |= api.simxSetJointTargetVelocity(clientID, rightMotor, 1.0f, remoteApi.simx_opmode_blocking);
+		ret |= api.simxSetJointTargetVelocity(clientID, leftMotor, speed, remoteApi.simx_opmode_oneshot);
+		ret |= api.simxSetJointTargetVelocity(clientID, rightMotor, speed, remoteApi.simx_opmode_blocking);
 		return ret;
 	}
 
@@ -142,25 +207,28 @@ public class PioneerRobot implements IVrepRobot {
 
 	// todo: change all these as necessary.
 	final float ANGLE_EPSILON = 0.052f; // 0.052 rad ~= 3 deg.
-	final float ANGLE_NORTH = 0;
-	final float ANGLE_EAST = (float)Math.PI / 2;
-	final float ANGLE_SOUTH = (float)Math.PI;
-	final float ANGLE_WEST = 3 * (float) Math.PI / 2;
+	final float ANGLE_NORTH = (float)Math.PI / 2;
+	final float ANGLE_EAST = 0;
+	final float ANGLE_SOUTH =  3 * (float)Math.PI / 2;
+	final float ANGLE_WEST = (float) Math.PI;
 	
 	@Override
 	public int faceDirection(float angle)
 	{
-		System.out.format("Starting turn towards %.3f from %.3f\n", angle, getHeading());
+		//System.out.format("Starting turn towards %.3f from %.3f\n", angle, getHeading());
 		
-		float minerror = Float.MAX_VALUE;		// for debug.
-		float maxerror = Float.MIN_VALUE;		// for debug.
-		float minabserror = Float.MAX_VALUE;		// for debug.
-		
-		float dir, error;
-		float lastError = 0;
+		double minerror = Double.MAX_VALUE;		// for debug.
+		double maxerror = Double.MIN_VALUE;		// for debug.
+		double minabserror = Double.MAX_VALUE;		// for debug.
+		final double DEGREE_EPSILON = 3;
+		double error;
+		double lastError = 0;
 		int ret = 0;
-		int COUNTER = 0;
-		while (Math.abs(error = VrepUtil.angleBetween(dir = getHeading(), angle)) > ANGLE_EPSILON)
+		double degHeading = VrepUtil.radiansToDegrees(getHeading());
+		double degGoal = VrepUtil.radiansToDegrees(angle);
+		while (Math.abs(error = VrepUtil.calcDegreeDifference(
+				degHeading = VrepUtil.radiansToDegrees(getHeading()),
+				degGoal)) > DEGREE_EPSILON)
 		{
 			// debug: break on sign change.
 			if (lastError > 0 ^ error > 0)
@@ -171,17 +239,6 @@ public class PioneerRobot implements IVrepRobot {
 				maxerror = error;
 			if (Math.abs(error) < minabserror)
 				minabserror = Math.abs(error);
-			/*
-			float dError = error - lastError;
-			ret |= turnLeft(
-					dError * dError * 1f +
-					  error * 1f );
-
-			
-			if (++COUNTER % 100 == 0)
-				System.out.format("Error from %.4f: %.4f.\n", angle, error);
-			*/
-			
 			
 			if (error < 0)
 				turnLeft(2);
@@ -193,7 +250,7 @@ public class PioneerRobot implements IVrepRobot {
 			// Tight loop: check heading again as soon as possible.
 		}
 		stop();
-		System.out.format("Stopping turn with current heading = %.3f\n", dir);
+		//System.out.format("Stopping turn with current heading = %.3f\n", degHeading);
 		return ret;
 	}
 	

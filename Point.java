@@ -37,6 +37,22 @@ public class Point
 		return Math.abs(xdiff) + Math.abs(ydiff);
 	}
 	
+	public static Point nearestTo(PointF point)
+	{
+		float oldx = point.getX();
+		float oldy = point.getY();
+		int newx = Math.round(oldx);
+		int newy = Math.round(oldy);
+		System.out.format("Rounded x=%.2f to x=%d and y=%.2f to y=%d.\n",
+				oldx, newx, oldy, newy);
+		return new Point(newx, newy);
+	}
+	
+	public PointF toPointF()
+	{
+		return new PointF(x, y);
+	}
+	
 	@Override
 	public boolean equals(Object o)
 	{

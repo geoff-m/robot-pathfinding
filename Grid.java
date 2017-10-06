@@ -68,9 +68,9 @@ public class Grid
 
 		ArrayList<Point> ret = new ArrayList<>(4);
 		boolean inTopRow = x == 0;
-		boolean inBottomRow = x == rows;
+		boolean inBottomRow = x == rows - 1;
 		boolean inLeftColumn = y == 0;
-		boolean inRightColumn = y == cols;
+		boolean inRightColumn = y == cols - 1;
 		
 		if (!inTopRow)
 		{

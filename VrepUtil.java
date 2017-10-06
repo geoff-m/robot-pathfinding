@@ -74,9 +74,12 @@ public class VrepUtil {
 		 diff = mod(diff, 2 * Math.PI);
 		 
 		 if (diff > Math.PI)
-			 diff = Math.PI * 2 - diff;
+			 diff = diff - Math.PI * 2;
 		 
-		 diff -= Math.PI / 2;
+		 if (diff < -Math.PI)
+			 diff = diff + Math.PI * 2;
+		 
+		 //diff -= Math.PI / 2;
 		
 		 //if (Math.abs(diff) > Math.PI/2)
 		//	 diff *= 1; // break into debugger.
@@ -86,11 +89,11 @@ public class VrepUtil {
 	 private static double mod(double x, double m)
 	 {
 		 while (x < 0)
-			 x += m;
+		 	x += m;
 		 return x % m;
 	 }
 	 
-	 static double radiansToDegrees(float radians)
+	 public static double radiansToDegrees(float radians)
 	 { 
          double bearing = (radians - 1.5708) / Math.PI * 180.0;
 
@@ -102,7 +105,7 @@ public class VrepUtil {
     }
 
     /*checking the difference between current angle & destination angle*/
-    double calcDegreeDifference(double currentBearingDegrees,double destinationBearingDegrees)
+    public static double calcDegreeDifference(double currentBearingDegrees,double destinationBearingDegrees)
     {    
     	double diff = destinationBearingDegrees - currentBearingDegrees;
 

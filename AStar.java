@@ -32,8 +32,8 @@ public class AStar {
 			{
 				Point myPoint = cp.getPoint();
 				int myCost = cp.getCost();
-				
-				for (Point nextPoint : grid.getNeighbors(myPoint))
+				List<Point> myNeighbors = grid.getNeighbors(myPoint); 
+				for (Point nextPoint : myNeighbors)
 				{
 					// Check to see if we've already processed this point.
 					if (closed.containsKey(nextPoint))
@@ -47,7 +47,7 @@ public class AStar {
 					} else {
 						// We've never seen this point before.
 						newPoint = new CostPoint(nextPoint, myCost + 1, cp);
-						closed.put(nextPoint, newPoint); // need newPoint.clone() here?
+						closed.put(nextPoint, newPoint);
 						if (nextPoint.equals(destination))
 						{
 							// We've discovered the destination.
@@ -70,7 +70,7 @@ public class AStar {
 		{
 			// Build the path from 'closed'.
 			Deque<Point> ret = new LinkedList<>();
-			while (newPoint != null)
+			while (newPoint != null) // It's inescapable
 			{
 				ret.addFirst(newPoint.getPoint());
 				newPoint = newPoint.getFromPoint();
@@ -82,7 +82,6 @@ public class AStar {
 		}
 
 	}
-
 
 }
 

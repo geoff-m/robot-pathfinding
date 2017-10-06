@@ -14,7 +14,9 @@
 //
 // This file was automatically created for V-REP release V3.4.0 rev. 1 on April 5th 2017
 
+import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 
 import coppelia.IntW;
 import coppelia.IntWA;
@@ -34,6 +36,8 @@ public class simpleTest
 {
     public static void main(String[] args)
     {
+    	//if (aStarTest())
+    	//	return;
     	if (myTest())
     		return;
         System.out.println("Program started");
@@ -87,6 +91,20 @@ public class simpleTest
         System.out.println("Program ended");
     }
     
+    static boolean aStarTest()
+    {
+    	Grid g = new Grid(5, 5, 10, 10, new PointF(0, 0));
+    	AStar astar = new AStar(g);
+    	
+    	Point origin = new Point(2, 1);
+    	Point destination = new Point(3, 4);
+    	
+    	List<Point> path = astar.findPath(origin, destination);
+    	
+    	
+    	return true;
+    }
+    
     static boolean myTest()
     {
     	remoteApi vrep = new remoteApi();
@@ -106,35 +124,16 @@ public class simpleTest
     	vu.say("Stopping robot.");
     	bot.stop();
     	
-    	vu.say("Facing north.");
-    	bot.faceNorth();
+    	Grid g = new Grid(
+    			5, // rows
+    			5, // columns
+    			bot.getWidth(), // row spacing
+    			bot.getLength(), // column spacing
+    			bot.getLocation()// origin
+    			);
     	
-    	doRandomWalk(bot);
-    	
-    	Random r = new Random();
-    	for (int i=1; i<20; ++i)
-    	{
-    		switch (r.nextInt(4))
-        	{
-        	case 0:
-        		vu.say("facing north.");
-        		bot.faceNorth();
-        		break;
-        	case 1:
-        		vu.say("facing south.");
-        		bot.faceSouth();
-        		break;
-        	case 2:
-        		vu.say("facing east.");
-        		bot.faceEast();
-        		break;
-        	case 3:
-        		vu.say("facing west.");
-        		bot.faceWest();
-        		break;
-        	}
-        	try {Thread.sleep(1000);} catch (InterruptedException ie) {}	
-    	}
+    	ConsoleDriver cd = new ConsoleDriver(g, bot);
+    	cd.drive();
     	
     	vrep.simxFinish(clientID);
     	System.out.println("Done.");
@@ -165,7 +164,7 @@ public class simpleTest
         	try {Thread.sleep(500);} catch (InterruptedException ie) {}
     	}
     }
-    
+
    
 }
             
