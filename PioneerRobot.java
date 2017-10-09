@@ -1,3 +1,5 @@
+// Author: Geoff McQueen
+// Date: 23 September 2017
 import coppelia.FloatW;
 import coppelia.FloatWA;
 import coppelia.IntW;
@@ -146,7 +148,7 @@ public class PioneerRobot implements IVrepRobot {
 	@Override
 	public int driveTo(PointF goal, float max_error)
 	{
-		System.out.format("Driving to %s...\n", goal.toString());
+		//System.out.format("Driving to %s...\n", goal.toString());
 		int ret = 0;
 		double errDist;
 		PointF myLocation;

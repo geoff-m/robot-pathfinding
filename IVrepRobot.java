@@ -1,3 +1,6 @@
+// Author: Geoff McQueen
+// Date: 23 September 2017
+
 public interface IVrepRobot {
 	public String getName();
 	public int getHandle();

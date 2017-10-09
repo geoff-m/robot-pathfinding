@@ -1,3 +1,6 @@
+// Author: Geoff McQueen
+// Date: 27 September 2017
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Deque;
@@ -19,6 +22,12 @@ public class AStar {
 
 	public List<Point> findPath(Point origin, Point destination)
 	{
+		if (origin.equals(destination))
+		{
+			List<Point> ret = new ArrayList<>();
+			ret.add(destination);
+			return ret;
+		}
 		PriorityQueue<CostPoint> open = new PriorityQueue<>();
 		HashMap<Point, CostPoint> closed = new HashMap<>();
 		PriorityQueue<CostPoint> nextgen = new PriorityQueue<>();
@@ -31,7 +40,7 @@ public class AStar {
 			for (CostPoint cp : open)
 			{
 				Point myPoint = cp.getPoint();
-				int myCost = cp.getCost();
+				double myCost = cp.getCost();
 				List<Point> myNeighbors = grid.getNeighbors(myPoint); 
 				for (Point nextPoint : myNeighbors)
 				{
@@ -42,7 +51,8 @@ public class AStar {
 						// Update existing point with new cost, if it is lesser.
 						if (existingNeighbor.getCost() > myCost)
 						{
-							closed.put(nextPoint, new CostPoint(nextPoint, myCost + 1, cp));
+							//closed.put(nextPoint, new CostPoint(nextPoint, myCost + 1, cp));
+							closed.put(nextPoint, new CostPoint(nextPoint, myCost + grid.getDistance(myPoint,  nextPoint), cp));
 						}
 					} else {
 						// We've never seen this point before.
@@ -88,10 +98,10 @@ public class AStar {
 class CostPoint implements Comparable<CostPoint>
 {
 	private Point p;
-	private int cost;
+	private double cost;
 	private CostPoint from;
 
-	public CostPoint(Point p, int cost, CostPoint from)
+	public CostPoint(Point p, double cost, CostPoint from)
 	{
 		this.p = p;
 		this.cost = cost;
@@ -103,7 +113,7 @@ class CostPoint implements Comparable<CostPoint>
 		return p;
 	}
 
-	public int getCost()
+	public double getCost()
 	{
 		return cost;
 	}
@@ -114,14 +124,14 @@ class CostPoint implements Comparable<CostPoint>
 	}
 
 	@Override
-	public int compareTo(CostPoint o) {
-		return o.cost - cost;
+	public int compareTo(CostPoint other) {
+		return Double.compare(cost, other.cost);
 	}
 
 	@Override
 	public String toString()
 	{
-		return String.format("%s (cost=%d)",p.toString(), cost);
+		return String.format("%s (cost=%f)",p.toString(), cost);
 	}
 
 	@Override

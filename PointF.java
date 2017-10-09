@@ -37,6 +37,13 @@ public class PointF
 		return Math.abs(xdiff) + Math.abs(ydiff);
 	}
 	
+	public double getChebyshevDistance(PointF other)
+	{
+		float xdiff = x - other.x;
+		float ydiff = y - other.y;
+		return Math.max(Math.abs(xdiff), Math.abs(ydiff));
+	}
+	
 	@Override
 	public boolean equals(Object o)
 	{

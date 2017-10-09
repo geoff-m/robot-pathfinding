@@ -1,3 +1,6 @@
+// Author: Geoff McQueen
+// Date: 23 September 2017
+
 import coppelia.IntW;
 import coppelia.remoteApi;
 
@@ -14,6 +17,16 @@ public class VrepUtil {
 	{ return api; }
 	public int getClientID()
 	{ return clientID; }
+	
+	public int startSimulation()
+	{
+		return api.simxStartSimulation(clientID, remoteApi.simx_opmode_blocking);
+	}
+	
+	public int stopSimulation()
+	{
+		return api.simxStopSimulation(clientID, remoteApi.simx_opmode_blocking);
+	}
 
 	// TODO: I do not know if simx_opmode_buffer has the caching behavior I think it does.
 	// If not, cache this method's return values in a dictionary instead.

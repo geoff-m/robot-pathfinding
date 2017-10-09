@@ -1,3 +1,5 @@
+// Author: Geoff McQueen
+// Date: 6 October 2017
 import java.util.List;
 import java.util.Scanner;
 
@@ -18,7 +20,7 @@ public class ConsoleDriver {
 		while (true)
 		{
 			System.out.print("Command: ");
-			String[] tokens = read.nextLine().toLowerCase().split(" ");
+			String[] tokens = read.nextLine().toLowerCase().split("\\s+");
 			if (handleNorth(tokens))				
 				continue;
 			if (handleEast(tokens))	
@@ -134,7 +136,7 @@ public class ConsoleDriver {
 
 				bot.say(String.format("Going to (%d, %d)...\n", goalRow, goalCol));
 				
-				float maxerr = Math.max(bot.getWidth(), bot.getLength());
+				float maxerr = Math.min(bot.getWidth(), bot.getLength());
 				maxerr *= 0.5;
 				
 				PointF currentLocation = bot.getLocation();
@@ -157,6 +159,8 @@ public class ConsoleDriver {
 							worldCoords.getX(),
 							worldCoords.getY());
 					bot.driveTo(worldCoords, maxerr);
+					System.out.format("The robot is nearest to %s.\n",
+							g.getGridCoordinates(bot.getLocation()));
 				}
 				bot.say(String.format("Done going to (%d, %d).\n", goalRow, goalCol));
 				return true;

@@ -1,3 +1,5 @@
+// Author: Geoff McQueen
+// Date: 29 September 2017
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,10 +9,12 @@ public class Grid
 	int rows, cols;
 	float row_spacing, col_spacing;
 	float originX, originY;
+	int connectedness;
 	
 	public Grid(int rows, int columns, 
 			float row_spacing, float column_spacing, 
-			PointF origin)
+			PointF origin,
+			int connectedness)
 	{
 		this.rows = rows;
 		cols = columns;
@@ -18,6 +22,9 @@ public class Grid
 		this.col_spacing = column_spacing;
 		originX = origin.getX();
 		originY = origin.getY();
+		if (connectedness != 4 && connectedness != 8)
+			throw new IllegalArgumentException("Only 4- and 8-connected grids are supported.");
+		this.connectedness = connectedness;
 	}
 	
 	// Returns the absolute world coordinates of the specified location on the grid.
@@ -66,7 +73,7 @@ public class Grid
 			throw new RuntimeException("That point is not in the grid.");
 		}
 
-		ArrayList<Point> ret = new ArrayList<>(4);
+		ArrayList<Point> ret = new ArrayList<>(connectedness);
 		boolean inTopRow = x == 0;
 		boolean inBottomRow = x == rows - 1;
 		boolean inLeftColumn = y == 0;
@@ -88,6 +95,24 @@ public class Grid
 		{
 			ret.add(new Point(x, y+1));
 		}
+		if (connectedness == 8)
+		{
+			if (!inTopRow && !inLeftColumn)
+				ret.add(new Point(x - 1, y - 1));
+			if (!inTopRow && !inRightColumn)
+				ret.add(new Point(x - 1, y + 1));
+			if (!inBottomRow && !inLeftColumn)
+				ret.add(new Point(x + 1, y - 1));
+			if (!inBottomRow && !inRightColumn)
+				ret.add(new Point(x + 1, y + 1));
+		}
 		return ret;
+	}
+	
+	public double getDistance(Point x, Point y)
+	{
+		if (connectedness == 8)
+			return x.getChebyshevDistance(y);
+		return x.getManhattanDistance(y); // connectedness == 4.
 	}
 }
