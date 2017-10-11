@@ -20,16 +20,16 @@ public class AStar {
 		grid = g;
 	}
 
-	public List<Point> findPath(Point origin, Point destination)
+	public List<Point2D> findPath(Point2D origin, Point2D destination)
 	{
 		if (origin.equals(destination))
 		{
-			List<Point> ret = new ArrayList<>();
+			List<Point2D> ret = new ArrayList<>();
 			ret.add(destination);
 			return ret;
 		}
 		PriorityQueue<CostPoint> open = new PriorityQueue<>();
-		HashMap<Point, CostPoint> closed = new HashMap<>();
+		HashMap<Point2D, CostPoint> closed = new HashMap<>();
 		PriorityQueue<CostPoint> nextgen = new PriorityQueue<>();
 
 		CostPoint newPoint = new CostPoint(origin, 0, null);
@@ -39,10 +39,10 @@ public class AStar {
 		do {
 			for (CostPoint cp : open)
 			{
-				Point myPoint = cp.getPoint();
+				Point2D myPoint = cp.getPoint();
 				double myCost = cp.getCost();
-				List<Point> myNeighbors = grid.getNeighbors(myPoint); 
-				for (Point nextPoint : myNeighbors)
+				List<Point2D> myNeighbors = grid.getNeighbors(myPoint); 
+				for (Point2D nextPoint : myNeighbors)
 				{
 					// Check to see if we've already processed this point.
 					if (closed.containsKey(nextPoint))
@@ -51,12 +51,11 @@ public class AStar {
 						// Update existing point with new cost, if it is lesser.
 						if (existingNeighbor.getCost() > myCost)
 						{
-							//closed.put(nextPoint, new CostPoint(nextPoint, myCost + 1, cp));
 							closed.put(nextPoint, new CostPoint(nextPoint, myCost + grid.getDistance(myPoint,  nextPoint), cp));
 						}
 					} else {
 						// We've never seen this point before.
-						newPoint = new CostPoint(nextPoint, myCost + 1, cp);
+						newPoint = new CostPoint(nextPoint, myCost + grid.getDistance(myPoint,  nextPoint), cp);
 						closed.put(nextPoint, newPoint);
 						if (nextPoint.equals(destination))
 						{
@@ -79,16 +78,16 @@ public class AStar {
 		if (success)
 		{
 			// Build the path from 'closed'.
-			Deque<Point> ret = new LinkedList<>();
-			while (newPoint != null) // It's inescapable
+			Deque<Point2D> ret = new LinkedList<>();
+			while (newPoint != null)
 			{
 				ret.addFirst(newPoint.getPoint());
 				newPoint = newPoint.getFromPoint();
 			}
 			
-			return (List<Point>)ret;
+			return (List<Point2D>)ret;
 		} else {
-			return Collections.<Point>emptyList();
+			return Collections.<Point2D>emptyList();
 		}
 
 	}
@@ -97,18 +96,18 @@ public class AStar {
 
 class CostPoint implements Comparable<CostPoint>
 {
-	private Point p;
+	private Point2D p;
 	private double cost;
 	private CostPoint from;
 
-	public CostPoint(Point p, double cost, CostPoint from)
+	public CostPoint(Point2D p, double cost, CostPoint from)
 	{
 		this.p = p;
 		this.cost = cost;
 		this.from = from;
 	}
 
-	public Point getPoint()
+	public Point2D getPoint()
 	{
 		return p;
 	}

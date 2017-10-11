@@ -15,11 +15,11 @@ public interface IVrepRobot {
 	public int faceEast();
 	public int faceWest();
 	public int faceDirection(float angle);
-	public int facePoint(PointF point);
-	public int driveTo(PointF goal, float max_error);
+	public int facePoint(PointF3D point);
+	public int driveTo(PointF3D goal, float max_error);
 	
 	public int goForward();
-	public PointF getLocation();
+	public PointF3D getLocation();
 	
 	public int stop();
 	

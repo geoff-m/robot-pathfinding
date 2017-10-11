@@ -2,7 +2,6 @@
 // Date: 23 September 2017
 import coppelia.FloatW;
 import coppelia.FloatWA;
-import coppelia.IntW;
 import coppelia.remoteApi;
 
 public class PioneerRobot implements IVrepRobot {
@@ -82,7 +81,7 @@ public class PioneerRobot implements IVrepRobot {
 	
 	boolean isStreamingPosition = false;
 	@Override
-	public PointF getLocation()
+	public PointF3D getLocation()
 	{
 		FloatWA ret = new FloatWA(3);
 		int result = 0;
@@ -105,7 +104,8 @@ public class PioneerRobot implements IVrepRobot {
 		{
 			throw new RuntimeException("Failed to get position. Error: " + VrepUtil.decodeReturnCode(result));
 		} else {
-			return new PointF(ret.getArray()[0], ret.getArray()[1]); // these may be the wrong indices, i don't know
+			float[] coords = ret.getArray();
+			return new PointF3D(coords[0], coords[1], coords[2]);
 		}
 	}
 	
@@ -138,29 +138,29 @@ public class PioneerRobot implements IVrepRobot {
 	}
 	
 	@Override
-	public int facePoint(PointF point)
+	public int facePoint(PointF3D point)
 	{
-		PointF loc = getLocation();
+		PointF3D loc = getLocation();
 		float angle = (float)Math.atan2(point.getY() - loc.getY(), point.getX() - loc.getX());
 		return faceDirection(angle);
 	}
 	
 	@Override
-	public int driveTo(PointF goal, float max_error)
+	public int driveTo(PointF3D goal, float max_error)
 	{
 		//System.out.format("Driving to %s...\n", goal.toString());
 		int ret = 0;
 		double errDist;
-		PointF myLocation;
+		PointF3D myLocation;
 		
 		myLocation = getLocation();
-		errDist = myLocation.getManhattanDistance(goal);
+		errDist = myLocation.getEuclidianDistance(goal);
 		while (errDist > max_error)
 		{
 			ret |= facePoint(goal);
 			goForward(1);
 			myLocation = getLocation();
-			errDist = myLocation.getManhattanDistance(goal);
+			errDist = myLocation.getEuclidianDistance(goal);
 			//System.out.format("I am %.2fm away.\n", errDist);
 		}
 		stop();
