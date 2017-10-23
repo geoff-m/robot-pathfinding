@@ -70,4 +70,10 @@ public class Point2D
 		}
 		return false;
 	}
+	
+	@Override
+	public int hashCode()
+	{
+		return (x << 14) | y;
+	}
 }

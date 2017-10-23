@@ -19,6 +19,7 @@ public class QuadricopterRobot implements IVrepRobot {
 		this.targetHandle = targetHandle;
 		cacheParameters();
 	}
+	
 	public QuadricopterRobot(VrepUtil vu, String name, int handle, int targetHandle)
 	{
 		api = vu.getAPI();
@@ -131,6 +132,9 @@ public class QuadricopterRobot implements IVrepRobot {
 			myLocation = getLocation();
 			errDist = myLocation.getEuclidianDistance(goal);
 			//System.out.format("I am %.2fm away.\n", errDist);
+			
+			// todo: when multithreading this routine, call thread.yield() iff this robot's speed is below a certain amount.
+			// the reason for this is that a robot needs urgent control iff its speed is high. 
 		}
 
 		return ret;
@@ -180,6 +184,12 @@ public class QuadricopterRobot implements IVrepRobot {
 	public void say(String str) {
 		api.simxAddStatusbarMessage(clientID, str, remoteApi.simx_opmode_blocking);
 
+	}
+	
+	@Override
+	public String toString()
+	{
+		return name;
 	}
 
 }

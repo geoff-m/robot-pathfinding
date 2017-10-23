@@ -130,12 +130,12 @@ class CostPoint implements Comparable<CostPoint>
 	@Override
 	public String toString()
 	{
-		return String.format("%s (cost=%f)",p.toString(), cost);
+		return String.format("%s (cost=%.2f)",p.toString(), cost);
 	}
 
 	@Override
 	public int hashCode()
 	{
-		return (p.getX() << 14) | p.getY();
+		return p.hashCode();
 	}
 }

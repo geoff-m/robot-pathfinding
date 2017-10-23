@@ -1,7 +1,18 @@
 // Author: Geoff McQueen
 // Date: 23 September 2017
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import coppelia.FloatWA;
 import coppelia.IntW;
+import coppelia.IntWA;
+import coppelia.StringWA;
 import coppelia.remoteApi;
 
 public class VrepUtil {
@@ -47,6 +58,52 @@ public class VrepUtil {
     	return handle.getValue();
 	}
 	
+	public List<IVrepRobot> getRobotsByName(String namePrefix, VrepRobotType type)
+	{
+		List<IVrepRobot> ret = null;
+		if (type == VrepRobotType.Air)
+		{
+			// get all shape handles.
+			IntWA shapeHandles = new IntWA(1);
+			int retcode = 0;
+			IntWA intData = new IntWA(1);
+			FloatWA floatData = new FloatWA(1);
+			StringWA stringData = new StringWA(1);
+			retcode |= api.simxGetObjectGroupData(clientID, remoteApi.sim_appobj_object_type, 0, shapeHandles, intData, floatData, stringData, remoteApi.simx_opmode_blocking);
+			
+			int[] handles = shapeHandles.getArray();
+			String[] names = stringData.getArray();
+			int count = handles.length;
+			ret = new ArrayList<IVrepRobot>();
+			Pattern robotNameRegex = Pattern.compile(namePrefix + "(#\\d*)?");
+			for (int i=0; i<count; ++i)
+			{
+				int handle = handles[i];
+				String name = names[i];
+				//System.out.format("Got object %d with name \"%s\".\n", handle, name);
+				Matcher m = robotNameRegex.matcher(name);
+				if (m.matches())
+				{
+					String suffix = m.group(1);
+					String targetName = namePrefix + "_target" + (suffix !=null ? m.group(1) : "");
+					int targetHandle = handles[indexOf(names, targetName)];
+					ret.add(new QuadricopterRobot(this, name, handle, targetHandle));
+				}
+			}
+		}
+		return ret;
+	}
+	
+	
+	private static <T> int indexOf(T[] array, T item)
+	{
+		int len = array.length;
+		for (int i=0; i<len; ++i)
+			if (array[i].equals(item))
+				return i;
+		return -1;
+	}
+	
 	 public static String decodeReturnCode(int remoteAPIReturnCode)
 	    {
 	    	switch (remoteAPIReturnCode)
@@ -70,7 +127,6 @@ public class VrepUtil {
 	    		default:
 	    			return "Multiple flags set: " + Integer.toBinaryString(remoteAPIReturnCode);
 	    	}
-	    	
 	    }
 	 
 	 public int say(String message)
@@ -82,7 +138,6 @@ public class VrepUtil {
 	 public static float angleBetween(float x, float y)
 	 {
 		 double diff = y - x;
-		 //diff = Math.abs(diff);
 		 
 		 diff = mod(diff, 2 * Math.PI);
 		 
@@ -92,10 +147,6 @@ public class VrepUtil {
 		 if (diff < -Math.PI)
 			 diff = diff + Math.PI * 2;
 		 
-		 //diff -= Math.PI / 2;
-		
-		 //if (Math.abs(diff) > Math.PI/2)
-		//	 diff *= 1; // break into debugger.
 		 return (float)diff;
 	 }
 	 
