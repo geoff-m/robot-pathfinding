@@ -39,9 +39,9 @@ public class Point2D
 	
 	public double getChebyshevDistance(Point2D other)
 	{
-		double xdiff = x - other.x;
-		double ydiff = y - other.y;
-		return Math.max(Math.abs(xdiff), Math.abs(ydiff));
+		double xdiff = Math.abs(x - other.x);
+		double ydiff = Math.abs(y - other.y);
+		return Math.max(xdiff, ydiff);
 	}
 	
 	// This method ignores the 3rd coordinate.

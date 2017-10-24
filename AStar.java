@@ -16,20 +16,20 @@ public class AStar {
 	public AStar(Grid g)
 	{
 		maxx = g.getRowCount();
-		maxy = g.getColCount();
+		maxy = g.getColumnCount();
 		grid = g;
 	}
 
-	public List<Point2D> findPath(Point2D origin, Point2D destination)
+	public List<Point3D> findPath(Point3D origin, Point3D destination)
 	{
 		if (origin.equals(destination))
 		{
-			List<Point2D> ret = new ArrayList<>();
+			List<Point3D> ret = new ArrayList<>();
 			ret.add(destination);
 			return ret;
 		}
 		PriorityQueue<CostPoint> open = new PriorityQueue<>();
-		HashMap<Point2D, CostPoint> closed = new HashMap<>();
+		HashMap<Point3D, CostPoint> closed = new HashMap<>();
 		PriorityQueue<CostPoint> nextgen = new PriorityQueue<>();
 
 		CostPoint newPoint = new CostPoint(origin, 0, null);
@@ -39,10 +39,10 @@ public class AStar {
 		do {
 			for (CostPoint cp : open)
 			{
-				Point2D myPoint = cp.getPoint();
+				Point3D myPoint = cp.getPoint();
 				double myCost = cp.getCost();
-				List<Point2D> myNeighbors = grid.getNeighbors(myPoint); 
-				for (Point2D nextPoint : myNeighbors)
+				List<Point3D> myNeighbors = grid.getNeighbors(myPoint); 
+				for (Point3D nextPoint : myNeighbors)
 				{
 					// Check to see if we've already processed this point.
 					if (closed.containsKey(nextPoint))
@@ -51,11 +51,13 @@ public class AStar {
 						// Update existing point with new cost, if it is lesser.
 						if (existingNeighbor.getCost() > myCost)
 						{
-							closed.put(nextPoint, new CostPoint(nextPoint, myCost + grid.getDistance(myPoint,  nextPoint), cp));
+							//closed.put(nextPoint, new CostPoint(nextPoint, myCost + grid.getDistance(myPoint,  nextPoint), cp));
+							closed.put(nextPoint, new CostPoint(nextPoint, myCost + myPoint.getEuclidianDistance(nextPoint), cp));
 						}
 					} else {
 						// We've never seen this point before.
-						newPoint = new CostPoint(nextPoint, myCost + grid.getDistance(myPoint,  nextPoint), cp);
+						//newPoint = new CostPoint(nextPoint, myCost + grid.getDistance(myPoint,  nextPoint), cp);
+						newPoint = new CostPoint(nextPoint, myCost + myPoint.getEuclidianDistance(nextPoint), cp);
 						closed.put(nextPoint, newPoint);
 						if (nextPoint.equals(destination))
 						{
@@ -78,16 +80,16 @@ public class AStar {
 		if (success)
 		{
 			// Build the path from 'closed'.
-			Deque<Point2D> ret = new LinkedList<>();
+			Deque<Point3D> ret = new LinkedList<>();
 			while (newPoint != null)
 			{
 				ret.addFirst(newPoint.getPoint());
 				newPoint = newPoint.getFromPoint();
 			}
 			
-			return (List<Point2D>)ret;
+			return (List<Point3D>)ret;
 		} else {
-			return Collections.<Point2D>emptyList();
+			return Collections.<Point3D>emptyList();
 		}
 
 	}
@@ -96,18 +98,18 @@ public class AStar {
 
 class CostPoint implements Comparable<CostPoint>
 {
-	private Point2D p;
+	private Point3D p;
 	private double cost;
 	private CostPoint from;
 
-	public CostPoint(Point2D p, double cost, CostPoint from)
+	public CostPoint(Point3D p, double cost, CostPoint from)
 	{
 		this.p = p;
 		this.cost = cost;
 		this.from = from;
 	}
 
-	public Point2D getPoint()
+	public Point3D getPoint()
 	{
 		return p;
 	}
@@ -130,7 +132,7 @@ class CostPoint implements Comparable<CostPoint>
 	@Override
 	public String toString()
 	{
-		return String.format("%s (cost=%.2f)",p.toString(), cost);
+		return String.format("%s (cost=%.2f)", p.toString(), cost);
 	}
 
 	@Override

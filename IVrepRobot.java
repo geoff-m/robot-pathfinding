@@ -1,3 +1,5 @@
+import java.util.List;
+
 // Author: Geoff McQueen
 // Date: 23 September 2017
 
@@ -16,7 +18,10 @@ public interface IVrepRobot {
 	public int faceWest();
 	public int faceDirection(float angle);
 	public int facePoint(PointF3D point);
-	public int driveTo(PointF3D goal, float max_error);
+	
+	public int driveTo(PointF3D goal, float maxError);
+	public Thread beginDriveTo(PointF3D goal, float maxError);
+	public Thread beginDrivePath(List<PointF3D> waypoints, float maxError);
 	
 	public int goForward();
 	public PointF3D getLocation();

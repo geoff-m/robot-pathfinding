@@ -119,58 +119,64 @@ public class ConsoleDriver {
 
 	private boolean handleGoTo(String[] tokens)
 	{
-		if (tokens.length == 3)
+		if (tokens.length == 3 || tokens.length == 4)
 		{
 			if (tokens[0].equals("goto"))
 			{
 				int goalRow = -1, goalCol = -1;
+				int goalLvl = 0;
 				boolean badInput = false;
 				try {
 					goalRow = Integer.parseInt(tokens[1].trim());
 					goalCol = Integer.parseInt(tokens[2].trim());
+					if (tokens.length == 4)
+						goalLvl = Integer.parseInt(tokens[3].trim());
 				} catch (NumberFormatException fe) {
 					badInput = true;
 				}
-				Point2D goal = new Point2D(goalRow, goalCol);
+				Point3D goal = new Point3D(goalRow, goalCol, goalLvl);
 				if (!g.contains(goal))
 					badInput = true;
 				if (badInput)
 				{
-					int maxRow = g.getColCount();
+					int maxRow = g.getColumnCount();
 					int maxCol = g.getRowCount();
-					System.out.format("Expected [0, %d], [0, %d] after goto\n", maxRow, maxCol);
+					int maxLvl = g.getLevelCount();
+					System.out.format("Expected [0, %d], [0, %d], [0, %d] after goto\n", maxRow, maxCol, maxLvl);
 					return true;
 				}
 				
 				
-				bot.say(String.format("Going to (%d, %d)...\n", goalRow, goalCol));
+				bot.say(String.format("Going to (%d, %d, %d)...\n", goalRow, goalCol, goalLvl));
 				
 				float maxerr = 0.5f * (bot.getWidth() +  bot.getLength());
 				
 				PointF3D currentLocation = bot.getLocation();
-				Point2D currentGridLocation = g.getGridCoordinates(currentLocation);
-				List<Point2D> path = astar.findPath(currentGridLocation, goal);
+				Point3D currentGridLocation = g.getGridCoordinates(currentLocation);
+				List<Point3D> path = astar.findPath(currentGridLocation, goal);
 				StringBuilder sb = new StringBuilder("Path:");
-				for (Point2D waypoint: path)
+				for (Point3D waypoint: path)
 				{
 					sb.append(" ");
 					sb.append(waypoint.toString());
 				}
 				System.out.println(sb.toString());
 					
-				for (Point2D waypoint : path)
+				for (Point3D waypoint : path)
 				{
 					PointF3D worldCoords = g.getWorldCoordinates(waypoint);
-					System.out.format("Going to grid=(%d, %d) world=(%.2f, %.2f)...\n",
+					System.out.format("Going to grid=(%d, %d, %d) world=(%.2f, %.2f, %.2f)...\n",
 							waypoint.getX(),
 							waypoint.getY(),
+							waypoint.getZ(),
 							worldCoords.getX(),
-							worldCoords.getY());
+							worldCoords.getY(),
+							worldCoords.getZ());
 					bot.driveTo(worldCoords, maxerr);
 					//System.out.format("The robot is nearest to %s.\n",
 					//	g.getGridCoordinates(bot.getLocation()));
 				}
-				bot.say(String.format("Done going to (%d, %d).\n", goalRow, goalCol));
+				bot.say(String.format("Done going to (%d, %d, %d).\n", goalRow, goalCol, goalLvl));
 				return true;
 			}
 		}

@@ -38,9 +38,7 @@ public class VrepUtil {
 	{
 		return api.simxStopSimulation(clientID, remoteApi.simx_opmode_blocking);
 	}
-
-	// TODO: I do not know if simx_opmode_buffer has the caching behavior I think it does.
-	// If not, cache this method's return values in a dictionary instead.
+	
 	public int getObjectByName(String name)
 	{
     	IntW handle = new IntW(-1);

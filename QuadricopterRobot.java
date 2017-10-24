@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 import coppelia.FloatW;
 import coppelia.FloatWA;
 import coppelia.remoteApi;
@@ -5,7 +8,7 @@ import coppelia.remoteApi;
 public class QuadricopterRobot implements IVrepRobot {
 
 	String name;
-	
+
 	remoteApi api;
 	int clientID;
 	int handle;
@@ -19,18 +22,18 @@ public class QuadricopterRobot implements IVrepRobot {
 		this.targetHandle = targetHandle;
 		cacheParameters();
 	}
-	
+
 	public QuadricopterRobot(VrepUtil vu, String name, int handle, int targetHandle)
 	{
 		api = vu.getAPI();
 		clientID = vu.getClientID();
-		
+
 		this.name = name;
 		this.handle = handle;
 		this.targetHandle = targetHandle;
 		cacheParameters();
 	}
-	
+
 	float length, width;
 	private void cacheParameters()
 	{
@@ -40,17 +43,17 @@ public class QuadricopterRobot implements IVrepRobot {
 		FloatW minx = new FloatW(0);
 		result |= api.simxGetObjectFloatParameter(clientID, handle, remoteApi.sim_objfloatparam_objbbox_min_x, minx, remoteApi.simx_opmode_blocking);
 		width = maxx.getValue() - minx.getValue();
-		
+
 		FloatW maxy = new FloatW(0);
 		result |= api.simxGetObjectFloatParameter(clientID, handle, remoteApi.sim_objfloatparam_objbbox_max_y, maxy, remoteApi.simx_opmode_blocking);
 		FloatW miny = new FloatW(0);
 		result |= api.simxGetObjectFloatParameter(clientID, handle, remoteApi.sim_objfloatparam_objbbox_min_y, miny, remoteApi.simx_opmode_blocking);
 		length = maxy.getValue() - miny.getValue();
-		
+
 		if (result != 0)
 			throw new RuntimeException("Could not get basic information about the robot. Error: " + VrepUtil.decodeReturnCode(result));
 	}
-	
+
 	@Override
 	public String getName() {
 		return name;
@@ -60,7 +63,7 @@ public class QuadricopterRobot implements IVrepRobot {
 	public int getHandle() {
 		return handle;
 	}
-	
+
 	@Override
 	public float getWidth() {
 		return width;
@@ -112,32 +115,104 @@ public class QuadricopterRobot implements IVrepRobot {
 	}
 
 	@Override
-	public int driveTo(PointF3D goal, float max_error) {
-		//System.out.format("Driving to %s...\n", goal.toString());
-		FloatWA pt = new FloatWA(3);
-		pt.getArray()[0] = goal.getX();
-		pt.getArray()[1] = goal.getY();
-		pt.getArray()[2] = goal.getZ();
-		int ret = 0;
-		double errDist;
-		PointF3D myLocation;
-
-		myLocation = getLocation();
-		errDist = myLocation.getEuclidianDistance(goal);
-		ret |= api.simxSetObjectPosition(clientID, targetHandle, -1, pt, remoteApi.simx_opmode_oneshot);
-		// Block until we are within max_error of the goal.
-		while (errDist > max_error)
+	public int driveTo(PointF3D goal, float maxError) {
+		Thread driveThread = beginDriveTo(goal, maxError);
+		try {
+			driveThread.join();
+		}
+		catch (InterruptedException ie)
 		{
-			// todo: add delay here?
-			myLocation = getLocation();
-			errDist = myLocation.getEuclidianDistance(goal);
-			//System.out.format("I am %.2fm away.\n", errDist);
-			
-			// todo: when multithreading this routine, call thread.yield() iff this robot's speed is below a certain amount.
-			// the reason for this is that a robot needs urgent control iff its speed is high. 
+			driveThread.interrupt();
+			stop();
+			return 1;
+		} finally {
+			isDriving = false;
+		}
+		return 0;
+	}
+
+	class Driver implements Runnable
+	{
+		List<PointF3D> waypoints;
+		float maxError;
+		public Driver(PointF3D goal, float maxError)
+		{
+			waypoints = new ArrayList<>();
+			waypoints.add(goal);
+			this.maxError = maxError;
 		}
 
-		return ret;
+		public Driver(List<PointF3D> waypoints, float maxError)
+		{
+			this.waypoints = waypoints;
+			this.maxError = maxError;
+		}
+
+		public void run()
+		{
+			for (PointF3D wp : waypoints)
+			{
+				//System.out.format("Driving to %s...\n", goal.toString());
+				FloatWA pt = new FloatWA(3);
+				pt.getArray()[0] = wp.getX();
+				pt.getArray()[1] = wp.getY();
+				pt.getArray()[2] = wp.getZ();
+				int ret = 0;
+				double errDist;
+				PointF3D myLocation;
+
+				myLocation = getLocation();
+				errDist = myLocation.getEuclidianDistance(wp);
+				ret |= api.simxSetObjectPosition(clientID, targetHandle, -1, pt, remoteApi.simx_opmode_oneshot);
+				// Block until we are within max_error of the goal.
+				while (errDist > maxError)
+				{
+					myLocation = getLocation();
+					errDist = myLocation.getEuclidianDistance(wp);
+					//System.out.format("I am %.2fm away.\n", errDist);
+
+					// todo: when multithreading this routine, call thread.yield() iff this robot's speed is below a certain amount.
+					// the reason for this is that a robot needs urgent control iff its speed is high.
+					Thread.yield();
+				}
+			}
+
+			isDriving = false; // Update state in owning instance to signal completion.	
+		}
+	}
+
+	boolean isDriving;
+	Thread t;
+	public Thread beginDriveTo(PointF3D goal, float maxError)
+	{
+		if (isDriving)
+		{
+			throw new RuntimeException("This Quadricopter is already driving somewhere!");
+		}
+		try {
+			if (t != null)
+				t.join(); // clean up old thread?
+		} catch (InterruptedException e) { }
+		t = new Thread(new Driver(goal, maxError));
+		isDriving = true;
+		t.start();
+		return t;
+	}
+
+	public Thread beginDrivePath(List<PointF3D> waypoints, float maxError)
+	{
+		if (isDriving)
+		{
+			throw new RuntimeException("This Quadricopter is already driving somewhere!");
+		}
+		try {
+			if (t != null)
+				t.join(); // clean up old thread?
+		} catch (InterruptedException e) { }
+		t = new Thread(new Driver(waypoints, maxError));
+		isDriving = true;
+		t.start();
+		return t;
 	}
 
 	@Override
@@ -165,7 +240,7 @@ public class QuadricopterRobot implements IVrepRobot {
 				result = api.simxGetObjectPosition(clientID, handle, -1, ret, remoteApi.simx_opmode_blocking); 
 			}
 		} while (result == remoteApi.simx_return_novalue_flag);
-		
+
 		if (result != 0 && result != remoteApi.simx_return_novalue_flag)
 		{
 			throw new RuntimeException("Failed to get position. Error: " + VrepUtil.decodeReturnCode(result));
@@ -177,6 +252,11 @@ public class QuadricopterRobot implements IVrepRobot {
 
 	@Override
 	public int stop() {
+		if (isDriving)
+		{
+			t.interrupt();
+		}
+		assert (!t.isAlive());
 		return driveTo(getLocation(), 0.5f * (length + width));
 	}
 
@@ -185,7 +265,7 @@ public class QuadricopterRobot implements IVrepRobot {
 		api.simxAddStatusbarMessage(clientID, str, remoteApi.simx_opmode_blocking);
 
 	}
-	
+
 	@Override
 	public String toString()
 	{
