@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/student/catkin_ws/src/pathdriver/cmake-build-debug/devel/setup.sh
