@@ -14,6 +14,7 @@
 #include "geometry_msgs/TransformStamped.h"
 #include "tf2_msgs/TFMessage.h"
 #include "geometry_msgs/Point.h"
+#include "geometry_msgs/Polygon.h"
 #include "geometry_msgs/Vector3.h"
 #include <condition_variable>
 #include "RobotDriver.h"
@@ -22,15 +23,16 @@ class VrepPioneerDriver : public RobotDriver {
 private:
 
     // These will be used to form ROS topic names.
-    std::string robotName;
-    std::string leftMotorName;
-    std::string rightMotorName;
+    const char* robotName;
+    const char* leftMotorName;
+    const char* rightMotorName;
 
     void initTopics();
 
     std::mutex myLocation_mutex;
     std::mutex myOrientation_mutex;
-    void locationCallback(const geometry_msgs::Point& msg);
+    //void locationCallback(const geometry_msgs::Point& msg);
+    void locationCallback(const geometry_msgs::Polygon& msg);
     void orientationCallback(const geometry_msgs::Vector3& msg);
 
 public:
@@ -53,6 +55,8 @@ public:
 
     std::unique_ptr<PointD3D> myLoc;
     std::unique_ptr<PointD3D> myRot;
+
+    const char* getName() const;
 
     ~VrepPioneerDriver();
 };

@@ -10,7 +10,7 @@
 -- Using CATKIN_TEST_RESULTS_DIR: /home/student/catkin_ws/src/pathdriver/cmake-build-debug/test_results
 -- Found gtest sources under '/usr/src/gtest': gtests will be built
 -- Using Python nosetests: /usr/bin/nosetests-2.7
--- catkin 0.7.6
+-- catkin 0.7.8
 -- Configuring done
 -- Generating done
 -- Build files have been written to: /home/student/catkin_ws/src/pathdriver/cmake-build-debug

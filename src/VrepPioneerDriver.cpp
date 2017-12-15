@@ -12,6 +12,7 @@
 #include <string>
 #include <memory>
 #include "geometry_msgs/Point.h"
+#include "geometry_msgs/Polygon.h"
 #include "geometry_msgs/Vector3.h"
 #include "geometry.h"
 #include <time.h>
@@ -31,7 +32,7 @@ VrepPioneerDriver::VrepPioneerDriver(ros::NodeHandle& node,
     //nh = &node;
     if (nh.get() == nullptr)
         nh.reset(&node);
-    this->robotName = robotName;
+    this->robotName = robotName.c_str();
     this->leftMotorName = "leftMotor";
     this->rightMotorName = "rightMotor";
     initTopics();
@@ -45,9 +46,9 @@ VrepPioneerDriver::VrepPioneerDriver(ros::NodeHandle& node,
     //nh = &node;
     if (nh.get() == nullptr)
         nh.reset(&node);
-    this->robotName = robotName;
-    this->leftMotorName = leftMotorName;
-    this->rightMotorName = rightMotorName;
+    this->robotName = robotName.c_str();
+    this->leftMotorName = leftMotorName.c_str();
+    this->rightMotorName = rightMotorName.c_str();
     initTopics();
 }
 
@@ -57,19 +58,19 @@ void VrepPioneerDriver::initTopics()
     std::string topicNameBase;
     std::string topicNameSuffix;
     std::regex reg("([a-zA-Z0-9_/]*)#([0-9]+)");
-    std::smatch sm;
-    if (std::regex_match(this->robotName, sm, reg))
+    std::cmatch match;
+    if (std::regex_match(robotName, match, reg))
     {
         /*for (int i=0; i<sm.size(); ++i)
         {
             std::cout << "sm[" << i << "] = " << sm[i] << std::endl;
         }*/
         topicNameSuffix = "_";
-        topicNameSuffix += sm[2];
-        topicNameBase = sm[1];
+        topicNameSuffix += match[2];
+        topicNameBase = match[1];
         topicNameBase += topicNameSuffix;
     } else {
-        topicNameBase =  robotName;
+        topicNameBase = robotName;
         topicNameSuffix = "";
     }
 
@@ -214,7 +215,8 @@ void VrepPioneerDriver::stop() const
    goForward(0.0f);
 }
 
-void VrepPioneerDriver::locationCallback(const geometry_msgs::Point& msg)
+// Point version of this method. Replaced with Polygon as a hack until we can do custom messages.
+/*void VrepPioneerDriver::locationCallback(const geometry_msgs::Point& msg)
 {
     std::lock_guard<std::mutex> lock(myLocation_mutex);
 
@@ -225,10 +227,27 @@ void VrepPioneerDriver::locationCallback(const geometry_msgs::Point& msg)
     myLoc = std::unique_ptr<PointD3D>(new PointD3D(msg.x, msg.y, msg.z));
 
 
-    ROS_INFO("Location updated: [%.2f, %.2f, %.2f]", myLoc->x, myLoc->y, myLoc->z);
+    //ROS_INFO("Location updated: [%.2f, %.2f, %.2f]", myLoc->x, myLoc->y, myLoc->z);
 
     // (Mutex is released automatically when 'lock' leaves scope.)
+}*/
+
+void VrepPioneerDriver::locationCallback(const geometry_msgs::Polygon& msg)
+{
+    std::lock_guard<std::mutex> lock(myLocation_mutex);
+
+    //myLoc.reset(new PointD3D(msg.x, msg.y, msg.z));
+
+    //myLoc = new PointD3D(msg.x, msg.y, msg.z);
+
+    // points[0].x stores the robot id.
+    // points[1] stores the acutal location we're interested in.
+    myLoc = std::unique_ptr<PointD3D>(new PointD3D(msg.points[1].x, msg.points[1].y, msg.points[1].z));
+
+
+    //ROS_INFO("Location updated: [%.2f, %.2f, %.2f]", myLoc->x, myLoc->y, myLoc->z);
 }
+
 
 void VrepPioneerDriver::orientationCallback(const geometry_msgs::Vector3& msg)
 {
@@ -251,4 +270,9 @@ VrepPioneerDriver::~VrepPioneerDriver()
         locationSubscriber.shutdown();
     if (orientationSubscriber)
         orientationSubscriber.shutdown();
+}
+
+const char* VrepPioneerDriver::getName() const
+{
+    return robotName;
 }

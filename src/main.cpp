@@ -26,15 +26,20 @@ int main(int argc, char *argv[]) {
     ros::NodeHandle* node = new ros::NodeHandle();
 
     ROS_DEBUG("constructing driver\n");
-    VrepPioneerDriver driver1(*node, "Pioneer_p3dx");
-    //VrepPioneerDriver driver2(*node, "Pioneer_p3dx#0");
+
+    VrepPioneerDriver driver1(*node, "Pioneer_p3dx#0");
+    //VrepPioneerDriver driver2(*node, "Pioneer_p3dx#1");
 
     // Start processing ROS callbacks and allow time for sensor fields to be set before we attempt navigation, etc.
     ros::AsyncSpinner spinner(1);
     spinner.start();
     std::this_thread::sleep_for(std::chrono::seconds(2));
 
-    BMController controller1(&driver1, grid.get());
+    BMController controller1(&driver1, // The driver for the robot to be associated with this controller.
+                             grid.get(), // The grid that the controller will navigate in.
+                             *node, // The ROS NodeHandle.
+                             "Pioneer_p3dx", // The base name of the robot.
+                             2); // There are 2 robots in total.
 
     controller1.navigateTo(2, 2);
 

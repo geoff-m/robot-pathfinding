@@ -3,10 +3,51 @@
 //
 
 #include <iostream> // for debug
-#include "BMController.h"
+#include "BMController.h"1
+#include <vector>
 
 #define NONTRAVERSABLE_COST -1
 #define MINIMUM_SAFE_DISTANCE 2
+
+vector<ros::Subscriber> locationSubscribers;
+
+void BMController::registerCallbacks(const char* baseName, int robotCount)
+{
+    for (int id = 0; id < robotCount; ++id)
+    {
+        std::string rosName(baseName);
+        std::string trueName(baseName);
+        rosName.append('_' + std::to_string(id));
+        trueName.append('#' + std::to_string(id));
+        if (strcmp(trueName.c_str(), driver->getName()) == 0)
+        {
+            std::printf("Skipping registering callback for \"%s\" because it has the same name as my driver.\n", trueName.c_str());
+            continue;
+        }
+        rosName.append("/out/location");
+        std::printf("Registering callback for \"%s\"...\n", rosName.c_str());
+        locationSubscribers.push_back( nh->subscribe(rosName,
+                                                     1,
+                                                     &BMController::locationCallback, this));
+    }
+}
+
+void BMController::locationCallback(const geometry_msgs::Polygon& msg)
+{
+    //std::cout << "HIT CALLBACK" << std::endl;
+    int id = (int)(msg.points[0].x);
+    auto loc = msg.points[1];
+    std::cout << id << "'s location: [" << loc.x << ", " << loc.y << ", " << loc.z << "]" << std::endl;
+}
+
+BMController::~BMController()
+{
+    for (auto& sub : locationSubscribers) {
+        sub.shutdown();
+    }
+}
+
+
 
 static list<Point3D> fromState(list<state> s);
 
@@ -35,7 +76,7 @@ void BMController::navigateTo(int row, int col)
         fail = true;
     }
 
-    if (!driver)
+ /*   if (driver)
     {
         std::cout << "driver is null";
         fail = true;
@@ -45,13 +86,13 @@ void BMController::navigateTo(int row, int col)
     {
         std::cout << "driver's myLoc is null";
         fail = true;
-    }
+    }*/
 
     if (fail)
         return;
     // segfault here. why?
 
-    Point3D myGridLoc = grid->getGridPoint(*driver->myLoc);
+    Point3D myGridLoc = grid->getGridPoint(*(driver->myLoc.get()));
     dstar.init(myGridLoc.x, myGridLoc.y, row, col);
     dstar.replan();
     list<state> path = dstar.getPath();
@@ -75,6 +116,16 @@ static list<Point3D> fromState(list<state> s)
     return ret;
 }
 
+// todo: make each controller subscribe to every other robot's out/location topic
+// this will necessitate the messages from VREP being changed to include an ID from each robot
+// (since they will all proc the same callback).
+
+// todo: when a robot is within minimum safe distance, enter coordinating state.
+
+// to coordinate:
+
+
+
 void BMController::seeRobot(Point3D location)
 {
     // Get my (approximate) grid point
@@ -85,15 +136,6 @@ void BMController::seeRobot(Point3D location)
     if (proximity < MINIMUM_SAFE_DISTANCE)
     {
         // React to nearby robot.
-
-        // add this robot to class-level list of known nearby robots.
-
-        //// Stop this robot.
-        //driver->stop();
-
-
-
-
 
     }
 }
