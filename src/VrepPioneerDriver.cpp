@@ -17,21 +17,20 @@
 #include "geometry.h"
 #include <time.h>
 #include <regex>
+#include "message_filters/subscriber.h"
 
-boost::shared_ptr<ros::NodeHandle> nh;
 //ros::NodeHandle* nh;
-ros::Subscriber locationSubscriber, orientationSubscriber;
-ros::Publisher leftMotorPublisher, rightMotorPublisher;
+//ros::Subscriber locationSubscriber, orientationSubscriber;
 
-//message_filters::Subscriber<geometry_msgs::TransformStamped> locationSubscriber;
-// FOUND: THIS LINE CAUSES "you must call rosinit before creating NodeHandle" ERROR
 
 VrepPioneerDriver::VrepPioneerDriver(ros::NodeHandle& node,
                                     const std::string robotName)
 {
-    //nh = &node;
-    if (nh.get() == nullptr)
+    std::cout << "Setting up driver for " << robotName << "...\n";
+    nh = &node;
+    /*if (nh.get() == nullptr)
         nh.reset(&node);
+        */
     this->robotName = robotName.c_str();
     this->leftMotorName = "leftMotor";
     this->rightMotorName = "rightMotor";
@@ -43,13 +42,20 @@ VrepPioneerDriver::VrepPioneerDriver(ros::NodeHandle& node,
                                      const std::string leftMotorName,
                                      const std::string rightMotorName)
 {
-    //nh = &node;
-    if (nh.get() == nullptr)
+    std::cout << "Setting up driver for " << robotName << "...\n";
+    nh = &node;
+    /*if (nh.get() == nullptr)
         nh.reset(&node);
+        */
     this->robotName = robotName.c_str();
     this->leftMotorName = leftMotorName.c_str();
     this->rightMotorName = rightMotorName.c_str();
     initTopics();
+}
+
+const int VrepPioneerDriver::getID() const
+{
+    return id;
 }
 
 void VrepPioneerDriver::initTopics()
@@ -67,26 +73,36 @@ void VrepPioneerDriver::initTopics()
         }*/
         topicNameSuffix = "_";
         topicNameSuffix += match[2];
+        id = std::stoi(match[2]);
         topicNameBase = match[1];
         topicNameBase += topicNameSuffix;
     } else {
+        throw std::runtime_error("Robot name has invalid format.");
         topicNameBase = robotName;
         topicNameSuffix = "";
     }
 
 
     std::string topicName = topicNameBase + "/out/location";
-    //std::string topicName = "tf";  // for testing.
 
-    // I want to call subscribe with the callback being this instance's locationCallback function.
-    locationSubscriber = nh->subscribe(topicName,
+    // Subscribe with the callback being this instance's locationCallback function.
+    /*locationSubscriber = nh->subscribe(topicName,
                                        1,
                                        &VrepPioneerDriver::locationCallback, this);
+    */
+    locationSubscriber = new message_filters::Subscriber<geometry_msgs::Polygon>(*nh, topicName, 1);
+    locationSubscriber->registerCallback(&VrepPioneerDriver::locationCallback, this);
 
     topicName = topicNameBase + "/out/orientation";
-    orientationSubscriber= nh->subscribe(topicName,
+    /*orientationSubscriber= nh->subscribe(topicName,
                                          1,
                                          &VrepPioneerDriver::orientationCallback, this);
+    */
+    orientationSubscriber = new message_filters::Subscriber<geometry_msgs::Vector3>(*nh, topicName, 1);
+    orientationSubscriber->registerCallback(&VrepPioneerDriver::orientationCallback, this);
+    // I think this is wrong because this.orientationCallback is only one piece of code,
+    // regardless of how many instances we may have at runtime.
+    // Look into ros "message filters"?
 
     topicName = topicNameBase + "/in/leftMotor";
     leftMotorPublisher = nh->advertise<std_msgs::Float32>(topicName, 1, true); // true for latching behavior.
@@ -95,13 +111,15 @@ void VrepPioneerDriver::initTopics()
     rightMotorPublisher = nh->advertise<std_msgs::Float32>(topicName, 1, true); // true for latching behavior.
 
 
-    std::cout << "locationSubscriber's topic: " << locationSubscriber.getTopic() << std::endl;
+    std::cout << "Driver's locationSubscriber's topic: " << locationSubscriber->getTopic() << std::endl;
 
-    std::cout << "orientationSubscriber's topic: " << orientationSubscriber.getTopic() << std::endl;
+    std::cout << "Driver's orientationSubscriber's topic: " << orientationSubscriber->getTopic() << std::endl;
 
-    std::cout << "leftMotorPublisher's topic: " << leftMotorPublisher.getTopic() << std::endl;
+    std::cout << "Driver's leftMotorPublisher's topic: " << leftMotorPublisher.getTopic() << std::endl;
 
-    std::cout << "rightMotorPublisher's topic: " << rightMotorPublisher.getTopic() << std::endl;
+    std::cout << "Driver's rightMotorPublisher's topic: " << rightMotorPublisher.getTopic() << std::endl;
+
+    std::cout << "\n";
 }
 
 void VrepPioneerDriver::driveTo(PointD3D target) const
@@ -215,25 +233,9 @@ void VrepPioneerDriver::stop() const
    goForward(0.0f);
 }
 
-// Point version of this method. Replaced with Polygon as a hack until we can do custom messages.
-/*void VrepPioneerDriver::locationCallback(const geometry_msgs::Point& msg)
-{
-    std::lock_guard<std::mutex> lock(myLocation_mutex);
-
-    //myLoc.reset(new PointD3D(msg.x, msg.y, msg.z));
-
-    //myLoc = new PointD3D(msg.x, msg.y, msg.z);
-
-    myLoc = std::unique_ptr<PointD3D>(new PointD3D(msg.x, msg.y, msg.z));
-
-
-    //ROS_INFO("Location updated: [%.2f, %.2f, %.2f]", myLoc->x, myLoc->y, myLoc->z);
-
-    // (Mutex is released automatically when 'lock' leaves scope.)
-}*/
-
 void VrepPioneerDriver::locationCallback(const geometry_msgs::Polygon& msg)
 {
+    ROS_DEBUG("IN DRIVER LOCATION CALLBACK");
     std::lock_guard<std::mutex> lock(myLocation_mutex);
 
     //myLoc.reset(new PointD3D(msg.x, msg.y, msg.z));
@@ -251,7 +253,9 @@ void VrepPioneerDriver::locationCallback(const geometry_msgs::Polygon& msg)
 
 void VrepPioneerDriver::orientationCallback(const geometry_msgs::Vector3& msg)
 {
+    ROS_DEBUG("IN DRIVER ORIENTATION CALLBACK");
     std::lock_guard<std::mutex> lock(myOrientation_mutex);
+
     myRot = std::unique_ptr<PointD3D>(new PointD3D(msg.x, msg.y, msg.z));
 
     //ROS_INFO("Orientation updated: [%f, %f, %f]", myRot->x, myRot->y, myRot->z);
@@ -262,14 +266,18 @@ void VrepPioneerDriver::orientationCallback(const geometry_msgs::Vector3& msg)
 
 VrepPioneerDriver::~VrepPioneerDriver()
 {
+    std::cout << "Destroying driver.\n";
     if (leftMotorPublisher)
         leftMotorPublisher.shutdown();
     if (rightMotorPublisher)
         rightMotorPublisher.shutdown();
-    if (locationSubscriber)
+    /*if (locationSubscriber)
         locationSubscriber.shutdown();
     if (orientationSubscriber)
         orientationSubscriber.shutdown();
+        */
+    locationSubscriber->unsubscribe();
+    orientationSubscriber->unsubscribe();
 }
 
 const char* VrepPioneerDriver::getName() const

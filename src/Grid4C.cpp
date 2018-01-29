@@ -6,6 +6,7 @@
 #include <stdexcept>
 #include <list>
 
+#define EMPTY_CELL -1
 int clamp(int min, int val, int max);
 
 // Represents a 6-connected 3-dimensional grid.
@@ -23,6 +24,32 @@ Grid4C::Grid4C(const PointD3D worldOrigin,
     this->columnSpacing = columnSpacing;
     this->levelSpacing = levelSpacing;
 
+    // Initialize data array.
+    /*data = new int** [rows]();
+    for (int r = 0; r < rows; ++r)
+    {
+        data[r] = new int* [columns]();
+        for (int c = 0; c < columns; ++c)
+        {
+            data[r][c] = new int [levels];
+            for (int l = 0; l < levels; ++l)
+            {
+                data[r][c][l] = EMPTY_CELL;
+            }
+        }
+    }*/
+}
+
+Grid4C::~Grid4C()
+{
+    // Deallocate cell array.
+    /*for (int r = 0; r < rows; ++r)
+    {
+        for (int c = 0; c < columns; ++c)
+            delete[] data[r][c];
+        delete[] data[r];
+    }
+    delete[] data;*/
 }
 
 double Grid4C::getDistance(const Point3D x, const Point3D y) const
@@ -63,6 +90,42 @@ std::list<PointD3D> Grid4C::getWorldPoints(const std::list<Point3D> gridPoints) 
          ++iter)
     {
         ret.push_back(this->getWorldPoint(*iter));
+    }
+    return ret;
+}
+
+std::list<Point3D> Grid4C::getNeighbors(const Point3D gridPoint) const
+{
+    bool top = gridPoint.z == levels;
+    bool bottom = gridPoint.z == 0;
+    bool front = gridPoint.x == 0;
+    bool back = gridPoint.x == rows;
+    bool left = gridPoint.y == 0;
+    bool right = gridPoint.y == columns;
+    std::list<Point3D> ret;
+    if (!top)
+    {
+        ret.emplace_back(gridPoint.x, gridPoint.y, gridPoint.z + 1);
+    }
+    if (!bottom)
+    {
+        ret.emplace_back(gridPoint.x, gridPoint.y, gridPoint.z - 1);
+    }
+    if (!front)
+    {
+        ret.emplace_back(gridPoint.x - 1, gridPoint.y, gridPoint.z);
+    }
+    if (!back)
+    {
+        ret.emplace_back(gridPoint.x + 1, gridPoint.y, gridPoint.z);
+    }
+    if (!left)
+    {
+        ret.emplace_back(gridPoint.x, gridPoint.y - 1, gridPoint.z);
+    }
+    if (!right)
+    {
+        ret.emplace_back(gridPoint.x, gridPoint.y + 1, gridPoint.z);
     }
     return ret;
 }
