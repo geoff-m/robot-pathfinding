@@ -6,6 +6,7 @@
 #include <stdexcept>
 #include <list>
 
+#define EMPTY_CELL -1
 int clamp(int min, int val, int max);
 
 // Represents a 6-connected 3-dimensional grid.
@@ -13,9 +14,9 @@ Grid4C::Grid4C(const PointD3D worldOrigin,
                int rows, int columns, int levels,
                float rowSpacing, float columnSpacing, float levelSpacing)
 {
-    this->originX = worldOrigin.x;
-    this->originY = worldOrigin.y;
-    this->originZ = worldOrigin.z;
+    this->originX = worldOrigin.getX();
+    this->originY = worldOrigin.getY();
+    this->originZ = worldOrigin.getZ();
     this->rows = rows;
     this->columns = columns;
     this->levels = levels;
@@ -23,6 +24,32 @@ Grid4C::Grid4C(const PointD3D worldOrigin,
     this->columnSpacing = columnSpacing;
     this->levelSpacing = levelSpacing;
 
+    // Initialize data array.
+    /*data = new int** [rows]();
+    for (int r = 0; r < rows; ++r)
+    {
+        data[r] = new int* [columns]();
+        for (int c = 0; c < columns; ++c)
+        {
+            data[r][c] = new int [levels];
+            for (int l = 0; l < levels; ++l)
+            {
+                data[r][c][l] = EMPTY_CELL;
+            }
+        }
+    }*/
+}
+
+Grid4C::~Grid4C()
+{
+    // Deallocate cell array.
+    /*for (int r = 0; r < rows; ++r)
+    {
+        for (int c = 0; c < columns; ++c)
+            delete[] data[r][c];
+        delete[] data[r];
+    }
+    delete[] data;*/
 }
 
 double Grid4C::getDistance(const Point3D x, const Point3D y) const
@@ -34,9 +61,9 @@ double Grid4C::getDistance(const Point3D x, const Point3D y) const
 // Returns the grid point that is nearest to the given world point.
 Point3D Grid4C::getGridPoint(const PointD3D worldPoint) const
 {
-    int row = (int) (0.5 + (worldPoint.x - originX) / rowSpacing);
-    int col = (int) (0.5 + (worldPoint.y - originY) / columnSpacing);
-    int lvl = (int) (0.5 + (worldPoint.y - originZ) / levelSpacing);
+    int row = (int) (0.5 + (worldPoint.getX() - originX) / rowSpacing);
+    int col = (int) (0.5 + (worldPoint.getY() - originY) / columnSpacing);
+    int lvl = (int) (0.5 + (worldPoint.getY() - originZ) / levelSpacing);
 
     row = clamp(0, row, rows - 1);
     col = clamp(0, col, columns - 1);
@@ -51,9 +78,9 @@ PointD3D Grid4C::getWorldPoint(const Point3D gridPoint) const
     {
         throw std::invalid_argument("That point is not in the grid!");
     }
-    return PointD3D(originX + gridPoint.x * rowSpacing,
-                    originY + gridPoint.y * columnSpacing,
-                    originZ + gridPoint.z * levelSpacing);
+    return PointD3D(originX + gridPoint.getX() * rowSpacing,
+                    originY + gridPoint.getY() * columnSpacing,
+                    originZ + gridPoint.getZ() * levelSpacing);
 }
 
 std::list<PointD3D> Grid4C::getWorldPoints(const std::list<Point3D> gridPoints) const {
@@ -67,11 +94,47 @@ std::list<PointD3D> Grid4C::getWorldPoints(const std::list<Point3D> gridPoints) 
     return ret;
 }
 
+std::list<Point3D> Grid4C::getNeighbors(const Point3D gridPoint) const
+{
+    bool top = gridPoint.getZ() == levels;
+    bool bottom = gridPoint.getZ() == 0;
+    bool front = gridPoint.getX() == 0;
+    bool back = gridPoint.getX() == rows;
+    bool left = gridPoint.getY() == 0;
+    bool right = gridPoint.getY() == columns;
+    std::list<Point3D> ret;
+    if (!top)
+    {
+        ret.emplace_back(gridPoint.getX(), gridPoint.getY(), gridPoint.getZ() + 1);
+    }
+    if (!bottom)
+    {
+        ret.emplace_back(gridPoint.getX(), gridPoint.getY(), gridPoint.getZ() - 1);
+    }
+    if (!front)
+    {
+        ret.emplace_back(gridPoint.getX() - 1, gridPoint.getY(), gridPoint.getZ());
+    }
+    if (!back)
+    {
+        ret.emplace_back(gridPoint.getX() + 1, gridPoint.getY(), gridPoint.getZ());
+    }
+    if (!left)
+    {
+        ret.emplace_back(gridPoint.getX(), gridPoint.getY() - 1, gridPoint.getZ());
+    }
+    if (!right)
+    {
+        ret.emplace_back(gridPoint.getX(), gridPoint.getY() + 1, gridPoint.getZ());
+    }
+    return ret;
+}
+
 bool Grid4C::contains(Point3D point) const
 {
-    return point.x <= rows && point.x >= 0 &&
-            point.y <= columns && point.y >= 0 &&
-            point.z <= levels && point.z >= 0;
+    return point.getX() <= rows && point.getX() >= 0 &&
+            point.getY() <= columns && point.getY() >= 0 &&
+            point.getZ() <= levels && point.getZ() >= 0;
 }
 
 int Grid4C::getRowCount() const

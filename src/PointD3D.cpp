@@ -6,6 +6,10 @@
 #include <cmath>
 #include <list>
 
+double PointD3D::getX() const { return x; }
+double PointD3D::getY() const { return y; }
+double PointD3D::getZ() const { return z; }
+
 PointD3D::PointD3D(double x, double y, double z) {
     this->x = x;
     this->y = y;

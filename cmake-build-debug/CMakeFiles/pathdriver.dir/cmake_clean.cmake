@@ -7,6 +7,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/pathdriver.dir/src/VrepPioneerDriver.cpp.o"
   "CMakeFiles/pathdriver.dir/src/dstar-lite/Dstar.cpp.o"
   "CMakeFiles/pathdriver.dir/src/BMController.cpp.o"
+  "CMakeFiles/pathdriver.dir/src/Alternative.cpp.o"
   "devel/lib/pathdriver/pathdriver.pdb"
   "devel/lib/pathdriver/pathdriver"
 )

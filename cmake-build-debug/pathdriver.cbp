@@ -5,7 +5,7 @@
 		<Option title="pathdriver"/>
 		<Option makefile_is_custom="1"/>
 		<Option compiler="gcc"/>
-		<Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\..\;CMake Files\..\..\..\..\..\usr\;CMake Files\..\..\..\..\..\usr\src\;CMake Files\..\..\..\..\..\usr\src\gtest\;CMake Files\..\..\..\..\..\usr\src\gtest\cmake\;CMake Files\..\..\..\..\..\opt\;CMake Files\..\..\..\..\..\opt\ros\;CMake Files\..\..\..\..\..\opt\ros\kinetic\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\catkin\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\catkin\cmake\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\catkin\cmake\platform\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\catkin\cmake\test\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\catkin\cmake\tools\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\catkin\cmake\templates\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\catkin\cmake\em\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\roscpp\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\roscpp\cmake\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\cpp_common\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\cpp_common\cmake\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\message_runtime\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\message_runtime\cmake\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\roscpp_serialization\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\roscpp_serialization\cmake\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\roscpp_traits\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\roscpp_traits\cmake\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\rostime\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\rostime\cmake\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\rosconsole\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\rosconsole\cmake\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\rosgraph_msgs\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\rosgraph_msgs\cmake\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\std_msgs\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\std_msgs\cmake\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\xmlrpcpp\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\xmlrpcpp\cmake\;CMake Files\cmake-build-debug\;CMake Files\cmake-build-debug\catkin\;CMake Files\cmake-build-debug\catkin\catkin_generated\;CMake Files\cmake-build-debug\catkin\catkin_generated\version\;CMake Files\cmake-build-debug\catkin_generated\;CMake Files\cmake-build-debug\catkin_generated\installspace\;"/>
+		<Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\..\;CMake Files\..\..\..\..\..\usr\;CMake Files\..\..\..\..\..\usr\src\;CMake Files\..\..\..\..\..\usr\src\gtest\;CMake Files\..\..\..\..\..\usr\src\gtest\cmake\;CMake Files\..\..\..\..\..\opt\;CMake Files\..\..\..\..\..\opt\ros\;CMake Files\..\..\..\..\..\opt\ros\kinetic\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\catkin\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\catkin\cmake\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\catkin\cmake\platform\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\catkin\cmake\test\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\catkin\cmake\tools\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\catkin\cmake\templates\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\catkin\cmake\em\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\roscpp\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\roscpp\cmake\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\cpp_common\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\cpp_common\cmake\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\message_runtime\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\message_runtime\cmake\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\roscpp_serialization\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\roscpp_serialization\cmake\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\roscpp_traits\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\roscpp_traits\cmake\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\rostime\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\rostime\cmake\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\rosconsole\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\rosconsole\cmake\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\rosgraph_msgs\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\rosgraph_msgs\cmake\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\std_msgs\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\std_msgs\cmake\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\xmlrpcpp\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\xmlrpcpp\cmake\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\geometry_msgs\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\geometry_msgs\cmake\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\message_filters\;CMake Files\..\..\..\..\..\opt\ros\kinetic\share\message_filters\cmake\;CMake Files\cmake-build-debug\;CMake Files\cmake-build-debug\catkin\;CMake Files\cmake-build-debug\catkin\catkin_generated\;CMake Files\cmake-build-debug\catkin\catkin_generated\version\;CMake Files\cmake-build-debug\catkin_generated\;CMake Files\cmake-build-debug\catkin_generated\installspace\;"/>
 		<Build>
 			<Target title="all">
 				<Option working_dir="/home/student/catkin_ws/src/pathdriver/cmake-build-debug"/>
@@ -77,6 +77,84 @@
 					<DistClean command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
+			<Target title="test">
+				<Option working_dir="/home/student/catkin_ws/src/pathdriver/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 test"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="pathdriver">
+				<Option output="/home/student/catkin_ws/src/pathdriver/cmake-build-debug/devel/lib/pathdriver/pathdriver" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/student/catkin_ws/src/pathdriver/cmake-build-debug/devel/lib/pathdriver"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DROS_PACKAGE_NAME=&quot;pathdriver&quot;"/>
+					<Add option="-DROSCONSOLE_BACKEND_LOG4CXX"/>
+					<Add directory="/home/student/catkin_ws/src/pathdriver/src/include"/>
+					<Add directory="/home/student/catkin_ws/src/pathdriver/src/dstar-lite"/>
+					<Add directory="/opt/ros/kinetic/include"/>
+					<Add directory="/opt/ros/kinetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp"/>
+					<Add directory="/usr/include/c++/5"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/5"/>
+					<Add directory="/usr/include/c++/5/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 pathdriver"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="pathdriver/fast">
+				<Option output="/home/student/catkin_ws/src/pathdriver/cmake-build-debug/devel/lib/pathdriver/pathdriver" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/student/catkin_ws/src/pathdriver/cmake-build-debug/devel/lib/pathdriver"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DROS_PACKAGE_NAME=&quot;pathdriver&quot;"/>
+					<Add option="-DROSCONSOLE_BACKEND_LOG4CXX"/>
+					<Add directory="/home/student/catkin_ws/src/pathdriver/src/include"/>
+					<Add directory="/home/student/catkin_ws/src/pathdriver/src/dstar-lite"/>
+					<Add directory="/opt/ros/kinetic/include"/>
+					<Add directory="/opt/ros/kinetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp"/>
+					<Add directory="/usr/include/c++/5"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/5"/>
+					<Add directory="/usr/include/c++/5/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 pathdriver/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="geometry_msgs_generate_messages_py">
+				<Option working_dir="/home/student/catkin_ws/src/pathdriver/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 geometry_msgs_generate_messages_py"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
 			<Target title="roscpp_generate_messages_py">
 				<Option working_dir="/home/student/catkin_ws/src/pathdriver/cmake-build-debug"/>
 				<Option type="4"/>
@@ -92,6 +170,16 @@
 				<Option type="4"/>
 				<MakeCommands>
 					<Build command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 rosgraph_msgs_generate_messages_eus"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="geometry_msgs_generate_messages_nodejs">
+				<Option working_dir="/home/student/catkin_ws/src/pathdriver/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 geometry_msgs_generate_messages_nodejs"/>
 					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
@@ -117,11 +205,11 @@
 					<DistClean command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="roscpp_generate_messages_cpp">
+			<Target title="geometry_msgs_generate_messages_cpp">
 				<Option working_dir="/home/student/catkin_ws/src/pathdriver/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 roscpp_generate_messages_cpp"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 geometry_msgs_generate_messages_cpp"/>
 					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
@@ -132,16 +220,6 @@
 				<Option type="4"/>
 				<MakeCommands>
 					<Build command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 roscpp_generate_messages_eus"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="test">
-				<Option working_dir="/home/student/catkin_ws/src/pathdriver/cmake-build-debug"/>
-				<Option type="4"/>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 test"/>
 					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
@@ -192,6 +270,16 @@
 				<Option type="4"/>
 				<MakeCommands>
 					<Build command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 download_extra_data"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="geometry_msgs_generate_messages_lisp">
+				<Option working_dir="/home/student/catkin_ws/src/pathdriver/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 geometry_msgs_generate_messages_lisp"/>
 					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
@@ -267,6 +355,26 @@
 					<DistClean command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
+			<Target title="roscpp_generate_messages_cpp">
+				<Option working_dir="/home/student/catkin_ws/src/pathdriver/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 roscpp_generate_messages_cpp"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="geometry_msgs_generate_messages_eus">
+				<Option working_dir="/home/student/catkin_ws/src/pathdriver/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 geometry_msgs_generate_messages_eus"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
 			<Target title="roscpp_generate_messages_lisp">
 				<Option working_dir="/home/student/catkin_ws/src/pathdriver/cmake-build-debug"/>
 				<Option type="4"/>
@@ -282,64 +390,6 @@
 				<Option type="4"/>
 				<MakeCommands>
 					<Build command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 std_msgs_generate_messages_eus"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="pathdriver">
-				<Option output="/home/student/catkin_ws/src/pathdriver/cmake-build-debug/devel/lib/pathdriver/pathdriver" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/student/catkin_ws/src/pathdriver/cmake-build-debug/devel/lib/pathdriver"/>
-				<Option object_output="./"/>
-				<Option type="1"/>
-				<Option compiler="gcc"/>
-				<Compiler>
-					<Add option="-DROS_PACKAGE_NAME=&quot;pathdriver&quot;"/>
-					<Add option="-DROSCONSOLE_BACKEND_LOG4CXX"/>
-					<Add directory="/home/student/catkin_ws/src/pathdriver/src/include"/>
-					<Add directory="/home/student/catkin_ws/src/pathdriver/src/dstar-lite"/>
-					<Add directory="/opt/ros/kinetic/include"/>
-					<Add directory="/opt/ros/kinetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp"/>
-					<Add directory="/usr/include/c++/5"/>
-					<Add directory="/usr/include/x86_64-linux-gnu/c++/5"/>
-					<Add directory="/usr/include/c++/5/backward"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include"/>
-					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed"/>
-					<Add directory="/usr/include/x86_64-linux-gnu"/>
-					<Add directory="/usr/include"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 pathdriver"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="pathdriver/fast">
-				<Option output="/home/student/catkin_ws/src/pathdriver/cmake-build-debug/devel/lib/pathdriver/pathdriver" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/student/catkin_ws/src/pathdriver/cmake-build-debug/devel/lib/pathdriver"/>
-				<Option object_output="./"/>
-				<Option type="1"/>
-				<Option compiler="gcc"/>
-				<Compiler>
-					<Add option="-DROS_PACKAGE_NAME=&quot;pathdriver&quot;"/>
-					<Add option="-DROSCONSOLE_BACKEND_LOG4CXX"/>
-					<Add directory="/home/student/catkin_ws/src/pathdriver/src/include"/>
-					<Add directory="/home/student/catkin_ws/src/pathdriver/src/dstar-lite"/>
-					<Add directory="/opt/ros/kinetic/include"/>
-					<Add directory="/opt/ros/kinetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp"/>
-					<Add directory="/usr/include/c++/5"/>
-					<Add directory="/usr/include/x86_64-linux-gnu/c++/5"/>
-					<Add directory="/usr/include/c++/5/backward"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include"/>
-					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed"/>
-					<Add directory="/usr/include/x86_64-linux-gnu"/>
-					<Add directory="/usr/include"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 pathdriver/fast"/>
 					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/make -j4 -f &quot;/home/student/catkin_ws/src/pathdriver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
@@ -450,6 +500,9 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/home/student/catkin_ws/src/pathdriver/src/Alternative.cpp">
+			<Option target="pathdriver"/>
+		</Unit>
 		<Unit filename="/home/student/catkin_ws/src/pathdriver/src/BMController.cpp">
 			<Option target="pathdriver"/>
 		</Unit>
@@ -472,6 +525,9 @@
 			<Option target="pathdriver"/>
 		</Unit>
 		<Unit filename="/home/student/catkin_ws/src/pathdriver/src/geometry.cpp">
+			<Option target="pathdriver"/>
+		</Unit>
+		<Unit filename="/home/student/catkin_ws/src/pathdriver/src/include/Alternative.h">
 			<Option target="pathdriver"/>
 		</Unit>
 		<Unit filename="/home/student/catkin_ws/src/pathdriver/src/main.cpp">
@@ -767,6 +823,21 @@
 		</Unit>
 		<Unit filename="/home/student/catkin_ws/src/pathdriver/../../../../../opt/ros/kinetic/share/xmlrpcpp/cmake/xmlrpcpp-extras.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\opt\ros\kinetic\share\xmlrpcpp\cmake\"/>
+		</Unit>
+		<Unit filename="/home/student/catkin_ws/src/pathdriver/../../../../../opt/ros/kinetic/share/geometry_msgs/cmake/geometry_msgsConfig-version.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\opt\ros\kinetic\share\geometry_msgs\cmake\"/>
+		</Unit>
+		<Unit filename="/home/student/catkin_ws/src/pathdriver/../../../../../opt/ros/kinetic/share/geometry_msgs/cmake/geometry_msgsConfig.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\opt\ros\kinetic\share\geometry_msgs\cmake\"/>
+		</Unit>
+		<Unit filename="/home/student/catkin_ws/src/pathdriver/../../../../../opt/ros/kinetic/share/geometry_msgs/cmake/geometry_msgs-msg-extras.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\opt\ros\kinetic\share\geometry_msgs\cmake\"/>
+		</Unit>
+		<Unit filename="/home/student/catkin_ws/src/pathdriver/../../../../../opt/ros/kinetic/share/message_filters/cmake/message_filtersConfig-version.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\opt\ros\kinetic\share\message_filters\cmake\"/>
+		</Unit>
+		<Unit filename="/home/student/catkin_ws/src/pathdriver/../../../../../opt/ros/kinetic/share/message_filters/cmake/message_filtersConfig.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\opt\ros\kinetic\share\message_filters\cmake\"/>
 		</Unit>
 		<Unit filename="/home/student/catkin_ws/src/pathdriver/cmake-build-debug/catkin/catkin_generated/version/package.cmake">
 			<Option virtualFolder="CMake Files\cmake-build-debug\catkin\catkin_generated\version\"/>

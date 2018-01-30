@@ -6,3 +6,6 @@
 #define PATHDRIVER_MAIN_H
 
 #endif //PATHDRIVER_MAIN_H
+
+
+#define ROBOT_COUNT 3

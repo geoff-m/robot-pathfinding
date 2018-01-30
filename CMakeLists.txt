@@ -3,11 +3,12 @@ project(pathdriver)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 add_compile_options(-std=c++11)
+#add_compile_options(-D_GLIBCXX_USE_CXX11_ABI=0)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS roscpp std_msgs)
+find_package(catkin REQUIRED COMPONENTS roscpp std_msgs geometry_msgs message_filters)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -100,6 +101,7 @@ find_package(catkin REQUIRED COMPONENTS roscpp std_msgs)
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   INCLUDE_DIRS src/include
+        #DEPENDS  roscpp std_msgs geometry_msgs system-lib
 #  LIBRARIES pathdriver
 #  CATKIN_DEPENDS other_catkin_pkg
 #  DEPENDS system_lib
@@ -138,7 +140,7 @@ add_executable(pathdriver src/main.cpp
         src/geometry.cpp
         src/VrepPioneerDriver.cpp
         src/dstar-lite/Dstar.cpp
-        src/BMController.cpp)
+        src/BMController.cpp src/Alternative.cpp src/include/Alternative.h)
 
 
 ## Rename C++ executable without prefix

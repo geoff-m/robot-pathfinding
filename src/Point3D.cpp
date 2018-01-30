@@ -5,15 +5,26 @@
 #include "include/Point3D.h"
 #include <cmath>
 
+int Point3D::getX() const { return x; }
+int Point3D::getY() const { return y; }
+int Point3D::getZ() const { return z; }
+
 Point3D::Point3D(int x, int y, int z)
 {
     this->x = x;
     this->y = y;
     this->z = z;
+    isEmpty = false;
+}
+
+Point3D::Point3D()
+{
+    isEmpty = true;
 }
 
 Point3D Point3D::operator+(const Point3D other) const
 {
+    //__glibcxx_assert(!isEmpty && !other.isEmpty);
     return Point3D(x + other.x,
                    y + other.y,
                    z + other.z);
@@ -21,6 +32,7 @@ Point3D Point3D::operator+(const Point3D other) const
 
 Point3D Point3D::operator-(const Point3D other) const
 {
+    //__glibcxx_assert(!isEmpty && !other.isEmpty);
     return Point3D(x - other.x,
                    y - other.y,
                    z - other.z);

@@ -8,8 +8,14 @@
 #include <string>
 #include <ostream>
 
-struct PointD3D {
+class PointD3D {
     double x, y, z;
+
+public:
+    double getX() const;
+    double getY() const;
+    double getZ() const;
+
     PointD3D(double x, double y, double z);
 
     PointD3D operator+(const PointD3D other) const;

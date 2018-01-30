@@ -18,6 +18,7 @@
 #include "geometry_msgs/Vector3.h"
 #include <condition_variable>
 #include "RobotDriver.h"
+#include "message_filters/subscriber.h"
 
 class VrepPioneerDriver : public RobotDriver {
 private:
@@ -26,14 +27,22 @@ private:
     const char* robotName;
     const char* leftMotorName;
     const char* rightMotorName;
+    int id;
 
     void initTopics();
+
+    message_filters::Subscriber<geometry_msgs::Polygon>* locationSubscriber;
+    message_filters::Subscriber<geometry_msgs::Vector3>* orientationSubscriber;
 
     std::mutex myLocation_mutex;
     std::mutex myOrientation_mutex;
     //void locationCallback(const geometry_msgs::Point& msg);
     void locationCallback(const geometry_msgs::Polygon& msg);
     void orientationCallback(const geometry_msgs::Vector3& msg);
+
+    ros::Publisher leftMotorPublisher, rightMotorPublisher;
+    //boost::shared_ptr<ros::NodeHandle> nh;
+    ros::NodeHandle* nh;
 
 public:
     VrepPioneerDriver(ros::NodeHandle& node,
@@ -57,6 +66,7 @@ public:
     std::unique_ptr<PointD3D> myRot;
 
     const char* getName() const;
+    const int getID() const; // Gets this robot's ID (name suffix).
 
     ~VrepPioneerDriver();
 };

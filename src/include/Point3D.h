@@ -7,19 +7,41 @@
 
 #include <ostream>
 
-struct Point3D {
+class Point3D {
+    bool isEmpty;
+
     int x, y, z;
+public:
+    int getX() const;
+    int getY() const;
+    int getZ() const;
+    // Create a Point3D with the specified coordinates.
     Point3D(int x, int y, int z);
+
+    // Create an EMPTY Point3D.
+    Point3D();
 
     Point3D operator+(const Point3D other) const;
     Point3D operator-(const Point3D other) const;
 
     int manhattanNorm();
 
-    friend std::ostream& operator<<(std::ostream& os, const Point3D& inst)
+    friend std::ostream& operator <<(std::ostream& os, const Point3D& inst)
     {
-        os << "[" << inst.x << ", " << inst.y << ", " << inst.z << "]";
+        if (inst.isEmpty)
+        {
+            os << "[EMPTY]";
+        } else {
+            os << "[" << inst.x << ", " << inst.y << ", " << inst.z << "]";
+        }
         return os;
+    }
+
+    friend bool operator ==(const Point3D& left, const Point3D& right)
+    {
+        if (left.isEmpty && right.isEmpty)
+            return true;
+        return left.x == right.x && left.y == right.y && left.z == right.z;
     }
 };
 

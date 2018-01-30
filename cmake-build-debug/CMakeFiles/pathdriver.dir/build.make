@@ -249,6 +249,30 @@ CMakeFiles/pathdriver.dir/src/BMController.cpp.o.provides: CMakeFiles/pathdriver
 CMakeFiles/pathdriver.dir/src/BMController.cpp.o.provides.build: CMakeFiles/pathdriver.dir/src/BMController.cpp.o
 
 
+CMakeFiles/pathdriver.dir/src/Alternative.cpp.o: CMakeFiles/pathdriver.dir/flags.make
+CMakeFiles/pathdriver.dir/src/Alternative.cpp.o: ../src/Alternative.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/student/catkin_ws/src/pathdriver/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/pathdriver.dir/src/Alternative.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/pathdriver.dir/src/Alternative.cpp.o -c /home/student/catkin_ws/src/pathdriver/src/Alternative.cpp
+
+CMakeFiles/pathdriver.dir/src/Alternative.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/pathdriver.dir/src/Alternative.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/student/catkin_ws/src/pathdriver/src/Alternative.cpp > CMakeFiles/pathdriver.dir/src/Alternative.cpp.i
+
+CMakeFiles/pathdriver.dir/src/Alternative.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/pathdriver.dir/src/Alternative.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/student/catkin_ws/src/pathdriver/src/Alternative.cpp -o CMakeFiles/pathdriver.dir/src/Alternative.cpp.s
+
+CMakeFiles/pathdriver.dir/src/Alternative.cpp.o.requires:
+
+.PHONY : CMakeFiles/pathdriver.dir/src/Alternative.cpp.o.requires
+
+CMakeFiles/pathdriver.dir/src/Alternative.cpp.o.provides: CMakeFiles/pathdriver.dir/src/Alternative.cpp.o.requires
+	$(MAKE) -f CMakeFiles/pathdriver.dir/build.make CMakeFiles/pathdriver.dir/src/Alternative.cpp.o.provides.build
+.PHONY : CMakeFiles/pathdriver.dir/src/Alternative.cpp.o.provides
+
+CMakeFiles/pathdriver.dir/src/Alternative.cpp.o.provides.build: CMakeFiles/pathdriver.dir/src/Alternative.cpp.o
+
+
 # Object files for target pathdriver
 pathdriver_OBJECTS = \
 "CMakeFiles/pathdriver.dir/src/main.cpp.o" \
@@ -258,7 +282,8 @@ pathdriver_OBJECTS = \
 "CMakeFiles/pathdriver.dir/src/geometry.cpp.o" \
 "CMakeFiles/pathdriver.dir/src/VrepPioneerDriver.cpp.o" \
 "CMakeFiles/pathdriver.dir/src/dstar-lite/Dstar.cpp.o" \
-"CMakeFiles/pathdriver.dir/src/BMController.cpp.o"
+"CMakeFiles/pathdriver.dir/src/BMController.cpp.o" \
+"CMakeFiles/pathdriver.dir/src/Alternative.cpp.o"
 
 # External object files for target pathdriver
 pathdriver_EXTERNAL_OBJECTS =
@@ -271,17 +296,19 @@ devel/lib/pathdriver/pathdriver: CMakeFiles/pathdriver.dir/src/geometry.cpp.o
 devel/lib/pathdriver/pathdriver: CMakeFiles/pathdriver.dir/src/VrepPioneerDriver.cpp.o
 devel/lib/pathdriver/pathdriver: CMakeFiles/pathdriver.dir/src/dstar-lite/Dstar.cpp.o
 devel/lib/pathdriver/pathdriver: CMakeFiles/pathdriver.dir/src/BMController.cpp.o
+devel/lib/pathdriver/pathdriver: CMakeFiles/pathdriver.dir/src/Alternative.cpp.o
 devel/lib/pathdriver/pathdriver: CMakeFiles/pathdriver.dir/build.make
+devel/lib/pathdriver/pathdriver: /opt/ros/kinetic/lib/libmessage_filters.so
 devel/lib/pathdriver/pathdriver: /opt/ros/kinetic/lib/libroscpp.so
 devel/lib/pathdriver/pathdriver: /usr/lib/x86_64-linux-gnu/libboost_filesystem.so
 devel/lib/pathdriver/pathdriver: /usr/lib/x86_64-linux-gnu/libboost_signals.so
+devel/lib/pathdriver/pathdriver: /opt/ros/kinetic/lib/libroscpp_serialization.so
+devel/lib/pathdriver/pathdriver: /opt/ros/kinetic/lib/libxmlrpcpp.so
 devel/lib/pathdriver/pathdriver: /opt/ros/kinetic/lib/librosconsole.so
 devel/lib/pathdriver/pathdriver: /opt/ros/kinetic/lib/librosconsole_log4cxx.so
 devel/lib/pathdriver/pathdriver: /opt/ros/kinetic/lib/librosconsole_backend_interface.so
 devel/lib/pathdriver/pathdriver: /usr/lib/x86_64-linux-gnu/liblog4cxx.so
 devel/lib/pathdriver/pathdriver: /usr/lib/x86_64-linux-gnu/libboost_regex.so
-devel/lib/pathdriver/pathdriver: /opt/ros/kinetic/lib/libxmlrpcpp.so
-devel/lib/pathdriver/pathdriver: /opt/ros/kinetic/lib/libroscpp_serialization.so
 devel/lib/pathdriver/pathdriver: /opt/ros/kinetic/lib/librostime.so
 devel/lib/pathdriver/pathdriver: /opt/ros/kinetic/lib/libcpp_common.so
 devel/lib/pathdriver/pathdriver: /usr/lib/x86_64-linux-gnu/libboost_system.so
@@ -292,7 +319,7 @@ devel/lib/pathdriver/pathdriver: /usr/lib/x86_64-linux-gnu/libboost_atomic.so
 devel/lib/pathdriver/pathdriver: /usr/lib/x86_64-linux-gnu/libpthread.so
 devel/lib/pathdriver/pathdriver: /usr/lib/x86_64-linux-gnu/libconsole_bridge.so
 devel/lib/pathdriver/pathdriver: CMakeFiles/pathdriver.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/student/catkin_ws/src/pathdriver/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX executable devel/lib/pathdriver/pathdriver"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/student/catkin_ws/src/pathdriver/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Linking CXX executable devel/lib/pathdriver/pathdriver"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/pathdriver.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -308,6 +335,7 @@ CMakeFiles/pathdriver.dir/requires: CMakeFiles/pathdriver.dir/src/geometry.cpp.o
 CMakeFiles/pathdriver.dir/requires: CMakeFiles/pathdriver.dir/src/VrepPioneerDriver.cpp.o.requires
 CMakeFiles/pathdriver.dir/requires: CMakeFiles/pathdriver.dir/src/dstar-lite/Dstar.cpp.o.requires
 CMakeFiles/pathdriver.dir/requires: CMakeFiles/pathdriver.dir/src/BMController.cpp.o.requires
+CMakeFiles/pathdriver.dir/requires: CMakeFiles/pathdriver.dir/src/Alternative.cpp.o.requires
 
 .PHONY : CMakeFiles/pathdriver.dir/requires
 
