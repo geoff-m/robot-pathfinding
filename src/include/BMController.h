@@ -28,6 +28,7 @@ private:
     int totalDistanceTravelled; // Measured in cells.
 
     enum State {
+        NOT_STARTED,
         REACHED_GOAL,
         FOLLOWING_PATH,
         COORDINATING
@@ -58,7 +59,7 @@ private:
     void waitForAllAlternatives();
 
     Alternative robotAlternatives[ROBOT_COUNT][2]; // Holds two alternatives for each robot.
-    // Let's say that robotAlternatives[i][0]=robotAlternatives[i][1]=Alternative{0, -1} indicates we're waiting on robot i's alternatives.
+    // Let's say that a value of Alternative{0, -1} indicates we're waiting on that robot's alternatives.
 
     ros::NodeHandle* nh;
     void registerCallbacks(const char* baseName, int robotCount);
@@ -66,7 +67,8 @@ private:
     void alternativeCallback(const geometry_msgs::Polygon& msg);
 
     std::mutex robotLocations_mutex;
-    std::map<int, Point3D> robotLocations; // Associative array indicating the the robot locations we know about.
+    //std::map<int, Point3D> robotLocations; // Associative array indicating the the robot locations we know about.
+    Point3D robotLocations[ROBOT_COUNT]; // Locations of robots we know about.
 
     /** Called when a we're informed a robot's location has changed.
      *
@@ -99,6 +101,7 @@ public:
         totalDistanceTravelled = 0;
 
         registerCallbacks(robotBaseName, robotCount);
+        currentState = NOT_STARTED;
     }
 
     // Plans a path and begins driving to the given location.

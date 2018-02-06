@@ -47,12 +47,12 @@ int main(int argc, char *argv[]) {
     //      V-REP simulation is not running.
 
     //drivers[0]->driveTo(grid.get()->getWorldPoint(Point3D(0, 0, 0)));
-    drivers[1]->driveTo(grid.get()->getWorldPoint(Point3D(0, 1, 0)));
-    drivers[2]->driveTo(grid.get()->getWorldPoint(Point3D(0, 2, 0)));
+    //drivers[1]->driveTo(grid.get()->getWorldPoint(Point3D(0, 1, 0)));
+    //drivers[2]->driveTo(grid.get()->getWorldPoint(Point3D(0, 2, 0)));
 
 
 
-    ROS_DEBUG("Constructing %d controllers\n", ROBOT_COUNT);
+    ROS_DEBUG("Constructing %d controllers (one for each driver)\n", ROBOT_COUNT);
     BMController* controllers[ROBOT_COUNT];
     for (int i=0; i < ROBOT_COUNT; ++i)
     {
@@ -63,17 +63,9 @@ int main(int argc, char *argv[]) {
                                           ROBOT_COUNT); // Total number of robots in the scene.
     }
 
+    // later, this will be made to run on its own thread (1 thread per robot)
 
-    //controller1.navigateTo(2, 2); // this will be made to run on its own thread (1 thread per robot)
-
-
-    controllers[0]->navigateTo(0, 0);
-
-
-
-
-
-
+    controllers[2]->navigateTo(0, 0);
 
 
     spinner.stop();

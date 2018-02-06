@@ -48,7 +48,6 @@ void BMController::registerCallbacks(const char* baseName, int robotCount)
                                                 &BMController::alternativeCallback, this));
                                                 */
 
-
     }
 }
 
@@ -59,24 +58,21 @@ void BMController::locationCallback(const geometry_msgs::Polygon& msg)
     auto loc = msg.points[1];
     PointD3D worldLoc(loc.x, loc.y, loc.z);
     Point3D gridLoc = grid.get()->getGridPoint(worldLoc);
-    std::cout << id << "'s location: [" << loc.x << ", " << loc.y << ", " << loc.z << "] = [" <<
-              gridLoc.getX() << ", " << gridLoc.getY() << ", " << gridLoc.getZ() << "]" << std::endl;
-
+    //std::cout << id << "'s location: [" << loc.x << ", " << loc.y << ", " << loc.z << "] = [" <<
+    //          gridLoc.getX() << ", " << gridLoc.getY() << ", " << gridLoc.getZ() << "]" << std::endl;
 
     // Update our knowledge of that robot's location.
     std::lock_guard<std::mutex> lock(robotLocations_mutex); // change this to using a timed mutex?
-    auto it = robotLocations.find(id);
-    if (it == robotLocations.end())
+    if (robotLocations[id] != gridLoc) // Check if this constitutes a change in grid position.
     {
-        robotLocations.insert(std::make_pair(id, gridLoc));
-    } else {
-        if (!(it->second == gridLoc)) // Check if this constitutes a change in grid position.
+        if (driver->getID() == 2)
         {
-            it->second = gridLoc;
-            robotLocationChanged(it->first); // check if coordination is necessary, and do so if it is.
-            // We call robotLocationChanged only when at least one grid position has changed for any known robot (including self).
-            // This dramatically cuts down the calls to this function which tests for minimum safe distance.
+            //printf("break"); // conditional breakpoint caused crash here.
         }
+        robotLocations[id] = gridLoc;
+        robotLocationChanged(id); // check if coordination is necessary, and do so if it is.
+        // We call robotLocationChanged only when at least one grid position has changed for any known robot (including self).
+        // This dramatically cuts down the calls to this function which tests for minimum safe distance.
     }
 }
 
@@ -91,7 +87,6 @@ BMController::~BMController()
         //sub.shutdown();
         sub->unsubscribe();
     }
-    robotLocations.clear();
 }
 
 static list<Point3D> fromState(list<state> s);
@@ -114,6 +109,8 @@ void BMController::markRowNontraversable(int row, int colStart, int colEnd)
 
 void BMController::navigateTo(int row, int col)
 {
+    setState(FOLLOWING_PATH);
+
     // Plan the path.
     Point3D myGridLoc = grid->getGridPoint(*(driver->myLoc.get()));
     dstar.init(myGridLoc.getX(), myGridLoc.getY(), row, col);
@@ -126,50 +123,41 @@ void BMController::navigateTo(int row, int col)
     driver->followPath(worldPath);
 }
 
-static list<Point3D> fromState(list<state> s)
-{
-    list<Point3D> ret;
-    for (auto iter = s.begin();
-         iter != s.end();
-         ++iter)
-    {
-        state current = *iter;
-        Point3D p(current.x, current.y, 0);
-        ret.push_back(p);
-    }
-    return ret;
-}
-
-// todo: make each controller subscribe to every other robot's out/location topic
+// make each controller subscribe to every other robot's out/location topic
 // this will necessitate the messages from VREP being changed to include an ID from each robot
 // (since they will all proc the same callback).
 
-// todo: when a robot is within minimum safe distance, enter coordinating state.
+// when a robot is within minimum safe distance, enter coordinating state.
 
 
 void BMController::robotLocationChanged(int id)
 {
-    if (currentState != FOLLOWING_PATH)
+    if ((currentState & FOLLOWING_PATH) == 0)
         return;
     // Get my grid point
     // Point3D myGridLoc = grid->getGridPoint(*driver->myLoc);
     int myID = driver->getID();
     Point3D myGridLoc = robotLocations[myID];
+    bool startCoordinating = false;
     if (id == myID)
     {
         // We have moved, so we must recompute distances to every other robot.
-        for (const auto kvp : robotLocations)
+        for (int i = 0; i < ROBOT_COUNT; ++i)
         {
             // Check distance
             // todo: SKIP COMPUTING DISTANCE TO MYSELF
-            Point3D gridDifference = myGridLoc - kvp.second;
+            Point3D gridDifference = myGridLoc - robotLocations[i];
             double proximity = gridDifference.manhattanNorm();
             if (proximity < MINIMUM_SAFE_DISTANCE)
             {
+                std::printf("Robot %d: Robot %d is within %.0f grid units of me!\n", myID, i, proximity);
                 // React to nearby robot.
-                setState(COORDINATING);
+                startCoordinating = true;
+
                 //return; // We return here immediately because it only takes 1 robot within MSD to cause us to coordinate.
-                robotAlternatives[kvp.first][0] = Alternative(Point3D(), -1);
+                // Instead of returning immediately, we keep going and mark all nearby robots.
+                robotAlternatives[i][0] = Alternative(Point3D(), -1);
+                // this special value Alternative(0, -1) indicates we're coordinating with that robot.
             }
         }
     } else {
@@ -178,9 +166,14 @@ void BMController::robotLocationChanged(int id)
         double proximity = gridDifference.manhattanNorm();
         if (proximity < MINIMUM_SAFE_DISTANCE)
         {
-            // React to nearby robot.
-            setState(COORDINATING);
+            std::printf("Robot %d: Robot %d is within %.0f grid units of me!\n", myID, id, proximity);
+            startCoordinating = true;
         }
+    }
+    if (startCoordinating)
+    {
+        // React to nearby robot.
+        setState(COORDINATING);
     }
 }
 
@@ -188,6 +181,23 @@ void BMController::setState(State newState)
 {
     switch (currentState)
     {
+        case NOT_STARTED:
+            switch (newState)
+            {
+                case NOT_STARTED:
+                    std::cout << "No state change: Not Started --> Not Started\n";
+                    break;
+                case FOLLOWING_PATH:
+                    std::cout << "Changing state: Not Started --> Following Path\n";
+                    currentState = newState;
+                    break;
+                case COORDINATING:
+                    std::cout << "Invalid state transition: Not Started --> Coordinating\n";
+                    break;
+                case REACHED_GOAL:
+                    std::cout << "Invalid state change: Not Started --> Reached Goal\n";
+                    break;
+            }
         case REACHED_GOAL:
             switch (newState)
             {
@@ -217,14 +227,14 @@ void BMController::setState(State newState)
                     break;
                 case COORDINATING:
                     std::cout << "Changing state: Following Path --> Coordinating\n";
+                    currentState = newState;
 
                     // Stop moving.
                     driver->stop();
                     // Find (D*) and publish my alternate paths.
                     findAlternatePaths();
                     // Wait until I've received everyone else's alternatives.
-
-                    // todo: receive next cell info from others.
+                    waitForAllAlternatives();
                     // todo: do bipartite matching.
                     // todo: share matching.
                     // todo: choose best matching.
@@ -255,7 +265,20 @@ void BMController::waitForAllAlternatives()
 {
     while (true)
     {
-
+        bool done = true;
+        for (int i=0; i<ROBOT_COUNT; ++i)
+        {
+            Alternative a1 = robotAlternatives[i][0];
+            Alternative a2 = robotAlternatives[i][1];
+            if (a1.TotalCost == -1 || a2.TotalCost == -1)
+            {
+                done = false;
+                break;
+            }
+        }
+        if (done)
+            return;
+        sleep(1); // sleep 1 second before checking again.
     }
 }
 
@@ -266,11 +289,11 @@ void BMController::findAlternatePaths()
     dstar.updateStart(self.getX(), self.getY());
 
     // First alternate path: Assume no other robots move.
-    for (const auto kvp : robotLocations)
+    for (int id = 0; id < ROBOT_COUNT; ++id)
     {
-        if (kvp.first != myID)
+        if (id != myID)
         {
-            Point3D other = kvp.second;
+            Point3D other = robotLocations[id];
             dstar.updateCell(other.getX(), other.getY(), NONTRAVERSABLE_COST);
         }
     }
@@ -296,11 +319,11 @@ void BMController::findAlternatePaths()
     altPublisher.publish(alt1);
 
     // Second alternate path: Assume all robots could move anywhere.
-    for (const auto kvp : robotLocations)
+    for (int i = 0; i < ROBOT_COUNT; ++i)
     {
-        if (kvp.first != myID)
+        if (i != myID)
         {
-            Point3D other = kvp.second;
+            Point3D other = robotLocations[i];
             for (const auto neighbor : grid->getNeighbors(other))
             {
                 dstar.updateCell(neighbor.getX(), neighbor.getY(), NONTRAVERSABLE_COST);
@@ -328,11 +351,11 @@ void BMController::findAlternatePaths()
 
     // Clear all the cells we just marked as nontraversable.
     // note: be careful do not clear the walls. or maybe go ahead and clear them, then call constructor methods again.
-    for (const auto kvp : robotLocations)
+    for (int id = 0; id < ROBOT_COUNT; ++id)
     {
-        if (kvp.first != myID)
+        if (id != myID)
         {
-            Point3D other = kvp.second;
+            Point3D other = robotLocations[id];
             dstar.updateCell(other.getX(), other.getY(), DEFAULT_COST);
             for (const auto neighbor : grid->getNeighbors(other))
             {
@@ -354,7 +377,7 @@ void BMController::alternativeCallback(const geometry_msgs::Polygon& msg)
     int cost = (int)(msg.points[0].z);
     auto loc = msg.points[1];
     Point3D gridLoc(loc.x, loc.y, loc.z);
-    std::cout << id << "'s" << altNumber << (altNumber == 1 ? "st" : "nd") << "alternative: [" <<
+    std::cout << id << "'s alternative #" << altNumber << ": [" <<
                                                 loc.x << ", " << loc.y << ", " << loc.z << "]\n";
 
     Alternative alt;
@@ -414,4 +437,16 @@ void BMController::setupWalls()
     markColumnNontraversable(minRow, maxRow, maxCol);
     markRowNontraversable(minRow, minCol, maxCol);
     markRowNontraversable(maxRow, minCol, maxCol);
+}
+
+static list<Point3D> fromState(list<state> s)
+{
+    list<Point3D> ret;
+    for (auto iter = s.begin(); iter != s.end(); ++iter)
+    {
+        state current = *iter;
+        Point3D p(current.x, current.y, 0);
+        ret.push_back(p);
+    }
+    return ret;
 }

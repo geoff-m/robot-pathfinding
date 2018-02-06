@@ -23,6 +23,8 @@ public:
 
     Point3D operator+(const Point3D other) const;
     Point3D operator-(const Point3D other) const;
+    bool operator ==(const Point3D other) const;
+    bool operator !=(const Point3D other) const;
 
     int manhattanNorm();
 

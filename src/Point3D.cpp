@@ -42,3 +42,15 @@ int Point3D::manhattanNorm()
 {
     return (int)(std::abs(x) + std::abs(y) + std::abs(z));
 }
+
+bool Point3D::operator ==(const Point3D other) const
+{
+    if (isEmpty ^ other.isEmpty)
+        return false;
+    return (x == other.x) && (y == other.y) && (z == other.z);
+}
+
+bool Point3D::operator !=(const Point3D other) const
+{
+    return (x != other.x) || (y != other.y) || (z != other.z) || (isEmpty != other.isEmpty);
+}
