@@ -3,6 +3,7 @@
 import coppelia.FloatW;
 import coppelia.FloatWA;
 import coppelia.remoteApi;
+import java.util.List;
 
 public class PioneerRobot implements IVrepRobot {
 
@@ -284,6 +285,18 @@ public class PioneerRobot implements IVrepRobot {
 	public void say(String str)
 	{
 		api.simxAddStatusbarMessage(clientID, str, remoteApi.simx_opmode_blocking);
+	}
+
+	@Override
+	public Thread beginDrivePath(List<PointF3D> path, float err)
+	{
+		throw new RuntimeException("Method not yet implemented.");
+	}
+
+	@Override
+	public Thread beginDriveTo(PointF3D point, float err)
+	{
+		throw new RuntimeException("Method not yet implemented.");
 	}
 	
 }

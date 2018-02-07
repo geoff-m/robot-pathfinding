@@ -142,7 +142,7 @@ public class ConsoleDriver {
 					int maxRow = g.getColumnCount();
 					int maxCol = g.getRowCount();
 					int maxLvl = g.getLevelCount();
-					System.out.format("Expected [0, %d], [0, %d], [0, %d] after goto\n", maxRow, maxCol, maxLvl);
+					System.out.format("Expected [0, %d), [0, %d), [0, %d) after goto\n", maxRow, maxCol, maxLvl);
 					return true;
 				}
 				
