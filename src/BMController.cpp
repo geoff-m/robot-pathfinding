@@ -7,6 +7,7 @@
 #include <vector>
 #include <string>
 #include "message_filters/subscriber.h"
+#include "std_msgs/Bool.h"
 
 #define DEFAULT_COST 0 // should be 1? idk. just check dstarlite's default cost for a node.
 #define NONTRAVERSABLE_COST -1
@@ -24,6 +25,8 @@ void BMController::registerCallbacks(const char* baseName, int robotCount)
         if (strcmp(trueName.c_str(), driver->getName()) == 0)
         {
             altPublisher = nh->advertise<geometry_msgs::Polygon>(rosName + "/out/alternatives", 1, false);
+
+            participatingPublisher = nh->advertise<std_msgs::Bool>(rosName + "out/participating", 1, true); // true for latching.
 
             // Go ahead and subscribe to own-robot's position as well.
             ////std::printf("Skipping registering callback for \"%s\" because it has the same name as my driver.\n", trueName.c_str());
@@ -53,7 +56,10 @@ void BMController::registerCallbacks(const char* baseName, int robotCount)
 
 void BMController::locationCallback(const geometry_msgs::Polygon& msg)
 {
-    //std::cout << "HIT CALLBACK" << std::endl;
+    if (!(currentState == FOLLOWING_PATH || currentState == COORDINATING))
+    {
+        return; // We don't care about other robots' locations if we're not moving.
+    }
     int id = (int)(msg.points[0].x);
     auto loc = msg.points[1];
     PointD3D worldLoc(loc.x, loc.y, loc.z);
@@ -65,10 +71,6 @@ void BMController::locationCallback(const geometry_msgs::Polygon& msg)
     std::lock_guard<std::mutex> lock(robotLocations_mutex); // change this to using a timed mutex?
     if (robotLocations[id] != gridLoc) // Check if this constitutes a change in grid position.
     {
-        if (driver->getID() == 2)
-        {
-            //printf("break"); // conditional breakpoint caused crash here.
-        }
         robotLocations[id] = gridLoc;
         robotLocationChanged(id); // check if coordination is necessary, and do so if it is.
         // We call robotLocationChanged only when at least one grid position has changed for any known robot (including self).
@@ -129,7 +131,6 @@ void BMController::navigateTo(int row, int col)
 
 // when a robot is within minimum safe distance, enter coordinating state.
 
-
 void BMController::robotLocationChanged(int id)
 {
     if ((currentState & FOLLOWING_PATH) == 0)
@@ -144,20 +145,26 @@ void BMController::robotLocationChanged(int id)
         // We have moved, so we must recompute distances to every other robot.
         for (int i = 0; i < ROBOT_COUNT; ++i)
         {
+            if (i == myID)
+                continue; // Don't check distance to myself.
+
             // Check distance
-            // todo: SKIP COMPUTING DISTANCE TO MYSELF
             Point3D gridDifference = myGridLoc - robotLocations[i];
             double proximity = gridDifference.manhattanNorm();
             if (proximity < MINIMUM_SAFE_DISTANCE)
             {
-                std::printf("Robot %d: Robot %d is within %.0f grid units of me!\n", myID, i, proximity);
+                std::printf("Robot %d:\tRobot %d is within %.0f grid units of me!\n", myID, i, proximity);
                 // React to nearby robot.
                 startCoordinating = true;
 
-                //return; // We return here immediately because it only takes 1 robot within MSD to cause us to coordinate.
-                // Instead of returning immediately, we keep going and mark all nearby robots.
-                robotAlternatives[i][0] = Alternative(Point3D(), -1);
-                // this special value Alternative(0, -1) indicates we're coordinating with that robot.
+                //return; // We can return here immediately because it only takes 1 robot within MSD to cause us to coordinate.
+                // Instead of returning immediately, we keep going and mark all robots we need to coordinate with.
+
+                if (checkIsCoordinating(i)) // Don't coordinate with nearby robot if it's inactive.
+                {
+                    robotAlternatives[i][0] = Alternative(Point3D(), -1);
+                }
+                // this special value Alternative(0, -1) indicates we're coordinating with that robot and haven't received its alt yet.
             }
         }
     } else {
@@ -166,7 +173,7 @@ void BMController::robotLocationChanged(int id)
         double proximity = gridDifference.manhattanNorm();
         if (proximity < MINIMUM_SAFE_DISTANCE)
         {
-            std::printf("Robot %d: Robot %d is within %.0f grid units of me!\n", myID, id, proximity);
+            std::printf("Robot %d:\tRobot %d is within %.0f grid units of me!\n", myID, id, proximity);
             startCoordinating = true;
         }
     }
@@ -179,6 +186,7 @@ void BMController::robotLocationChanged(int id)
 
 void BMController::setState(State newState)
 {
+    printf("Robot %d:\t", driver->getID());
     switch (currentState)
     {
         case NOT_STARTED:
@@ -190,6 +198,9 @@ void BMController::setState(State newState)
                 case FOLLOWING_PATH:
                     std::cout << "Changing state: Not Started --> Following Path\n";
                     currentState = newState;
+
+                    // Mark ourselves as able to coordinate.
+                    enableCoordination();
                     break;
                 case COORDINATING:
                     std::cout << "Invalid state transition: Not Started --> Coordinating\n";
@@ -198,6 +209,7 @@ void BMController::setState(State newState)
                     std::cout << "Invalid state change: Not Started --> Reached Goal\n";
                     break;
             }
+            break;
         case REACHED_GOAL:
             switch (newState)
             {
@@ -218,9 +230,11 @@ void BMController::setState(State newState)
             {
                 case REACHED_GOAL:
                     std::cout << "Changing state: Following Path --> Reached Goal\n";
-                     // todo: stop moving.
                     // stop motors.
                     driver->stop();
+
+                    // Publish that we are not longer up for coordination.
+                    disableCoordination();
                     break;
                 case FOLLOWING_PATH:
                     std::cout << "No state change: Following Path --> Following Path\n";
@@ -235,6 +249,7 @@ void BMController::setState(State newState)
                     findAlternatePaths();
                     // Wait until I've received everyone else's alternatives.
                     waitForAllAlternatives();
+                    printf("Have all necessary alternatives.\n");
                     // todo: do bipartite matching.
                     // todo: share matching.
                     // todo: choose best matching.
@@ -260,19 +275,44 @@ void BMController::setState(State newState)
     }
 }
 
+void BMController::enableCoordination()
+{
+    std_msgs::Bool msg;
+    msg.data = true;
+    participatingPublisher.publish(msg);
+}
+
+void BMController::disableCoordination()
+{
+    std_msgs::Bool msg;
+    msg.data = false;
+    participatingPublisher.publish(msg);
+}
+
+bool BMController::checkIsCoordinating(int robotId)
+{
+    // build robot name from ID and baseName stored at construction time
+    std::string otherName(baseName);
+    otherName.append('_' + std::to_string(robotId));
+
+    auto msg = ros::topic::waitForMessage<std_msgs::Bool>(otherName); // This should return instantly because the topic should be latched.
+    return msg->data;
+}
+
 // Blocks until we've received alternatives from all the robots within our D_safe.
 void BMController::waitForAllAlternatives()
 {
     while (true)
     {
         bool done = true;
-        for (int i=0; i<ROBOT_COUNT; ++i)
+        for (int i = 0; i < ROBOT_COUNT; ++i)
         {
             Alternative a1 = robotAlternatives[i][0];
             Alternative a2 = robotAlternatives[i][1];
             if (a1.TotalCost == -1 || a2.TotalCost == -1)
             {
                 done = false;
+                printf("Robot %d: Waiting for alternative(s) from robot %d...\n", driver->getID(), i);
                 break;
             }
         }
@@ -299,7 +339,7 @@ void BMController::findAlternatePaths()
     }
 
     bool replanRet = dstar.replan();
-    std::cout << "Replan for 1st alt path returned " << replanRet << std::endl;
+    printf("Robot %d: Replanned 1st alt path. Return value = %d\n", myID, replanRet);
 
     // Broadcast the next point and total cost of this alternate path.
     auto nextStep = dstar.getPath().begin()++; // Get the 2nd point in this path (it begins in our current location).
@@ -332,7 +372,7 @@ void BMController::findAlternatePaths()
     }
 
     replanRet = dstar.replan();
-    std::cout << "Replan for 2nd alt path returned " << replanRet << std::endl;
+    printf("Robot %d: Replanned 2nd alt path. Return value = %d\n", myID, replanRet);
 
     // Broadcast the next point and total cost of this alternate path.
     nextStep = dstar.getPath().begin()++; // Get the 2nd point in this path (it begins in our current location).
@@ -377,7 +417,7 @@ void BMController::alternativeCallback(const geometry_msgs::Polygon& msg)
     int cost = (int)(msg.points[0].z);
     auto loc = msg.points[1];
     Point3D gridLoc(loc.x, loc.y, loc.z);
-    std::cout << id << "'s alternative #" << altNumber << ": [" <<
+    std::cout << "Received robot " << id << "'s alternative #" << altNumber << ": [" <<
                                                 loc.x << ", " << loc.y << ", " << loc.z << "]\n";
 
     Alternative alt;

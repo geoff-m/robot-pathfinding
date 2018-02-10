@@ -25,7 +25,7 @@ class BMController {
 private:
     int altsWaiting; // The number of robots I'm waiting to hear alternatives from.
 
-    int totalDistanceTravelled; // Measured in cells.
+    int totalDistanceTravelled; // Measured in cells. // todo: implement me
 
     enum State {
         NOT_STARTED,
@@ -43,6 +43,13 @@ private:
 
     VrepPioneerDriver* driver;
     std::shared_ptr<Grid4C> grid;
+
+    ros::Publisher participatingPublisher; // Publishes a bool indicating whether or not I should be coordinated with.
+    // Format: std_msgs::Bool
+
+    void enableCoordination();
+    void disableCoordination();
+    bool checkIsCoordinating(int robotId); // helper method to check whether another robot should be coordinated with.
 
     ros::Publisher altPublisher; // Publisher of alternative path data.
     /* Format: geometry_msgs::Polygon
@@ -80,6 +87,10 @@ private:
 
     void setupWalls();
 
+    std::string baseName;
+    // This will be used to get the name of other robots we're coordinating with.
+    // That is, it must be the same for all such robots.
+
 public:
     BMController(VrepPioneerDriver* driver,
                  Grid4C* g,
@@ -101,6 +112,9 @@ public:
         totalDistanceTravelled = 0;
 
         registerCallbacks(robotBaseName, robotCount);
+
+        baseName = robotBaseName;
+
         currentState = NOT_STARTED;
     }
 
