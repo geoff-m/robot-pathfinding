@@ -5,6 +5,7 @@
 #include "Grid4C.h"
 #include <stdexcept>
 #include <list>
+#include <cmath>
 
 #define EMPTY_CELL -1
 int clamp(int min, int val, int max);
@@ -61,15 +62,15 @@ double Grid4C::getDistance(const Point3D x, const Point3D y) const
 // Returns the grid point that is nearest to the given world point.
 Point3D Grid4C::getGridPoint(const PointD3D worldPoint) const
 {
-    int row = (int) (0.5 + (worldPoint.getX() - originX) / rowSpacing);
-    int col = (int) (0.5 + (worldPoint.getY() - originY) / columnSpacing);
-    int lvl = (int) (0.5 + (worldPoint.getY() - originZ) / levelSpacing);
+    int row = (int) lround((worldPoint.getX() - originX) / rowSpacing);
+    int col = (int) lround((worldPoint.getY() - originY) / columnSpacing);
+    int lvl = (int) lround((worldPoint.getY() - originZ) / levelSpacing);
 
     row = clamp(0, row, rows - 1);
     col = clamp(0, col, columns - 1);
     lvl = clamp(0, lvl, levels - 1);
 
-    return Point3D(row, col, lvl);
+    return {row, col, lvl};
 }
 
 PointD3D Grid4C::getWorldPoint(const Point3D gridPoint) const
@@ -78,9 +79,9 @@ PointD3D Grid4C::getWorldPoint(const Point3D gridPoint) const
     {
         throw std::invalid_argument("That point is not in the grid!");
     }
-    return PointD3D(originX + gridPoint.getX() * rowSpacing,
+    return {originX + gridPoint.getX() * rowSpacing,
                     originY + gridPoint.getY() * columnSpacing,
-                    originZ + gridPoint.getZ() * levelSpacing);
+                    originZ + gridPoint.getZ() * levelSpacing};
 }
 
 std::list<PointD3D> Grid4C::getWorldPoints(const std::list<Point3D> gridPoints) const {

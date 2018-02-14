@@ -54,3 +54,8 @@ bool Point3D::operator !=(const Point3D other) const
 {
     return (x != other.x) || (y != other.y) || (z != other.z) || (isEmpty != other.isEmpty);
 }
+
+bool Point3D::isUninitialized() const
+{
+    return isEmpty;
+}

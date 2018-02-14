@@ -118,14 +118,14 @@ void VrepPioneerDriver::initTopics()
     std::cout << "Driver's leftMotorPublisher's topic: " << leftMotorPublisher.getTopic() << std::endl;
 
     std::cout << "Driver's rightMotorPublisher's topic: " << rightMotorPublisher.getTopic() << std::endl;
-
-    std::cout << "\n";
 }
 
 void VrepPioneerDriver::driveTo(PointD3D target) const
 {
     //std::cout << "location has " << locationSubscriber.getNumPublishers() << " publishers" << std::endl;
-    std::cout << "Driving to " << target << std::endl;
+    //std::cout << "Driving to " << target << std::endl;
+    std::printf("Robot %d:\tDriving to (world) (%.1f, %.1f)\n", id, target.getX(), target.getY());
+
     const double MAX_ERROR = 0.15;
     PointD3D difference = target - *myLoc;
     double error = difference.euclideanNorm();

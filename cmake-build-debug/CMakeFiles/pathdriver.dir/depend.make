@@ -83,6 +83,7 @@ CMakeFiles/pathdriver.dir/src/BMController.cpp.o: /opt/ros/kinetic/include/ros/t
 CMakeFiles/pathdriver.dir/src/BMController.cpp.o: /opt/ros/kinetic/include/ros/wall_timer.h
 CMakeFiles/pathdriver.dir/src/BMController.cpp.o: /opt/ros/kinetic/include/ros/wall_timer_options.h
 CMakeFiles/pathdriver.dir/src/BMController.cpp.o: /opt/ros/kinetic/include/rosconsole/macros_generated.h
+CMakeFiles/pathdriver.dir/src/BMController.cpp.o: /opt/ros/kinetic/include/std_msgs/Bool.h
 CMakeFiles/pathdriver.dir/src/BMController.cpp.o: /opt/ros/kinetic/include/std_msgs/Float32MultiArray.h
 CMakeFiles/pathdriver.dir/src/BMController.cpp.o: /opt/ros/kinetic/include/std_msgs/Header.h
 CMakeFiles/pathdriver.dir/src/BMController.cpp.o: /opt/ros/kinetic/include/std_msgs/MultiArrayDimension.h

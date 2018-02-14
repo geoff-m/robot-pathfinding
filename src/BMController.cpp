@@ -11,10 +11,16 @@
 
 #define DEFAULT_COST 0 // should be 1? idk. just check dstarlite's default cost for a node.
 #define NONTRAVERSABLE_COST -1
-#define MINIMUM_SAFE_DISTANCE 2
+#define MINIMUM_SAFE_DISTANCE 5
+
+static int getPathCost(list<state>& path);
+static void printPath(list<state> path);
 
 void BMController::registerCallbacks(const char* baseName, int robotCount)
 {
+    int ownId = driver->getID();
+    std::printf("\nRobot %d: Entered registerCallbacks\n", ownId);
+
     for (int id = 0; id < robotCount; ++id)
     {
         std::string rosName(baseName);
@@ -22,43 +28,47 @@ void BMController::registerCallbacks(const char* baseName, int robotCount)
         rosName.append('_' + std::to_string(id));
         trueName.append('#' + std::to_string(id));
 
-        if (strcmp(trueName.c_str(), driver->getName()) == 0)
+        if (id == ownId)
         {
+            // This is my robot. Set up publishers.
+
+            std::cout << "Setting up publisher for " << rosName + "/out/alternatives" << "\n";
             altPublisher = nh->advertise<geometry_msgs::Polygon>(rosName + "/out/alternatives", 1, false);
 
-            participatingPublisher = nh->advertise<std_msgs::Bool>(rosName + "out/participating", 1, true); // true for latching.
+            std::cout << "Setting up publisher for " << rosName + "/out/participating" << "\n";
+            participatingPublisher = nh->advertise<std_msgs::Bool>(rosName + "/out/participating", 1, true); // true for latching.
+            // Mark myself initially as unable to coordinate.
+            disableCoordination();
 
-            // Go ahead and subscribe to own-robot's position as well.
-            ////std::printf("Skipping registering callback for \"%s\" because it has the same name as my driver.\n", trueName.c_str());
-            ////continue;
+        } else {
+            // This is a non-self robot. Set up alternative subscriber.
+            std::string alternativeTopic = rosName + "/out/alternatives";
+            std::printf("Controller %d is registering callback for \"%s\"...\n", ownId, alternativeTopic.c_str());
+            altSubscribers.emplace_back(new message_filters::Subscriber<geometry_msgs::Polygon>(*nh, alternativeTopic, 1));
+            altSubscribers.back()->registerCallback(&BMController::alternativeCallback, this);
+            /*altSubscribers.push_back(nh-> subscribe(alternativeTopic,
+                                                    1,
+                                                    &BMController::alternativeCallback, this));
+                                                    */
         }
 
+        // Regardless of whether or not this is own robot, subscribe to its location.
         std::string locationTopic = rosName + "/out/location";
-        std::printf("Controller is registering callback for \"%s\"...\n", locationTopic.c_str());
-        /*locationSubscribers.push_back( nh->subscribe(locationTopic,
-                                                     1,
-                                                     &BMController::locationCallback, this));
-                                                     */
+        std::printf("Controller %d is registering callback for \"%s\"...\n", ownId, locationTopic.c_str());
         locationSubscribers.emplace_back(new message_filters::Subscriber<geometry_msgs::Polygon>(*nh, locationTopic, 1));
         locationSubscribers.back()->registerCallback(&BMController::locationCallback, this);
-
-        std::string alternativeTopic = rosName + "/out/alternatives";
-        std::printf("Controller is registering callback for \"%s\"...\n", alternativeTopic.c_str());
-        altSubscribers.emplace_back(new message_filters::Subscriber<geometry_msgs::Polygon>(*nh, alternativeTopic, 1));
-        altSubscribers.back()->registerCallback(&BMController::alternativeCallback, this);
-        /*altSubscribers.push_back(nh-> subscribe(alternativeTopic,
-                                                1,
-                                                &BMController::alternativeCallback, this));
-                                                */
-
-    }
+        /*locationSubscribers.push_back( nh->subscribe(locationTopic,
+                                         1,
+                                         &BMController::locationCallback, this));
+                                         */
+    } // for each robot.
 }
 
 void BMController::locationCallback(const geometry_msgs::Polygon& msg)
 {
     if (!(currentState == FOLLOWING_PATH || currentState == COORDINATING))
     {
-        return; // We don't care about other robots' locations if we're not moving.
+        return; // We don't care about other robots' locations if we're not going anywhere.
     }
     int id = (int)(msg.points[0].x);
     auto loc = msg.points[1];
@@ -69,13 +79,21 @@ void BMController::locationCallback(const geometry_msgs::Polygon& msg)
 
     // Update our knowledge of that robot's location.
     std::lock_guard<std::mutex> lock(robotLocations_mutex); // change this to using a timed mutex?
+    if (robotLocations[id].isUninitialized())
+    {
+        // Set our knowledge of this robot's location for the first time.
+        robotLocations[id] = gridLoc;
+        return;
+    }
     if (robotLocations[id] != gridLoc) // Check if this constitutes a change in grid position.
     {
+        // Update our knowledge of this robot's location.
         robotLocations[id] = gridLoc;
         robotLocationChanged(id); // check if coordination is necessary, and do so if it is.
-        // We call robotLocationChanged only when at least one grid position has changed for any known robot (including self).
-        // This dramatically cuts down the calls to this function which tests for minimum safe distance.
     }
+    // We call robotLocationChanged only when a grid position has changed for any known robot (including self).
+    // This dramatically cuts down the calls to this function which tests for minimum safe distance.
+
 }
 
 BMController::~BMController()
@@ -111,6 +129,8 @@ void BMController::markRowNontraversable(int row, int colStart, int colEnd)
 
 void BMController::navigateTo(int row, int col)
 {
+    int myID = driver->getID();
+    std::printf("Robot %d:\tNavigating to (%d, %d)...\n", myID, row, col);
     setState(FOLLOWING_PATH);
 
     // Plan the path.
@@ -122,7 +142,14 @@ void BMController::navigateTo(int row, int col)
     auto worldPath = grid->getWorldPoints(waypoints);
 
     // Tell the driver to follow the path.
-    driver->followPath(worldPath);
+    //driver->followPath(worldPath);
+    for (auto iter = waypoints.begin(); iter != waypoints.end(); ++iter)
+    {
+        Point3D current = *iter;
+        std::printf("Robot %d:\tDriving to (grid): (%d, %d)\n", myID, current.getX(), current.getY());
+        driver->driveTo(grid->getWorldPoint(current));
+    }
+
 }
 
 // make each controller subscribe to every other robot's out/location topic
@@ -135,13 +162,17 @@ void BMController::robotLocationChanged(int id)
 {
     if ((currentState & FOLLOWING_PATH) == 0)
         return;
-    // Get my grid point
-    // Point3D myGridLoc = grid->getGridPoint(*driver->myLoc);
     int myID = driver->getID();
-    Point3D myGridLoc = robotLocations[myID];
+    Point3D myGridLoc;
     bool startCoordinating = false;
     if (id == myID)
     {
+        // Update my own position.
+        myGridLoc = grid.get()->getGridPoint(*driver->myLoc.get());
+        robotLocations[myID] = myGridLoc;
+
+        std::printf("Robot %d:\tI'm now at (%d, %d).\n", myID, myGridLoc.getX(), myGridLoc.getY());
+
         // We have moved, so we must recompute distances to every other robot.
         for (int i = 0; i < ROBOT_COUNT; ++i)
         {
@@ -151,6 +182,7 @@ void BMController::robotLocationChanged(int id)
             // Check distance
             Point3D gridDifference = myGridLoc - robotLocations[i];
             double proximity = gridDifference.manhattanNorm();
+            std::printf("Robot %d:\tDistance between me and %d: %.1f\n", myID, i, proximity);
             if (proximity < MINIMUM_SAFE_DISTANCE)
             {
                 std::printf("Robot %d:\tRobot %d is within %.0f grid units of me!\n", myID, i, proximity);
@@ -169,8 +201,10 @@ void BMController::robotLocationChanged(int id)
         }
     } else {
         // Some non-self robot has moved. We must check its distance to us.
+        myGridLoc = robotLocations[myID];
         Point3D gridDifference = myGridLoc - robotLocations[id];
         double proximity = gridDifference.manhattanNorm();
+        std::printf("Distance between me (%d) and %d: %.2f\n", myID, id, proximity);
         if (proximity < MINIMUM_SAFE_DISTANCE)
         {
             std::printf("Robot %d:\tRobot %d is within %.0f grid units of me!\n", myID, id, proximity);
@@ -221,7 +255,6 @@ void BMController::setState(State newState)
                     break;
                 case COORDINATING:
                     std::cout << "Invalid state transition: Reached Goal --> Coordinating\n";
-                    // break / throw exception here?
                     break;
             }
             break;
@@ -248,8 +281,9 @@ void BMController::setState(State newState)
                     // Find (D*) and publish my alternate paths.
                     findAlternatePaths();
                     // Wait until I've received everyone else's alternatives.
+                    printf("Beginning to wait for alternatives.\n");
                     waitForAllAlternatives();
-                    printf("Have all necessary alternatives.\n");
+                    printf("I now have all necessary alternatives.\n");
                     // todo: do bipartite matching.
                     // todo: share matching.
                     // todo: choose best matching.
@@ -295,7 +329,11 @@ bool BMController::checkIsCoordinating(int robotId)
     std::string otherName(baseName);
     otherName.append('_' + std::to_string(robotId));
 
-    auto msg = ros::topic::waitForMessage<std_msgs::Bool>(otherName); // This should return instantly because the topic should be latched.
+    std::string topicName(otherName);
+    topicName.append("/out/participating");
+    // This should return instantly because the topic should be latched.
+    auto msg = ros::topic::waitForMessage<std_msgs::Bool>(topicName);
+
     return msg->data;
 }
 
@@ -328,34 +366,42 @@ void BMController::findAlternatePaths()
     Point3D self = robotLocations[myID];
     dstar.updateStart(self.getX(), self.getY());
 
+    // Print path before blocking cells for first alternative.
+    std::printf("Original path:  ");
+    printPath(dstar.getPath());
+
+
     // First alternate path: Assume no other robots move.
     for (int id = 0; id < ROBOT_COUNT; ++id)
     {
         if (id != myID)
         {
             Point3D other = robotLocations[id];
+            std::printf("Blocking cell (%d, %d)...\n", other.getX(), other.getY());
             dstar.updateCell(other.getX(), other.getY(), NONTRAVERSABLE_COST);
         }
     }
 
     bool replanRet = dstar.replan();
-    printf("Robot %d: Replanned 1st alt path. Return value = %d\n", myID, replanRet);
+    printf("Robot %d:\tReplanned 1st alt path. Return value = %s\n", myID, replanRet ? "ok" : "fail");
 
     // Broadcast the next point and total cost of this alternate path.
-    auto nextStep = dstar.getPath().begin()++; // Get the 2nd point in this path (it begins in our current location).
-    // SYNTAX MAY BE WRONG HERE ^^.
-    // todo: add total cost of path + distance already travelled, to the message. see page 859 top left.
+    list<state> path = dstar.getPath();
+    std::printf("Replanned path 1: ");
+    printPath(path);
+
+    state nextStep = *std::next(path.begin(), 1); // Get the 2nd point in this path (it begins in our current location).
 
     geometry_msgs::Polygon alt1;
     geometry_msgs::Point32 a1;
-    a1.x = nextStep->x;
-    a1.y = nextStep->y;
-    alt1.points.push_back(a1);
+    a1.x = nextStep.x;
+    a1.y = nextStep.y;
     geometry_msgs::Point32 id1;
     id1.x = myID;
     id1.y = 1; // Indicates that this is the first of my alternative paths.
-    id1.z = totalDistanceTravelled + 1; // Total cost of this alternative path. // todo: change to + cost of entire new path starting at current location
+    id1.z = totalDistanceTravelled + getPathCost(path); // Total cost of this new path. See page 859 top left.
     alt1.points.push_back(id1);
+    alt1.points.push_back(a1);
     altPublisher.publish(alt1);
 
     // Second alternate path: Assume all robots could move anywhere.
@@ -372,21 +418,25 @@ void BMController::findAlternatePaths()
     }
 
     replanRet = dstar.replan();
-    printf("Robot %d: Replanned 2nd alt path. Return value = %d\n", myID, replanRet);
+    printf("Robot %d:\tReplanned 2nd alt path. Return value = %s\n", myID, replanRet ? "ok" : "fail");
+
+    path = dstar.getPath();
+    std::printf("Replanned path 2: ");
+    printPath(path);
 
     // Broadcast the next point and total cost of this alternate path.
-    nextStep = dstar.getPath().begin()++; // Get the 2nd point in this path (it begins in our current location).
-    // SYNTAX MAY BE WRONG HERE ^^.
+    nextStep = *std::next(path.begin(), 1); // Get the 2nd point in this path (it begins in our current location).
+
     geometry_msgs::Polygon alt2;
     geometry_msgs::Point32 a2;
-    a2.x = nextStep->x;
-    a2.y = nextStep->y;
-    alt2.points.push_back(a2);
+    a2.x = nextStep.x;
+    a2.y = nextStep.y;
     geometry_msgs::Point32 id2;
     id2.x = myID;
     id2.y = 2; // Indicates that this is the second of my alternative paths.
-    id2.z = totalDistanceTravelled + 1; // Total cost of this alternative path. // todo: change to + cost of entire new path starting at current location
+    id2.z = totalDistanceTravelled + getPathCost(path); // Total cost of this new path. See page 859 top left.
     alt2.points.push_back(id2);
+    alt2.points.push_back(a2);
     altPublisher.publish(alt2);
 
     // Clear all the cells we just marked as nontraversable.
@@ -409,15 +459,25 @@ void BMController::findAlternatePaths()
 }
 
 
+static int getPathCost(list<state>& path)
+{
+    return (int)path.size();
+}
+
 void BMController::alternativeCallback(const geometry_msgs::Polygon& msg)
 {
+    if (!(currentState == FOLLOWING_PATH || currentState == COORDINATING))
+    {
+        return; // We don't care about other robots' alternatives if we're not going anywhere.
+    }
+
     // Extract the message fields.
     int id = (int)(msg.points[0].x);
     int altNumber = (int)(msg.points[0].y);
     int cost = (int)(msg.points[0].z);
     auto loc = msg.points[1];
     Point3D gridLoc(loc.x, loc.y, loc.z);
-    std::cout << "Received robot " << id << "'s alternative #" << altNumber << ": [" <<
+    std::cout << "Robot " << driver->getID() << ":\tReceived robot " << id << "'s alternative #" << altNumber << ": [" <<
                                                 loc.x << ", " << loc.y << ", " << loc.z << "]\n";
 
     Alternative alt;
@@ -489,4 +549,14 @@ static list<Point3D> fromState(list<state> s)
         ret.push_back(p);
     }
     return ret;
+}
+
+static void printPath(list<state> path)
+{
+    for (auto iter = path.begin(); iter != path.end(); ++iter)
+    {
+        state current = *iter;
+        std::printf("(%d, %d) ", current.x, current.y);
+    }
+    std::printf("\n");
 }

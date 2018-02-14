@@ -15,6 +15,7 @@ public:
     int getX() const;
     int getY() const;
     int getZ() const;
+
     // Create a Point3D with the specified coordinates.
     Point3D(int x, int y, int z);
 
@@ -25,6 +26,8 @@ public:
     Point3D operator-(const Point3D other) const;
     bool operator ==(const Point3D other) const;
     bool operator !=(const Point3D other) const;
+
+    bool isUninitialized() const;
 
     int manhattanNorm();
 

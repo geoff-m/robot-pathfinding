@@ -10,26 +10,26 @@
       <config projectName="pathdriver" targetName="roscpp_generate_messages_eus" />
       <config projectName="pathdriver" targetName="geometry_msgs_generate_messages_lisp" />
       <config projectName="pathdriver" targetName="std_msgs_generate_messages_nodejs" />
-      <config projectName="pathdriver" targetName="std_msgs_generate_messages_lisp" />
+      <config projectName="pathdriver" targetName="rosgraph_msgs_generate_messages_nodejs" />
       <config projectName="pathdriver" targetName="gtest_main" />
       <config projectName="pathdriver" targetName="roscpp_generate_messages_cpp" />
       <config projectName="pathdriver" targetName="geometry_msgs_generate_messages_nodejs" />
       <config projectName="pathdriver" targetName="gtest" />
-      <config projectName="pathdriver" targetName="doxygen" />
+      <config projectName="pathdriver" targetName="rosgraph_msgs_generate_messages_py" />
       <config projectName="pathdriver" targetName="pathdriver" />
       <config projectName="pathdriver" targetName="roscpp_generate_messages_nodejs" />
       <config projectName="pathdriver" targetName="std_msgs_generate_messages_eus" />
       <config projectName="pathdriver" targetName="rosgraph_msgs_generate_messages_eus" />
-      <config projectName="pathdriver" targetName="rosgraph_msgs_generate_messages_py" />
+      <config projectName="pathdriver" targetName="std_msgs_generate_messages_lisp" />
       <config projectName="pathdriver" targetName="geometry_msgs_generate_messages_cpp" />
       <config projectName="pathdriver" targetName="geometry_msgs_generate_messages_py" />
       <config projectName="pathdriver" targetName="geometry_msgs_generate_messages_eus" />
       <config projectName="pathdriver" targetName="clean_test_results" />
       <config projectName="pathdriver" targetName="roscpp_generate_messages_lisp" />
-      <config projectName="pathdriver" targetName="std_msgs_generate_messages_cpp" />
+      <config projectName="pathdriver" targetName="doxygen" />
       <config projectName="pathdriver" targetName="rosgraph_msgs_generate_messages_cpp" />
       <config projectName="pathdriver" targetName="rosgraph_msgs_generate_messages_lisp" />
-      <config projectName="pathdriver" targetName="rosgraph_msgs_generate_messages_nodejs" />
+      <config projectName="pathdriver" targetName="std_msgs_generate_messages_cpp" />
     </generated>
   </component>
   <component name="CMakeSettings">
@@ -40,11 +40,19 @@
   <component name="ChangeListManager">
     <list default="true" id="786d234f-2f93-4f16-8229-484413794d8d" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pathdriver.dir/CXX.includecache" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pathdriver.dir/CXX.includecache" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pathdriver.dir/depend.internal" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pathdriver.dir/depend.internal" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pathdriver.dir/depend.make" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pathdriver.dir/depend.make" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pathdriver.dir/src/BMController.cpp.o" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pathdriver.dir/src/main.cpp.o" afterPath="" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/devel/lib/pathdriver/pathdriver" afterPath="$PROJECT_DIR$/cmake-build-debug/devel/lib/pathdriver/pathdriver" />
-      <change beforePath="$PROJECT_DIR$/pioneer-dev.ttt" afterPath="$PROJECT_DIR$/pioneer-dev.ttt" />
       <change beforePath="$PROJECT_DIR$/src/BMController.cpp" afterPath="$PROJECT_DIR$/src/BMController.cpp" />
-      <change beforePath="$PROJECT_DIR$/src/include/BMController.h" afterPath="$PROJECT_DIR$/src/include/BMController.h" />
+      <change beforePath="$PROJECT_DIR$/src/Grid4C.cpp" afterPath="$PROJECT_DIR$/src/Grid4C.cpp" />
+      <change beforePath="$PROJECT_DIR$/src/Point3D.cpp" afterPath="$PROJECT_DIR$/src/Point3D.cpp" />
+      <change beforePath="$PROJECT_DIR$/src/VrepPioneerDriver.cpp" afterPath="$PROJECT_DIR$/src/VrepPioneerDriver.cpp" />
+      <change beforePath="$PROJECT_DIR$/src/include/Point3D.h" afterPath="$PROJECT_DIR$/src/include/Point3D.h" />
+      <change beforePath="$PROJECT_DIR$/src/include/main.h" afterPath="$PROJECT_DIR$/src/include/main.h" />
+      <change beforePath="$PROJECT_DIR$/src/main.cpp" afterPath="$PROJECT_DIR$/src/main.cpp" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -60,8 +68,8 @@
       <file leaf-file-name="main.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="460">
-              <caret line="61" column="53" lean-forward="false" selection-start-line="61" selection-start-column="53" selection-end-line="61" selection-end-column="53" />
+            <state relative-caret-position="455">
+              <caret line="82" column="37" lean-forward="false" selection-start-line="82" selection-start-column="37" selection-end-line="82" selection-end-column="37" />
               <folding>
                 <element signature="e#42#59#0" expanded="true" />
               </folding>
@@ -72,17 +80,17 @@
       <file leaf-file-name="BMController.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/BMController.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="279">
-              <caret line="260" column="29" lean-forward="true" selection-start-line="260" selection-start-column="29" selection-end-line="260" selection-end-column="29" />
+            <state relative-caret-position="4770">
+              <caret line="285" column="71" lean-forward="true" selection-start-line="285" selection-start-column="71" selection-end-line="285" selection-end-column="71" />
               <folding>
                 <element signature="e#78#103#0" expanded="true" />
-                <element signature="e#2534#3775#0" expanded="false" />
-                <element signature="e#4108#4309#0" expanded="false" />
-                <element signature="e#4311#4509#0" expanded="false" />
-                <element signature="e#4511#4985#0" expanded="false" />
-                <element signature="e#11039#11168#0" expanded="false" />
-                <element signature="e#11170#11301#0" expanded="false" />
-                <element signature="e#12385#15655#0" expanded="false" />
+                <element signature="e#4477#4758#0" expanded="false" />
+                <element signature="e#4808#5009#0" expanded="false" />
+                <element signature="e#5011#5209#0" expanded="false" />
+                <element signature="e#12504#12633#0" expanded="false" />
+                <element signature="e#12635#12766#0" expanded="false" />
+                <element signature="e#12768#13235#0" expanded="false" />
+                <element signature="e#13237#13935#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -91,7 +99,7 @@
       <file leaf-file-name="BMController.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/include/BMController.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-630">
+            <state relative-caret-position="234">
               <caret line="30" column="20" lean-forward="false" selection-start-line="30" selection-start-column="20" selection-end-line="30" selection-end-column="20" />
               <folding>
                 <element signature="e#197#234#0" expanded="true" />
@@ -100,47 +108,33 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Grid4C.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Grid4C.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-288">
-              <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-              <folding>
-                <element signature="e#41#60#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="VrepPioneerDriver.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/VrepPioneerDriver.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-90">
-              <caret line="58" column="0" lean-forward="false" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
+            <state relative-caret-position="264">
+              <caret line="272" column="0" lean-forward="false" selection-start-line="272" selection-start-column="0" selection-end-line="272" selection-end-column="0" />
               <folding>
-                <element signature="e#1601#4308#0" expanded="false" />
-                <element signature="e#4310#5181#0" expanded="false" />
-                <element signature="e#5183#5433#0" expanded="false" />
+                <element signature="e#5261#5511#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Alternative.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/include/Alternative.h">
+      <file leaf-file-name="VrepPioneerDriver.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/include/VrepPioneerDriver.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="108">
-              <caret line="6" column="20" lean-forward="false" selection-start-line="6" selection-start-column="20" selection-end-line="6" selection-end-column="20" />
+            <state relative-caret-position="288">
+              <caret line="64" column="24" lean-forward="false" selection-start-line="64" selection-start-column="24" selection-end-line="64" selection-end-column="24" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/include/main.h">
+      <file leaf-file-name="PointD3D.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/include/PointD3D.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="10" column="21" lean-forward="false" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="21" />
+            <state relative-caret-position="432">
+              <caret line="25" column="35" lean-forward="false" selection-start-line="25" selection-start-column="35" selection-end-line="25" selection-end-column="35" />
               <folding />
             </state>
           </provider>
@@ -150,36 +144,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>subsc</find>
-      <find>mutex</find>
-      <find>lock</find>
-      <find>enum</find>
-      <find>push_back(Point3D(</find>
-      <find>motor</find>
-      <find>advertise</find>
-      <find>advertise(</find>
-      <find>advertise(AD</find>
-      <find>2pub</find>
-      <find>geometry_msgs::Point32_</find>
-      <find>:27</find>
-      <find>ds</find>
+      <find>particip</find>
+      <find>partic</find>
+      <find>up pub</find>
+      <find>name</find>
+      <find>participa</find>
+      <find>tingpu</find>
+      <find>enableco</find>
+      <find>waitfor</find>
+      <find>alternativecall</find>
+      <find>location</find>
+      <find>distance betwe</find>
+      <find>replanned</find>
       <find>alternat</find>
-      <find>vector</find>
-      <find>'s loca</find>
-      <find>poly</find>
-      <find>point.z</find>
-      <find>printf</find>
-      <find>is within</find>
-      <find>changing</find>
-      <find>publ</find>
-      <find>Publ</find>
+      <find>alternative</find>
+      <find>if</find>
+      <find>alternativecal</find>
+      <find>currentsta</find>
+      <find>tiveca</find>
+      <find>if we're not</find>
+      <find>have all</find>
+      <find>is withi</find>
+      <find>path</find>
+      <find>driving to</find>
+      <find>naviga</find>
+      <find>distance bet</find>
+      <find>driving</find>
+      <find>navigate</find>
+      <find>have all</find>
       <find>publish</find>
-      <find>altpub</find>
-      <find>pionee</find>
-      <find>altsub</find>
-      <find>id</find>
-      <find>waiting for</find>
-      <find>alternative #</find>
+      <find>find</find>
     </findStrings>
     <replaceStrings>
       <replace>y</replace>
@@ -215,19 +209,19 @@
         <option value="$PROJECT_DIR$/src/include/RobotDriver.h" />
         <option value="$PROJECT_DIR$/src/include/Grid4C.h" />
         <option value="$PROJECT_DIR$/package.xml" />
-        <option value="$PROJECT_DIR$/src/include/main.h" />
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/src/include/VrepPioneerDriver.h" />
         <option value="$PROJECT_DIR$/src/include/PointD3D.h" />
         <option value="$PROJECT_DIR$/src/PointD3D.cpp" />
-        <option value="$PROJECT_DIR$/src/Grid4C.cpp" />
         <option value="$PROJECT_DIR$/src/Alternative.h" />
-        <option value="$PROJECT_DIR$/src/VrepPioneerDriver.cpp" />
         <option value="$PROJECT_DIR$/src/include/Alternative.h" />
+        <option value="$PROJECT_DIR$/src/include/BMController.h" />
+        <option value="$PROJECT_DIR$/src/include/main.h" />
         <option value="$PROJECT_DIR$/src/include/Point3D.h" />
         <option value="$PROJECT_DIR$/src/Point3D.cpp" />
+        <option value="$PROJECT_DIR$/src/VrepPioneerDriver.cpp" />
+        <option value="$PROJECT_DIR$/src/Grid4C.cpp" />
         <option value="$PROJECT_DIR$/src/main.cpp" />
-        <option value="$PROJECT_DIR$/src/include/BMController.h" />
         <option value="$PROJECT_DIR$/src/BMController.cpp" />
       </list>
     </option>
@@ -446,7 +440,8 @@
       <workItem from="1518033225919" duration="731000" />
       <workItem from="1518036420659" duration="825000" />
       <workItem from="1518037305935" duration="1548000" />
-      <workItem from="1518290235940" duration="5202000" />
+      <workItem from="1518290235940" duration="6479000" />
+      <workItem from="1518568842794" duration="13759000" />
     </task>
     <task id="LOCAL-00001" summary="Changed Point3D and PointD3D to classes, and added the empty ones.">
       <created>1517279647602</created>
@@ -462,11 +457,18 @@
       <option name="project" value="LOCAL" />
       <updated>1517947906758</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Improved coordination logic. Added new topic to indicate eligibility for coordination">
+      <created>1518296515664</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1518296515664</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="178304000" />
+    <option name="totallyTimeSpent" value="193340000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1663" y="-4" width="1282" height="1036" extended-state="6" />
@@ -474,21 +476,21 @@
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2140625" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2733189" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27252504" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3286334" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32814237" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32900432" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32814237" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29175705" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2925473" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3286334" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
     </layout>
@@ -504,7 +506,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32900432" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2140625" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2140625" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3286334" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -522,18 +524,12 @@
     <option name="CHECK_NEW_TODO" value="false" />
     <MESSAGE value="Changed Point3D and PointD3D to classes, and added the empty ones." />
     <MESSAGE value="Improved support classes. Added more coordination logic." />
-    <option name="LAST_COMMIT_MESSAGE" value="Improved support classes. Added more coordination logic." />
+    <MESSAGE value="Improved coordination logic. Added new topic to indicate eligibility for coordination" />
+    <option name="LAST_COMMIT_MESSAGE" value="Improved coordination logic. Added new topic to indicate eligibility for coordination" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/src/BMController.cpp</url>
-          <line>256</line>
-          <option name="timeStamp" value="51" />
-        </line-breakpoint>
-      </breakpoints>
-      <option name="time" value="52" />
+      <option name="time" value="78" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -547,20 +543,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file:///usr/include/c++/5/backward/backward_warning.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="227">
-          <caret line="31" column="1" lean-forward="false" selection-start-line="31" selection-start-column="1" selection-end-line="31" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/include/geometry.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/geometry.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="342">
@@ -743,13 +725,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///opt/ros/kinetic/include/ros/publisher.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="477">
-          <caret line="117" column="0" lean-forward="false" selection-start-line="117" selection-start-column="0" selection-end-line="117" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///usr/include/c++/5/bits/shared_ptr_base.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="414">
@@ -785,13 +760,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/include/VrepPioneerDriver.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="44" column="24" lean-forward="false" selection-start-line="44" selection-start-column="24" selection-end-line="44" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Alternative.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
@@ -813,23 +781,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/include/PointD3D.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="4" column="29" lean-forward="false" selection-start-line="4" selection-start-column="29" selection-end-line="4" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/PointD3D.h" />
     <entry file="file://$PROJECT_DIR$/src/main.h" />
-    <entry file="file://$PROJECT_DIR$/src/include/main.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="10" column="21" lean-forward="false" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/include/Alternative.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="108">
@@ -838,62 +791,113 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/include/Point3D.h">
+    <entry file="file://$PROJECT_DIR$/src/include/main.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="233">
-          <caret line="16" column="21" lean-forward="false" selection-start-line="16" selection-start-column="21" selection-end-line="16" selection-end-column="21" />
+        <state relative-caret-position="180">
+          <caret line="10" column="21" lean-forward="false" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="21" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/dstar-lite/Dstar.cpp">
+    <entry file="file://$PROJECT_DIR$/src/include/PointD3D.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2256">
-          <caret line="379" column="36" lean-forward="true" selection-start-line="379" selection-start-column="36" selection-end-line="379" selection-end-column="36" />
+        <state relative-caret-position="432">
+          <caret line="25" column="35" lean-forward="false" selection-start-line="25" selection-start-column="35" selection-end-line="25" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/include/VrepPioneerDriver.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="64" column="24" lean-forward="false" selection-start-line="64" selection-start-column="24" selection-end-line="64" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/include/Point3D.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="254">
+          <caret line="22" column="14" lean-forward="false" selection-start-line="22" selection-start-column="14" selection-end-line="22" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///opt/ros/kinetic/include/ros/publisher.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="117" column="0" lean-forward="false" selection-start-line="117" selection-start-column="0" selection-end-line="117" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///opt/ros/kinetic/include/ros/topic.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="107" column="0" lean-forward="false" selection-start-line="107" selection-start-column="0" selection-end-line="107" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/include/c++/5/thread">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="291" column="0" lean-forward="false" selection-start-line="291" selection-start-column="0" selection-end-line="291" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Point3D.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="766">
-          <caret line="54" column="92" lean-forward="false" selection-start-line="54" selection-start-column="92" selection-end-line="54" selection-end-column="92" />
+        <state relative-caret-position="936">
+          <caret line="53" column="1" lean-forward="false" selection-start-line="53" selection-start-column="1" selection-end-line="53" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/dstar-lite/Dstar.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="202">
+          <caret line="55" column="19" lean-forward="false" selection-start-line="55" selection-start-column="19" selection-end-line="55" selection-end-column="19" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/VrepPioneerDriver.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-90">
-          <caret line="58" column="0" lean-forward="false" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
+        <state relative-caret-position="264">
+          <caret line="272" column="0" lean-forward="false" selection-start-line="272" selection-start-column="0" selection-end-line="272" selection-end-column="0" />
           <folding>
-            <element signature="e#1601#4308#0" expanded="false" />
-            <element signature="e#4310#5181#0" expanded="false" />
-            <element signature="e#5183#5433#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Grid4C.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-288">
-          <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-          <folding>
-            <element signature="e#41#60#0" expanded="true" />
+            <element signature="e#5261#5511#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="460">
-          <caret line="61" column="53" lean-forward="false" selection-start-line="61" selection-start-column="53" selection-end-line="61" selection-end-column="53" />
+        <state relative-caret-position="455">
+          <caret line="82" column="37" lean-forward="false" selection-start-line="82" selection-start-column="37" selection-end-line="82" selection-end-column="37" />
           <folding>
             <element signature="e#42#59#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Grid4C.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="38">
+          <caret line="59" column="1" lean-forward="true" selection-start-line="59" selection-start-column="1" selection-end-line="59" selection-end-column="1" />
+          <folding>
+            <element signature="e#2346#2636#0" expanded="false" />
+            <element signature="e#2638#3676#0" expanded="false" />
+            <element signature="e#3678#3897#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/include/BMController.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-630">
+        <state relative-caret-position="234">
           <caret line="30" column="20" lean-forward="false" selection-start-line="30" selection-start-column="20" selection-end-line="30" selection-end-column="20" />
           <folding>
             <element signature="e#197#234#0" expanded="true" />
@@ -903,17 +907,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/BMController.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="279">
-          <caret line="260" column="29" lean-forward="true" selection-start-line="260" selection-start-column="29" selection-end-line="260" selection-end-column="29" />
+        <state relative-caret-position="4770">
+          <caret line="285" column="71" lean-forward="true" selection-start-line="285" selection-start-column="71" selection-end-line="285" selection-end-column="71" />
           <folding>
             <element signature="e#78#103#0" expanded="true" />
-            <element signature="e#2534#3775#0" expanded="false" />
-            <element signature="e#4108#4309#0" expanded="false" />
-            <element signature="e#4311#4509#0" expanded="false" />
-            <element signature="e#4511#4985#0" expanded="false" />
-            <element signature="e#11039#11168#0" expanded="false" />
-            <element signature="e#11170#11301#0" expanded="false" />
-            <element signature="e#12385#15655#0" expanded="false" />
+            <element signature="e#4477#4758#0" expanded="false" />
+            <element signature="e#4808#5009#0" expanded="false" />
+            <element signature="e#5011#5209#0" expanded="false" />
+            <element signature="e#12504#12633#0" expanded="false" />
+            <element signature="e#12635#12766#0" expanded="false" />
+            <element signature="e#12768#13235#0" expanded="false" />
+            <element signature="e#13237#13935#0" expanded="false" />
           </folding>
         </state>
       </provider>

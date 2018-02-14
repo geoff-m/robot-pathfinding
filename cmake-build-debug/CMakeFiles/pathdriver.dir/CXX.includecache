@@ -127,6 +127,8 @@ string
 -
 message_filters/subscriber.h
 /home/student/catkin_ws/src/pathdriver/src/message_filters/subscriber.h
+std_msgs/Bool.h
+/home/student/catkin_ws/src/pathdriver/src/std_msgs/Bool.h
 
 /home/student/catkin_ws/src/pathdriver/src/Grid4C.cpp
 Grid4C.h
@@ -134,6 +136,8 @@ Grid4C.h
 stdexcept
 -
 list
+-
+cmath
 -
 
 /home/student/catkin_ws/src/pathdriver/src/Point3D.cpp
@@ -1097,6 +1101,22 @@ ros/forwards.h
 /opt/ros/kinetic/include/ros/ros/forwards.h
 
 /opt/ros/kinetic/include/rosconsole/macros_generated.h
+
+/opt/ros/kinetic/include/std_msgs/Bool.h
+string
+-
+vector
+-
+map
+-
+ros/types.h
+-
+ros/serialization.h
+-
+ros/builtin_message_traits.h
+-
+ros/message_operations.h
+-
 
 /opt/ros/kinetic/include/std_msgs/Float32.h
 string

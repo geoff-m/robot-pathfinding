@@ -8,4 +8,4 @@
 #endif //PATHDRIVER_MAIN_H
 
 
-#define ROBOT_COUNT 3
+#define ROBOT_COUNT 2
