@@ -35,6 +35,7 @@ VrepPioneerDriver::VrepPioneerDriver(ros::NodeHandle& node,
     this->leftMotorName = "leftMotor";
     this->rightMotorName = "rightMotor";
     initTopics();
+    canGo = true;
 }
 
 VrepPioneerDriver::VrepPioneerDriver(ros::NodeHandle& node,
@@ -51,6 +52,7 @@ VrepPioneerDriver::VrepPioneerDriver(ros::NodeHandle& node,
     this->leftMotorName = leftMotorName.c_str();
     this->rightMotorName = rightMotorName.c_str();
     initTopics();
+    canGo = true;
 }
 
 const int VrepPioneerDriver::getID() const
@@ -120,7 +122,26 @@ void VrepPioneerDriver::initTopics()
     std::cout << "Driver's rightMotorPublisher's topic: " << rightMotorPublisher.getTopic() << std::endl;
 }
 
-void VrepPioneerDriver::driveTo(PointD3D target) const
+void VrepPioneerDriver::enableMovement()
+{
+    std::lock_guard<std::mutex> lock(canGoMutex);
+    canGo = true;
+}
+
+void VrepPioneerDriver::disableMovement()
+{
+    std::lock_guard<std::mutex> lock(canGoMutex);
+    canGo = false;
+    stop();
+}
+
+bool VrepPioneerDriver::isMovementEnabled() const
+{
+    std::lock_guard<std::mutex> lock(canGoMutex);
+    return canGo;
+}
+
+bool VrepPioneerDriver::driveTo(PointD3D target) const
 {
     //std::cout << "location has " << locationSubscriber.getNumPublishers() << " publishers" << std::endl;
     //std::cout << "Driving to " << target << std::endl;
@@ -132,6 +153,17 @@ void VrepPioneerDriver::driveTo(PointD3D target) const
     clock_t time = clock();
     while (error > MAX_ERROR)
     {
+        // Check that we haven't been signalled to stop.
+        bool willGo;
+        canGoMutex.lock();
+        willGo = canGo;
+        canGoMutex.unlock();
+        if (!willGo)
+        {
+            std::printf("Driver %d:\tStopping driving because canGo has been cleared!\n", id);
+            return false;
+        }
+
         double direction = radiansToDegrees(atan2(difference.getY(), difference.getX()));
         faceDirection(direction);
         goForward(1.0f);
@@ -147,6 +179,7 @@ void VrepPioneerDriver::driveTo(PointD3D target) const
         }
     }
     stop();
+    return true;
 }
 
 void VrepPioneerDriver::followPath(std::list<PointD3D> waypoints) const

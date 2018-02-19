@@ -44,6 +44,9 @@ private:
     //boost::shared_ptr<ros::NodeHandle> nh;
     ros::NodeHandle* nh;
 
+    mutable std::mutex canGoMutex; // a mutex to guard canGo
+    bool canGo; // Indicates whether or not driving should be allowed.
+
 public:
     VrepPioneerDriver(ros::NodeHandle& node,
             const std::string robotName);
@@ -53,7 +56,7 @@ public:
                       const std::string leftMotorName,
                       const std::string rightMotorName);
 
-    void driveTo(PointD3D target) const;
+    bool driveTo(PointD3D target) const; // Returns true on success, false if interrupted.
     void followPath(std::list<PointD3D> waypoints) const;
 
     void faceDirection(double angle) const;
@@ -67,6 +70,10 @@ public:
 
     const char* getName() const;
     const int getID() const; // Gets this robot's ID (name suffix).
+
+    void enableMovement();
+    void disableMovement();
+    bool isMovementEnabled() const;
 
     ~VrepPioneerDriver();
 };

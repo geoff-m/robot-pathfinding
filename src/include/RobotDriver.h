@@ -12,7 +12,7 @@
 // An abstract class that represents a drivable robot.
 class RobotDriver {
 public:
-    virtual void driveTo(PointD3D target) const = 0;
+    virtual bool driveTo(PointD3D target) const = 0;
 
     virtual void followPath(std::list<PointD3D> waypoints) const = 0;
 

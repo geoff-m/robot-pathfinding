@@ -18,6 +18,7 @@
 #include <thread>
 #include "message_filters/subscriber.h"
 #include "Alternative.h"
+#include <vector>
 
 // This class contains the beliefs and knowledge of a single robot.
 class BMController {
@@ -33,6 +34,8 @@ private:
         FOLLOWING_PATH,
         COORDINATING
     };
+
+    vector<int> coordinatingWith;
 
     State currentState;
     void setState(State newState);
@@ -65,6 +68,7 @@ private:
 
     void waitForAllAlternatives();
 
+    list<state> myAlternative1, myAlternative2; // My alternative paths (entire paths).
     Alternative robotAlternatives[ROBOT_COUNT][2]; // Holds two alternatives for each robot.
     // Let's say that a value of Alternative{0, -1} indicates we're waiting on that robot's alternatives.
 

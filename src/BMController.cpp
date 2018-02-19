@@ -9,6 +9,8 @@
 #include "message_filters/subscriber.h"
 #include "std_msgs/Bool.h"
 
+extern Countdown* activeWorkers;
+
 #define DEFAULT_COST 0 // should be 1? idk. just check dstarlite's default cost for a node.
 #define NONTRAVERSABLE_COST -1
 #define MINIMUM_SAFE_DISTANCE 5
@@ -142,14 +144,17 @@ void BMController::navigateTo(int row, int col)
     auto worldPath = grid->getWorldPoints(waypoints);
 
     // Tell the driver to follow the path.
-    //driver->followPath(worldPath);
+    // todo: make 'waypoints' a synchronized, class level variable. this routine needs to be interruptable and resumable following changes to the path.
     for (auto iter = waypoints.begin(); iter != waypoints.end(); ++iter)
     {
         Point3D current = *iter;
         std::printf("Robot %d:\tDriving to (grid): (%d, %d)\n", myID, current.getX(), current.getY());
-        driver->driveTo(grid->getWorldPoint(current));
+        if (!driver->driveTo(grid->getWorldPoint(current)))
+        {
+            std::printf("Robot %d: Driver was interrupted! Cancelling navigateTo(%d, %d).\n", myID, row, col);
+            break;
+        }
     }
-
 }
 
 // make each controller subscribe to every other robot's out/location topic
@@ -195,6 +200,7 @@ void BMController::robotLocationChanged(int id)
                 if (checkIsCoordinating(i)) // Don't coordinate with nearby robot if it's inactive.
                 {
                     robotAlternatives[i][0] = Alternative(Point3D(), -1);
+                    coordinatingWith.emplace_back(i);
                 }
                 // this special value Alternative(0, -1) indicates we're coordinating with that robot and haven't received its alt yet.
             }
@@ -264,10 +270,13 @@ void BMController::setState(State newState)
                 case REACHED_GOAL:
                     std::cout << "Changing state: Following Path --> Reached Goal\n";
                     // stop motors.
-                    driver->stop();
+                   driver->disableMovement();
 
                     // Publish that we are not longer up for coordination.
                     disableCoordination();
+
+                    // Signal to main thread that we're done.
+                    activeWorkers->signal();
                     break;
                 case FOLLOWING_PATH:
                     std::cout << "No state change: Following Path --> Following Path\n";
@@ -277,17 +286,21 @@ void BMController::setState(State newState)
                     currentState = newState;
 
                     // Stop moving.
-                    driver->stop();
+                    driver->disableMovement();
                     // Find (D*) and publish my alternate paths.
                     findAlternatePaths();
                     // Wait until I've received everyone else's alternatives.
                     printf("Beginning to wait for alternatives.\n");
                     waitForAllAlternatives();
                     printf("I now have all necessary alternatives.\n");
+
                     // todo: do bipartite matching.
                     // todo: share matching.
                     // todo: choose best matching.
                     // todo: change state to FOLLOWING_PATH and follow that matching.
+
+                    // Done coordinating.
+                    coordinatingWith.clear(); // Clear the list of robots I'm coordinating with.
                     break;
             }
             break;
@@ -343,14 +356,15 @@ void BMController::waitForAllAlternatives()
     while (true)
     {
         bool done = true;
-        for (int i = 0; i < ROBOT_COUNT; ++i)
+        for (auto iter = coordinatingWith.begin(); iter != coordinatingWith.end(); ++iter)
         {
-            Alternative a1 = robotAlternatives[i][0];
-            Alternative a2 = robotAlternatives[i][1];
+            int id = *iter;
+            Alternative a1 = robotAlternatives[id][0];
+            Alternative a2 = robotAlternatives[id][1];
             if (a1.TotalCost == -1 || a2.TotalCost == -1)
             {
                 done = false;
-                printf("Robot %d: Waiting for alternative(s) from robot %d...\n", driver->getID(), i);
+                printf("Robot %d: Waiting for alternative(s) from robot %d...\n", driver->getID(), id);
                 break;
             }
         }
@@ -377,8 +391,11 @@ void BMController::findAlternatePaths()
         if (id != myID)
         {
             Point3D other = robotLocations[id];
-            std::printf("Blocking cell (%d, %d)...\n", other.getX(), other.getY());
-            dstar.updateCell(other.getX(), other.getY(), NONTRAVERSABLE_COST);
+            if (other != self) // Don't block it if it's our own location.
+            {
+                std::printf("Blocking cell (%d, %d)...\n", other.getX(), other.getY());
+                dstar.updateCell(other.getX(), other.getY(), NONTRAVERSABLE_COST);
+            }
         }
     }
 
@@ -389,6 +406,9 @@ void BMController::findAlternatePaths()
     list<state> path = dstar.getPath();
     std::printf("Replanned path 1: ");
     printPath(path);
+
+    // Store the path for my own use later, during matching.
+    myAlternative1 = list<state>(path); // copy constructor (?)
 
     state nextStep = *std::next(path.begin(), 1); // Get the 2nd point in this path (it begins in our current location).
 
@@ -424,6 +444,9 @@ void BMController::findAlternatePaths()
     std::printf("Replanned path 2: ");
     printPath(path);
 
+    // Store the path for my own use later, during matching.
+    myAlternative2 = list<state>(path); // copy constructor (?)
+
     // Broadcast the next point and total cost of this alternate path.
     nextStep = *std::next(path.begin(), 1); // Get the 2nd point in this path (it begins in our current location).
 
@@ -441,6 +464,8 @@ void BMController::findAlternatePaths()
 
     // Clear all the cells we just marked as nontraversable.
     // note: be careful do not clear the walls. or maybe go ahead and clear them, then call constructor methods again.
+    int maxX = grid->getRowCount() - 1;
+    int maxY = grid->getColumnCount() - 1;
     for (int id = 0; id < ROBOT_COUNT; ++id)
     {
         if (id != myID)
@@ -449,13 +474,17 @@ void BMController::findAlternatePaths()
             dstar.updateCell(other.getX(), other.getY(), DEFAULT_COST);
             for (const auto neighbor : grid->getNeighbors(other))
             {
-                dstar.updateCell(neighbor.getX(), neighbor.getY(), DEFAULT_COST);
+                int nx = neighbor.getX();
+                int ny =  neighbor.getY();
+                if (nx > 0 && nx < maxX && ny > 0 && ny < maxY)
+                    dstar.updateCell(nx, ny, DEFAULT_COST);
             }
         }
     }
 
     // Set walls again, in case we just cleared any.
-    setupWalls();
+    // setupWalls();
+    // No longer necessary because we take care not to clear any wall cells in the above loop.
 }
 
 

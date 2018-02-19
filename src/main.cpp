@@ -13,6 +13,8 @@
 
 static list<Point3D> fromState(list<state> s);
 
+Countdown* activeWorkers;
+
 int main(int argc, char *argv[]) {
     ROS_INFO("Calling rosinit\n");
     ros::init(argc, argv, "pathdriver");
@@ -75,14 +77,20 @@ int main(int argc, char *argv[]) {
         drivers[i]->driveTo(worldGridLoc);
     }
 
+    //activeWorkers = new Semaphore(ROBOT_COUNT);
+    activeWorkers = new Countdown(1);
+
     printf("Setup done.\n\n");
 
     // later, this will be made to run on its own thread (1 thread per robot)
     // update: or we can dispense with threading and use separate processes for multiple robots.
 
+
+
     controllers[0]->navigateTo(1, 6);
     //controllers[1]->navigateTo(1, 4);
 
+    activeWorkers->wait();
 
     std::cout << "Exiting pathdriver application." << endl;
     spinner.stop();

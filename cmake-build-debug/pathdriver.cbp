@@ -506,31 +506,16 @@
 		<Unit filename="/home/student/catkin_ws/src/pathdriver/src/BMController.cpp">
 			<Option target="pathdriver"/>
 		</Unit>
-		<Unit filename="/home/student/catkin_ws/src/pathdriver/src/BMController.h">
-			<Option target="pathdriver"/>
-		</Unit>
 		<Unit filename="/home/student/catkin_ws/src/pathdriver/src/Grid4C.cpp">
-			<Option target="pathdriver"/>
-		</Unit>
-		<Unit filename="/home/student/catkin_ws/src/pathdriver/src/Grid4C.h">
 			<Option target="pathdriver"/>
 		</Unit>
 		<Unit filename="/home/student/catkin_ws/src/pathdriver/src/Point3D.cpp">
 			<Option target="pathdriver"/>
 		</Unit>
-		<Unit filename="/home/student/catkin_ws/src/pathdriver/src/Point3D.h">
-			<Option target="pathdriver"/>
-		</Unit>
 		<Unit filename="/home/student/catkin_ws/src/pathdriver/src/PointD3D.cpp">
 			<Option target="pathdriver"/>
 		</Unit>
-		<Unit filename="/home/student/catkin_ws/src/pathdriver/src/PointD3D.h">
-			<Option target="pathdriver"/>
-		</Unit>
 		<Unit filename="/home/student/catkin_ws/src/pathdriver/src/VrepPioneerDriver.cpp">
-			<Option target="pathdriver"/>
-		</Unit>
-		<Unit filename="/home/student/catkin_ws/src/pathdriver/src/VrepPioneerDriver.h">
 			<Option target="pathdriver"/>
 		</Unit>
 		<Unit filename="/home/student/catkin_ws/src/pathdriver/src/dstar-lite/Dstar.cpp">
@@ -542,16 +527,10 @@
 		<Unit filename="/home/student/catkin_ws/src/pathdriver/src/geometry.cpp">
 			<Option target="pathdriver"/>
 		</Unit>
-		<Unit filename="/home/student/catkin_ws/src/pathdriver/src/geometry.h">
-			<Option target="pathdriver"/>
-		</Unit>
 		<Unit filename="/home/student/catkin_ws/src/pathdriver/src/include/Alternative.h">
 			<Option target="pathdriver"/>
 		</Unit>
 		<Unit filename="/home/student/catkin_ws/src/pathdriver/src/main.cpp">
-			<Option target="pathdriver"/>
-		</Unit>
-		<Unit filename="/home/student/catkin_ws/src/pathdriver/src/main.h">
 			<Option target="pathdriver"/>
 		</Unit>
 		<Unit filename="/usr/src/gtest/src/gtest-all.cc">

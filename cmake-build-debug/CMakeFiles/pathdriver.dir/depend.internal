@@ -9,6 +9,7 @@ CMakeFiles/pathdriver.dir/src/BMController.cpp.o
  ../src/dstar-lite/Dstar.h
  ../src/include/Alternative.h
  ../src/include/BMController.h
+ ../src/include/Countdown.h
  ../src/include/Grid4C.h
  ../src/include/Point3D.h
  ../src/include/PointD3D.h
@@ -195,6 +196,7 @@ CMakeFiles/pathdriver.dir/src/main.cpp.o
  ../src/dstar-lite/Dstar.h
  ../src/include/Alternative.h
  ../src/include/BMController.h
+ ../src/include/Countdown.h
  ../src/include/Grid4C.h
  ../src/include/Point3D.h
  ../src/include/PointD3D.h

@@ -42,12 +42,19 @@ public:
         return os;
     }
 
-    friend bool operator ==(const Point3D& left, const Point3D& right)
+    /*friend bool operator ==(const Point3D& left, const Point3D& right)
     {
         if (left.isEmpty && right.isEmpty)
             return true;
         return left.x == right.x && left.y == right.y && left.z == right.z;
     }
+
+    friend bool operator !=(const Point3D& left, const Point3D& right)
+    {
+        if (left.isEmpty != right.isEmpty)
+            return true;
+        return left.x != right.x || left.y != right.y || left.z != right.z;
+    }*/
 };
 
 

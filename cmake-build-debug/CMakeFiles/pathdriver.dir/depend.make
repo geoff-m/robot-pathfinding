@@ -8,6 +8,7 @@ CMakeFiles/pathdriver.dir/src/Alternative.cpp.o: ../src/Alternative.cpp
 CMakeFiles/pathdriver.dir/src/BMController.cpp.o: ../src/dstar-lite/Dstar.h
 CMakeFiles/pathdriver.dir/src/BMController.cpp.o: ../src/include/Alternative.h
 CMakeFiles/pathdriver.dir/src/BMController.cpp.o: ../src/include/BMController.h
+CMakeFiles/pathdriver.dir/src/BMController.cpp.o: ../src/include/Countdown.h
 CMakeFiles/pathdriver.dir/src/BMController.cpp.o: ../src/include/Grid4C.h
 CMakeFiles/pathdriver.dir/src/BMController.cpp.o: ../src/include/Point3D.h
 CMakeFiles/pathdriver.dir/src/BMController.cpp.o: ../src/include/PointD3D.h
@@ -194,6 +195,7 @@ CMakeFiles/pathdriver.dir/src/geometry.cpp.o: ../src/geometry.cpp
 CMakeFiles/pathdriver.dir/src/main.cpp.o: ../src/dstar-lite/Dstar.h
 CMakeFiles/pathdriver.dir/src/main.cpp.o: ../src/include/Alternative.h
 CMakeFiles/pathdriver.dir/src/main.cpp.o: ../src/include/BMController.h
+CMakeFiles/pathdriver.dir/src/main.cpp.o: ../src/include/Countdown.h
 CMakeFiles/pathdriver.dir/src/main.cpp.o: ../src/include/Grid4C.h
 CMakeFiles/pathdriver.dir/src/main.cpp.o: ../src/include/Point3D.h
 CMakeFiles/pathdriver.dir/src/main.cpp.o: ../src/include/PointD3D.h
