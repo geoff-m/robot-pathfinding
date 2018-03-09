@@ -98,6 +98,7 @@
 					<Add option="-DROSCONSOLE_BACKEND_LOG4CXX"/>
 					<Add directory="/home/student/catkin_ws/src/pathdriver/src/include"/>
 					<Add directory="/home/student/catkin_ws/src/pathdriver/src/dstar-lite"/>
+					<Add directory="/home/student/catkin_ws/src/pathdriver/src/bipartite-matching-dutta/bipartite-matching-dutta"/>
 					<Add directory="/opt/ros/kinetic/include"/>
 					<Add directory="/opt/ros/kinetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp"/>
 					<Add directory="/usr/include/c++/5"/>
@@ -127,6 +128,7 @@
 					<Add option="-DROSCONSOLE_BACKEND_LOG4CXX"/>
 					<Add directory="/home/student/catkin_ws/src/pathdriver/src/include"/>
 					<Add directory="/home/student/catkin_ws/src/pathdriver/src/dstar-lite"/>
+					<Add directory="/home/student/catkin_ws/src/pathdriver/src/bipartite-matching-dutta/bipartite-matching-dutta"/>
 					<Add directory="/opt/ros/kinetic/include"/>
 					<Add directory="/opt/ros/kinetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp"/>
 					<Add directory="/usr/include/c++/5"/>
@@ -516,6 +518,9 @@
 			<Option target="pathdriver"/>
 		</Unit>
 		<Unit filename="/home/student/catkin_ws/src/pathdriver/src/VrepPioneerDriver.cpp">
+			<Option target="pathdriver"/>
+		</Unit>
+		<Unit filename="/home/student/catkin_ws/src/pathdriver/src/bipartite-matching-dutta/bipartite-matching-dutta/hetero_working.cpp">
 			<Option target="pathdriver"/>
 		</Unit>
 		<Unit filename="/home/student/catkin_ws/src/pathdriver/src/dstar-lite/Dstar.cpp">

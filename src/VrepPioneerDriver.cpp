@@ -161,6 +161,7 @@ bool VrepPioneerDriver::driveTo(PointD3D target) const
         if (!willGo)
         {
             std::printf("Driver %d:\tStopping driving because canGo has been cleared!\n", id);
+            stop();
             return false;
         }
 

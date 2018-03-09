@@ -86,9 +86,9 @@ int main(int argc, char *argv[]) {
     // update: or we can dispense with threading and use separate processes for multiple robots.
 
 
-
     controllers[0]->navigateTo(1, 6);
-    //controllers[1]->navigateTo(1, 4);
+    controllers[1]->navigateTo(1, 4);
+
 
     activeWorkers->wait();
 

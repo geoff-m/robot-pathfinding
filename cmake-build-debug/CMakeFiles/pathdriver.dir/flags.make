@@ -6,5 +6,5 @@ CXX_FLAGS = -g   -std=c++11
 
 CXX_DEFINES = -DROSCONSOLE_BACKEND_LOG4CXX -DROS_PACKAGE_NAME=\"pathdriver\"
 
-CXX_INCLUDES = -I/home/student/catkin_ws/src/pathdriver/src/include -I/home/student/catkin_ws/src/pathdriver/src/dstar-lite -I/opt/ros/kinetic/include -I/opt/ros/kinetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp 
+CXX_INCLUDES = -I/home/student/catkin_ws/src/pathdriver/src/include -I/home/student/catkin_ws/src/pathdriver/src/dstar-lite -I/home/student/catkin_ws/src/pathdriver/src/bipartite-matching-dutta/bipartite-matching-dutta -I/opt/ros/kinetic/include -I/opt/ros/kinetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp 
 

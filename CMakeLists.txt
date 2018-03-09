@@ -116,6 +116,7 @@ catkin_package(
 include_directories(
         src/include
         src/dstar-lite
+        src/bipartite-matching-dutta/bipartite-matching-dutta
         ${catkin_INCLUDE_DIRS}
 )
 
@@ -140,7 +141,8 @@ add_executable(pathdriver src/main.cpp
         src/geometry.cpp
         src/VrepPioneerDriver.cpp
         src/dstar-lite/Dstar.cpp
-        src/BMController.cpp src/Alternative.cpp src/include/Alternative.h)
+        src/BMController.cpp src/Alternative.cpp src/include/Alternative.h
+        src/bipartite-matching-dutta/bipartite-matching-dutta/hetero_working.cpp)
 
 
 ## Rename C++ executable without prefix

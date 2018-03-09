@@ -24,7 +24,12 @@
 class BMController {
 
 private:
+    void computeMatching();
+    Point3D myMatching[ROBOT_COUNT];
+
     int altsWaiting; // The number of robots I'm waiting to hear alternatives from.
+
+    vector<int> coordinatingWith; // The IDs of the robots I'm currently involved in coordination with.
 
     int totalDistanceTravelled; // Measured in cells. // todo: implement me
 
@@ -34,8 +39,6 @@ private:
         FOLLOWING_PATH,
         COORDINATING
     };
-
-    vector<int> coordinatingWith;
 
     State currentState;
     void setState(State newState);
@@ -121,6 +124,9 @@ public:
 
         currentState = NOT_STARTED;
     }
+
+    // Drives along a list of grid points until interrupted.
+    void driveAlong(list<Point3D> waypoints);
 
     // Plans a path and begins driving to the given location.
     void navigateTo(int row, int col);

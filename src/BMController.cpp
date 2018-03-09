@@ -8,6 +8,7 @@
 #include <string>
 #include "message_filters/subscriber.h"
 #include "std_msgs/Bool.h"
+#include "Header.h" // from bipartite-matching-dutta
 
 extern Countdown* activeWorkers;
 
@@ -141,20 +142,43 @@ void BMController::navigateTo(int row, int col)
     dstar.replan();
     list<state> path = dstar.getPath();
     list<Point3D> waypoints = fromState(path);
-    auto worldPath = grid->getWorldPoints(waypoints);
 
-    // Tell the driver to follow the path.
-    // todo: make 'waypoints' a synchronized, class level variable. this routine needs to be interruptable and resumable following changes to the path.
+    // Begin following this path.
+    driveAlong(waypoints);
+    std::printf("Robot %d:\tNo longer following initially planned path.\n", myID);
+}
+
+// Drives along a list of grid points until interrupted.
+void BMController::driveAlong(list<Point3D> waypoints)
+{
+    int myID = driver->getID();
+    std::printf("Robot %d:\tBeginning to follow path: ", myID);
+    for (auto iter = waypoints.begin(); iter != waypoints.end(); ++iter)
+    {
+        Point3D current = *iter;
+        std::printf("(%d, %d) ", current.getX(), current.getY());
+    }
+
+    std::printf("\n");
+    Point3D* last = nullptr;
     for (auto iter = waypoints.begin(); iter != waypoints.end(); ++iter)
     {
         Point3D current = *iter;
         std::printf("Robot %d:\tDriving to (grid): (%d, %d)\n", myID, current.getX(), current.getY());
         if (!driver->driveTo(grid->getWorldPoint(current)))
         {
-            std::printf("Robot %d: Driver was interrupted! Cancelling navigateTo(%d, %d).\n", myID, row, col);
+            std::printf("Robot %d:\tDriver was interrupted!\n", myID);
             break;
         }
+
+        // Increment distance travelled.
+        if (last != nullptr)
+        {
+            totalDistanceTravelled += (current - *last).manhattanNorm();
+        }
+        last = new Point3D(current);
     }
+
 }
 
 // make each controller subscribe to every other robot's out/location topic
@@ -170,6 +194,7 @@ void BMController::robotLocationChanged(int id)
     int myID = driver->getID();
     Point3D myGridLoc;
     bool startCoordinating = false;
+    bool goalIsolation = false; // True if we need to avoid a stationary robot.
     if (id == myID)
     {
         // Update my own position.
@@ -192,18 +217,33 @@ void BMController::robotLocationChanged(int id)
             {
                 std::printf("Robot %d:\tRobot %d is within %.0f grid units of me!\n", myID, i, proximity);
                 // React to nearby robot.
-                startCoordinating = true;
+
 
                 //return; // We can return here immediately because it only takes 1 robot within MSD to cause us to coordinate.
                 // Instead of returning immediately, we keep going and mark all robots we need to coordinate with.
 
                 if (checkIsCoordinating(i)) // Don't coordinate with nearby robot if it's inactive.
                 {
+                    startCoordinating = true;
                     robotAlternatives[i][0] = Alternative(Point3D(), -1);
                     coordinatingWith.emplace_back(i);
+                } else {
+                    printf("We will not coordinate with robot %d because it is inactive.\n", i);
+
+                    // todo: mark other robot's location as impassable with D* and replan.
+                    dstar.updateCell(robotLocations[i].getX(), robotLocations[i].getY(), NONTRAVERSABLE_COST);
+                    goalIsolation = true;
                 }
                 // this special value Alternative(0, -1) indicates we're coordinating with that robot and haven't received its alt yet.
             }
+        }
+        if (goalIsolation)
+        {
+            dstar.updateStart(myGridLoc.getX(), myGridLoc.getY());
+            dstar.replan();
+            list<state> path = dstar.getPath();
+            list<Point3D> waypoints = fromState(path);
+            driveAlong(waypoints);
         }
     } else {
         // Some non-self robot has moved. We must check its distance to us.
@@ -293,14 +333,27 @@ void BMController::setState(State newState)
                     printf("Beginning to wait for alternatives.\n");
                     waitForAllAlternatives();
                     printf("I now have all necessary alternatives.\n");
+                    // do bipartite matching.
+                    computeMatching();
 
-                    // todo: do bipartite matching.
-                    // todo: share matching.
-                    // todo: choose best matching.
+
+                    // todo: share the weight of the matching you have found
+
+                    // todo: wait for matching weight from every coordinating robot.
+
+                    // todo: choose the matching involving the most robots (the maximum matching)
+                    // for n=2, this is trivial.
+
+                    // use minimum weight as tiebreaker (this is also trivial for n=2)
+
                     // todo: change state to FOLLOWING_PATH and follow that matching.
 
                     // Done coordinating.
                     coordinatingWith.clear(); // Clear the list of robots I'm coordinating with.
+
+
+                    setState(FOLLOWING_PATH);
+
                     break;
             }
             break;
@@ -350,6 +403,48 @@ bool BMController::checkIsCoordinating(int robotId)
     return msg->data;
 }
 
+void BMController::computeMatching()
+{
+    BipartiteMatcher matcher;
+    int myID = driver->getID();
+    auto myGridLoc = grid.get()->getGridPoint(*driver->myLoc.get());
+
+    matcher.addSelf(myGridLoc.getX(), myGridLoc.getY(), totalDistanceTravelled);
+
+    auto alt = robotAlternatives[myID][0];
+    auto altLoc = alt.NextStep;
+    matcher.addAlternative1(true, altLoc.getX(), altLoc.getY(), alt.TotalCost);
+
+    alt = robotAlternatives[myID][1];
+    altLoc = alt.NextStep;
+    matcher.addAlternative2(true, altLoc.getX(), altLoc.getY(), alt.TotalCost);
+
+    for (auto iter = coordinatingWith.begin(); iter != coordinatingWith.end(); ++iter)
+    {
+        int id = *iter;
+        Alternative a1 = robotAlternatives[id][0];
+        matcher.addAlternative1(false, // false indicates the robot is non-self. for n > 2 robots, this should become an ID.
+                                a1.NextStep.getX(),
+                                a1.NextStep.getY(),
+                                a1.TotalCost
+                                );
+        Alternative a2 = robotAlternatives[id][1];
+        matcher.addAlternative2(false,
+                                a2.NextStep.getX(),
+                                a2.NextStep.getY(),
+                                a2.TotalCost
+        );
+    }
+    matcher.displayWeights();
+    matcher.solve();
+
+    // Store results in class-level data structure.
+    myMatching[myID] = Point3D(matcher.getResult(0).X, matcher.getResult(0).Y, 0);
+    int otherID = *coordinatingWith.begin();
+    myMatching[otherID] = Point3D(matcher.getResult(1).X, matcher.getResult(1).Y, 0);
+}
+
+
 // Blocks until we've received alternatives from all the robots within our D_safe.
 void BMController::waitForAllAlternatives()
 {
@@ -384,21 +479,27 @@ void BMController::findAlternatePaths()
     std::printf("Original path:  ");
     printPath(dstar.getPath());
 
+    // todo: change this so that only robots WITHIN MSD of us are blocked for D*.
 
     // First alternate path: Assume no other robots move.
     for (int id = 0; id < ROBOT_COUNT; ++id)
     {
         if (id != myID)
         {
+            // Only mark nontraversable those robots which are near to us.
             Point3D other = robotLocations[id];
-            if (other != self) // Don't block it if it's our own location.
+            if ((other - self).manhattanNorm() < MINIMUM_SAFE_DISTANCE)
             {
-                std::printf("Blocking cell (%d, %d)...\n", other.getX(), other.getY());
-                dstar.updateCell(other.getX(), other.getY(), NONTRAVERSABLE_COST);
+                if (other != self) // Don't block it if it's our own location.
+                {
+                    std::printf("Blocking cell (%d, %d)...\n", other.getX(), other.getY());
+                    dstar.updateCell(other.getX(), other.getY(), NONTRAVERSABLE_COST);
+                }
             }
         }
     }
 
+    dstar.updateStart(self.getX(), self.getY());
     bool replanRet = dstar.replan();
     printf("Robot %d:\tReplanned 1st alt path. Return value = %s\n", myID, replanRet ? "ok" : "fail");
 
@@ -424,15 +525,22 @@ void BMController::findAlternatePaths()
     alt1.points.push_back(a1);
     altPublisher.publish(alt1);
 
+    // Store my own alternative along with others for when I do matching.
+    robotAlternatives[myID][0] = Alternative(Point3D(nextStep.x, nextStep.y, 0),id1.z);
+
     // Second alternate path: Assume all robots could move anywhere.
     for (int i = 0; i < ROBOT_COUNT; ++i)
     {
         if (i != myID)
         {
             Point3D other = robotLocations[i];
-            for (const auto neighbor : grid->getNeighbors(other))
+            // Only block neighbors of nearby robots who are also coordinating.
+            if ((other - self).manhattanNorm() < MINIMUM_SAFE_DISTANCE && checkIsCoordinating(i))
             {
-                dstar.updateCell(neighbor.getX(), neighbor.getY(), NONTRAVERSABLE_COST);
+                for (const auto neighbor : grid->getNeighbors(other))
+                {
+                    dstar.updateCell(neighbor.getX(), neighbor.getY(), NONTRAVERSABLE_COST);
+                }
             }
         }
     }
@@ -461,6 +569,9 @@ void BMController::findAlternatePaths()
     alt2.points.push_back(id2);
     alt2.points.push_back(a2);
     altPublisher.publish(alt2);
+
+    // Store my own alternative along with others for when I do matching.
+    robotAlternatives[myID][1] = Alternative(Point3D(nextStep.x, nextStep.y, 0),id2.z);
 
     // Clear all the cells we just marked as nontraversable.
     // note: be careful do not clear the walls. or maybe go ahead and clear them, then call constructor methods again.

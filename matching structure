@@ -1,0 +1,7 @@
+
+The best matching each robot finds consists of:
+    -A mapping from robots to locations
+    -A total cost
+
+If we fix the number of robots participating in any matching at 2, then we can use something like
+    Point3D myMatching[2];
