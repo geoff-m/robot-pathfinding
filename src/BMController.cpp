@@ -35,16 +35,21 @@ void BMController::registerCallbacks(const char* baseName, int robotCount)
         {
             // This is my robot. Set up publishers.
 
-            std::cout << "Setting up publisher for " << rosName + "/out/alternatives" << "\n";
+            std::cout << "Setting up publisher for " << rosName + "/out/alternatives\n";
             altPublisher = nh->advertise<geometry_msgs::Polygon>(rosName + "/out/alternatives", 1, false);
 
-            std::cout << "Setting up publisher for " << rosName + "/out/participating" << "\n";
+            std::cout << "Setting up publisher for " << rosName + "/out/participating\n";
             participatingPublisher = nh->advertise<std_msgs::Bool>(rosName + "/out/participating", 1, true); // true for latching.
             // Mark myself initially as unable to coordinate.
             disableCoordination();
 
+            std::cout << "Setting up publisher for " << rosName + "out/matchingResult\n";
+            matchingResultPublisher = nh->advertise<geometry_msgs::Point32>(rosName + "out/matchingResult", 1, true);
+
         } else {
-            // This is a non-self robot. Set up alternative subscriber.
+            // This is a non-self robot.
+
+            // Set up alternative subscriber.
             std::string alternativeTopic = rosName + "/out/alternatives";
             std::printf("Controller %d is registering callback for \"%s\"...\n", ownId, alternativeTopic.c_str());
             altSubscribers.emplace_back(new message_filters::Subscriber<geometry_msgs::Polygon>(*nh, alternativeTopic, 1));
@@ -53,6 +58,11 @@ void BMController::registerCallbacks(const char* baseName, int robotCount)
                                                     1,
                                                     &BMController::alternativeCallback, this));
                                                     */
+            // Set up matching subscriber.
+            std::string matchingTopic = rosName + "out/matchingResult";
+            std::printf("Controller %d is registering callback for \"%s\"...\n", ownId, matchingTopic.c_str());
+            matchingSubscribers.emplace_back(new message_filters::Subscriber<geometry_msgs::Point32>(*nh, matchingTopic, 1));
+            matchingSubscribers.back()->registerCallback(&BMController::matchingCallback, this);
         }
 
         // Regardless of whether or not this is own robot, subscribe to its location.
@@ -226,6 +236,10 @@ void BMController::robotLocationChanged(int id)
                 {
                     startCoordinating = true;
                     robotAlternatives[i][0] = Alternative(Point3D(), -1);
+
+                    robotMatchings[i] = Matching(i);
+                    robotMatchings[i].setCost(-1);
+
                     coordinatingWith.emplace_back(i);
                 } else {
                     printf("We will not coordinate with robot %d because it is inactive.\n", i);
@@ -327,30 +341,52 @@ void BMController::setState(State newState)
 
                     // Stop moving.
                     driver->disableMovement();
+
                     // Find (D*) and publish my alternate paths.
                     findAlternatePaths();
+
                     // Wait until I've received everyone else's alternatives.
                     printf("Beginning to wait for alternatives.\n");
                     waitForAllAlternatives();
                     printf("I now have all necessary alternatives.\n");
-                    // do bipartite matching.
+
+                    // Do bipartite matching.
                     computeMatching();
 
+                    // Share the matching you have found (id, cardinality, weight)
+                    transmitMatchingResult();
 
-                    // todo: share the weight of the matching you have found
+                    // wait for matching info from every coordinating robot.
 
-                    // todo: wait for matching weight from every coordinating robot.
+                    waitForAllMatchings();
 
-                    // todo: choose the matching involving the most robots (the maximum matching)
-                    // for n=2, this is trivial.
+                    // todo: Decide if my matching is the best by the priority-ordered criteria:
+                        // 1. involving the most robots (the "maximum matching") (max on cardinality)
+                        // 2. having the lowest weight
+                        // 3. originating from the robot with lowest ID number.
+                    // For n=2, these are all trivial.
+			int bestMatchingId = findBestMatchingID();
 
-                    // use minimum weight as tiebreaker (this is also trivial for n=2)
+                    // If mine is the best, transmit it.
+			if (bestMatchingId == driver->getId())
+			{
+				transmitFullMatching();
+			} else {
+                    // If mine is not the best, listen for the full matching result from the robot that has the best matching.
+				Point3D whereToGo = awaitFullMatching(bestMatchingId);
+				if (whereToGo.z == -1)
+				{
+					// don't move for a certain time interval.
+				} else {
+					
+				}
+			}
 
-                    // todo: change state to FOLLOWING_PATH and follow that matching.
+
+                    // Change state back to FOLLOWING_PATH and go to the location prescribed in the best matching.
 
                     // Done coordinating.
                     coordinatingWith.clear(); // Clear the list of robots I'm coordinating with.
-
 
                     setState(FOLLOWING_PATH);
 
@@ -373,6 +409,132 @@ void BMController::setState(State newState)
             }
             break;
     }
+}
+
+// Returns the point this robot should go to according to the matching published by the robot with the specified ID.
+// This method blocks until an answer has been recieved.
+// If this robot is not present in the matching, a Point3D with z=-1 is returned.
+Point3D BMController::awaitFullMatching(int sourceId) // new method, not added to class definition yet.
+{
+	int myID = driver->getID();
+	__glibcxx_assert(sourceId != myID); // We shouldn't be trying to receive matching from ourself!
+
+	// Build the name of the ROS topic that will publish the full matching.
+	std::string topicName(baseName);
+	topicName.append('_' + std::to_string(sourceId) + "/out/fullMatching");
+
+	// Recieve the full matching.
+	auto msg = ros::topic::waitForMessage<geometry_msgs::Polygon>(topicName);
+
+	// Search for my own ID in the matching.
+	auto pts = msg.points;
+	Point3D ret;
+	for (auto iter = pts.begin(); iter != pts.end(); ++iter)
+	{
+		geometry_msgs::Point32 current = *iter;
+		if (current.z == myID)
+		{
+			ret.x = current.x;
+			ret.y = current.y;
+			ret.z = 0;
+			return ret;
+		}
+	}
+	// We failed to find our own ID among any of those in the matching.
+	ret.x = -1;
+	ret.y = -1;
+	ret.z = -1;
+	return ret;
+}
+
+void BMController::transmitFullMatching() // new method, not added to class definition yet.
+{
+	geometry_msgs::Polygon msg;
+        for (auto iter = coordinatingWith.begin(); iter != coordinatingWith.end(); ++iter)
+	{
+		int id = *iter;
+		geometry_msgs::Point32 pt;
+		pt.z = id;
+		if (myMatching->hasPlaceFor(id))
+		{
+			Point3D place = myMatching->getPlaceFor(id);
+			pt.x = place.x;
+			pt.y = place.y;
+
+		} else {
+			pt.x = -1;
+			pt.y = -1;
+		}
+		msg.points.push_back(pt);
+	}
+	fullMatchingPublisher.publish(msg);
+}
+
+int BMController::findBestMatchingID()
+{
+    // Decide the robot with the best matching according to the priority-ordered criteria:
+    //      1. involving the most robots (the "maximum matching") (max on cardinality)
+    //      2. having the lowest weight
+    //      3. originating from the robot with lowest ID number.
+
+	// Select the matchings with highest cardinality.
+	vector<int> bestCardMatches;
+	int maxCardinality = -1;
+        for (auto iter = coordinatingWith.begin(); iter != coordinatingWith.end(); ++iter)
+	{
+		int otherId = *iter;
+		Matching otherMatching = robotMatchings[id];
+		int otherMatchingCard = otherMatching.getCardinality();
+		if (otherMatchingCard > maxCardinality)
+		{
+			// This robot's matching is the new best so far.
+			maxCardinality = otherMatchingCard;
+			bestCardMatches.clear();
+			bestCardMatches.push_back(otherId);
+		} else {
+			if (otherMatchingCard == maxCardinality)
+			{
+				// This robot's matching ties for the best so far.
+				bestCardMatches.push_back(otherId);
+			}
+		}
+	}
+
+	// Of these, select the matchings with lowest cost.
+	vector<int> bestCostMatches;
+	int minCost = MAX_INT;
+	for (auto iter = bestCardMatches.begin(); iter != bestCardMatches.end(); ++iter)
+	{
+		int otherId = *iter;
+		Matching otherMatching = robotMatchings[id];
+		int otherMatchingCost = otherMatching.getCost();
+		if (otherMatchingCost < minCost)
+		{
+			// This robot's matching is the new best so far.
+			minCost = otherMatchingCost;
+			bestCostMatches.clear();
+			bestCostMatches.push_back(otherId);
+		} else {
+			if (otherMatchingCost == minCost)
+			{
+				// This robot's matching ties for the best so far.
+				bestCostMatches.push_back(otherId);
+			}
+		}
+	}
+
+	// Of these, select the matching with lowest ID.
+	return bestCostMatches.min(); // Does this function exist? Else...
+	int ret = ROBOT_COUNT + 1; // at least as high as the maximum robot ID.
+	for (auto iter = bestCostMatches.begin(); iter != bestCostMatches.end(); ++iter)
+	{
+		int otherId = *iter;
+		if (ret > otherId)
+		{
+			ret = otherId;
+		}
+	}
+	return ret;
 }
 
 void BMController::enableCoordination()
@@ -407,7 +569,7 @@ void BMController::computeMatching()
 {
     BipartiteMatcher matcher;
     int myID = driver->getID();
-    auto myGridLoc = grid.get()->getGridPoint(*driver->myLoc.get());
+    auto myGridLoc = grid.get()->getGridPoint(*driver->myLoc);
 
     matcher.addSelf(myGridLoc.getX(), myGridLoc.getY(), totalDistanceTravelled);
 
@@ -439,9 +601,46 @@ void BMController::computeMatching()
     matcher.solve();
 
     // Store results in class-level data structure.
-    myMatching[myID] = Point3D(matcher.getResult(0).X, matcher.getResult(0).Y, 0);
+    // For general N, you'd want to do this in a for-loop as well.
+    myMatching->add(myID, Point3D(matcher.getResult(0).X, matcher.getResult(0).Y, 0));
     int otherID = *coordinatingWith.begin();
-    myMatching[otherID] = Point3D(matcher.getResult(1).X, matcher.getResult(1).Y, 0);
+    myMatching->add(otherID, Point3D(matcher.getResult(1).X, matcher.getResult(1).Y, 0));
+
+    // Store the total cost of the matching.
+    myMatching->setCost(matcher.getTotalCost());
+}
+
+void BMController::transmitMatchingResult()
+{
+    geometry_msgs::Point32 mResult;
+    mResult.x = driver->getID();
+    mResult.y = myMatching->getCardinality();
+    mResult.z = myMatching->getCost();
+
+    matchingResultPublisher.publish(mResult);
+}
+
+// Blocks until we've learned about matchings from all the robots within our D_safe.
+void BMController::waitForAllMatchings()
+{
+    while (true)
+    {
+        bool done = true;
+        for (auto iter = coordinatingWith.begin(); iter != coordinatingWith.end(); ++iter)
+        {
+            int id = *iter;
+            Matching m = robotMatchings[id];
+            if (m.getCost() == -1)
+            {
+                done = false;
+                printf("Robot %d: Waiting for matching info from robot %d...\n", driver->getID(), id);
+                break;
+            }
+        }
+        if (done)
+            return;
+        sleep(1); // sleep 1 second before checking again.
+    }
 }
 
 
@@ -602,6 +801,24 @@ void BMController::findAlternatePaths()
 static int getPathCost(list<state>& path)
 {
     return (int)path.size();
+}
+
+void BMController::matchingCallback(const geometry_msgs::Point32& msg)
+{
+    if (currentState != COORDINATING)
+    {
+        return; // We don't care about matching messages if we aren't coordinating.
+    }
+
+    // Extract message fields.
+    int id = (int)(msg.x);
+    int cardinality = (int)(msg.y);
+    int cost = (int)(msg.z);
+
+    Matching newMatching(id);
+    newMatching.setCost(cost);
+    newMatching.setCardinality(cardinality);
+    robotMatchings[id] = newMatching;
 }
 
 void BMController::alternativeCallback(const geometry_msgs::Polygon& msg)

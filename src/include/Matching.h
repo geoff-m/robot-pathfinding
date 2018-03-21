@@ -6,12 +6,7 @@
 #define PATHDRIVER_MATCHING_H
 
 #include <map>
-//#include <Point3D.h>
 #include <Alternative.h>
-
-
-// old way of storing match results:
-// myMatching[myID] = Point3D(matcher.getResult(0).X, matcher.getResult(0).Y, 0);
 
 class Matching {
 private:
@@ -19,9 +14,18 @@ private:
     int cardinality;
     int cost;
 
-    std::map<int, Alternative> dict;
+    std::map<int, Point3D> dict;
+
+    bool everSetCardinality = false;
 
 public:
+    Matching()
+    {
+        id = -1;
+        cardinality = 0;
+        cost = 0;
+    }
+
     explicit Matching(int id)
     {
         this->id = id;
@@ -33,9 +37,17 @@ public:
 
     int getCardinality() const;
 
+    void setCardinality(int n);
+
     void setCost(int cost);
 
     int getCost() const;
+
+	Point3D getPlaceFor(int robotID); // new method, definition not written yet.
+	// returns dict[robotId];
+
+	bool hasPlaceFor(int robotID);	// new method, definition not written yet.
+	// returns whether dict.contains(robotId);
 };
 
 

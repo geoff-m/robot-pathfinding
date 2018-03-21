@@ -1,7 +1,36 @@
 
-The best matching each robot finds consists of:
+The matching each robot finds consists of:
     -A mapping from robots to locations
+    -A cardinality (number of robots included in the matching)
     -A total cost
 
-If we fix the number of robots participating in any matching at 2, then we can use something like
-    Point3D myMatching[2];
+Each robot involved in coordination...
+
+1) finds a matching between each visible robot and its stated alternatives.
+
+2) broadcasts a tuple describing the matching it found.
+    For this we use a geometry_msgs::Point32 with X = my ID
+                                                  Y = my matching's cardinality
+                                                  Z = my matching's cost
+
+3) waits to hear about the matching from all other robots.
+
+Then, from the robots with matching of greatest cardinality, select the ones whose matchings have minimal cost.
+From these, the one with the lowest ID number broadcasts its mapping of robots to locations,
+while all others wait to receive this mapping.
+(Note that the robot broadcasting its mapping is uniquely determined in all circumstances.)
+
+To transmit this mapping, we use a geometry_msgs::Polygon message wherein each Point32 represents the following information:
+        X: Where robot N should go (X)
+        Y: Where robot N should go (Y)
+        Z: N
+
+Do not coordinate with any robot more than once without having changed your grid location.
+
+If a robot decides not to move, wait the time it takes for a robot to move 1 grid space, then resume following path.
+
+Issues for later:
+    -What if a robot is not included in the winning matching? What should it do?
+    Answer: That robot just shouldn't do anything.
+
+    -Ensure robots are all ready (have received all pending messages) before moving.

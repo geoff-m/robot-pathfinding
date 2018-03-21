@@ -612,6 +612,33 @@ src/Grid4C.cpp.s:
 	$(MAKE) -f CMakeFiles/pathdriver.dir/build.make CMakeFiles/pathdriver.dir/src/Grid4C.cpp.s
 .PHONY : src/Grid4C.cpp.s
 
+src/Matching.o: src/Matching.cpp.o
+
+.PHONY : src/Matching.o
+
+# target to build an object file
+src/Matching.cpp.o:
+	$(MAKE) -f CMakeFiles/pathdriver.dir/build.make CMakeFiles/pathdriver.dir/src/Matching.cpp.o
+.PHONY : src/Matching.cpp.o
+
+src/Matching.i: src/Matching.cpp.i
+
+.PHONY : src/Matching.i
+
+# target to preprocess a source file
+src/Matching.cpp.i:
+	$(MAKE) -f CMakeFiles/pathdriver.dir/build.make CMakeFiles/pathdriver.dir/src/Matching.cpp.i
+.PHONY : src/Matching.cpp.i
+
+src/Matching.s: src/Matching.cpp.s
+
+.PHONY : src/Matching.s
+
+# target to generate assembly for a file
+src/Matching.cpp.s:
+	$(MAKE) -f CMakeFiles/pathdriver.dir/build.make CMakeFiles/pathdriver.dir/src/Matching.cpp.s
+.PHONY : src/Matching.cpp.s
+
 src/Point3D.o: src/Point3D.cpp.o
 
 .PHONY : src/Point3D.o
@@ -851,6 +878,9 @@ help:
 	@echo "... src/Grid4C.o"
 	@echo "... src/Grid4C.i"
 	@echo "... src/Grid4C.s"
+	@echo "... src/Matching.o"
+	@echo "... src/Matching.i"
+	@echo "... src/Matching.s"
 	@echo "... src/Point3D.o"
 	@echo "... src/Point3D.i"
 	@echo "... src/Point3D.s"

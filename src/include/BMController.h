@@ -19,13 +19,15 @@
 #include "message_filters/subscriber.h"
 #include "Alternative.h"
 #include <vector>
+#include "Matching.h"
 
 // This class contains the beliefs and knowledge of a single robot.
 class BMController {
 
 private:
+    int findBestMatchingID();
     void computeMatching();
-    Point3D myMatching[ROBOT_COUNT];
+    Matching* myMatching;
 
     int altsWaiting; // The number of robots I'm waiting to hear alternatives from.
 
@@ -46,12 +48,23 @@ private:
     Dstar dstar;
     void markColumnNontraversable(int rowStart, int rowEnd, int col);
     void markRowNontraversable(int row, int colStart, int colEnd);
+    void setupWalls();
 
     VrepPioneerDriver* driver;
     std::shared_ptr<Grid4C> grid;
 
     ros::Publisher participatingPublisher; // Publishes a bool indicating whether or not I should be coordinated with.
     // Format: std_msgs::Bool
+
+    ros::Publisher matchingResultPublisher; // Publishes info about the matching I found.
+    // Format: geometry_msgs::Point32
+
+    ros::Publisher fullMatchingPublisher; // Publishes my full matching, if it's the one we've decided to use.
+	/* Format: geometry_msgs::Polygon
+	*  Each point: 	x = where robot N should go next (x coordinate)
+	* 		y = where robot N should go next (y coordinate)
+	*		z = N
+	*/
 
     void enableCoordination();
     void disableCoordination();
@@ -66,23 +79,27 @@ private:
      */
     vector<message_filters::Subscriber<geometry_msgs::Polygon>*> locationSubscribers;
     vector<message_filters::Subscriber<geometry_msgs::Polygon>*> altSubscribers;
+    vector<message_filters::Subscriber<geometry_msgs::Point32>*> matchingSubscribers;
     //vector<ros::Subscriber> locationSubscribers;
     //vector<ros::Subscriber> altSubscribers;
 
     void waitForAllAlternatives();
 
+    void waitForAllMatchings();
+
     list<state> myAlternative1, myAlternative2; // My alternative paths (entire paths).
     Alternative robotAlternatives[ROBOT_COUNT][2]; // Holds two alternatives for each robot.
-    // Let's say that a value of Alternative{0, -1} indicates we're waiting on that robot's alternatives.
+
+    Matching robotMatchings[ROBOT_COUNT]; // Holds the matching results (just ID, cardinality, weight) from each robot.
 
     ros::NodeHandle* nh;
     void registerCallbacks(const char* baseName, int robotCount);
     void locationCallback(const geometry_msgs::Polygon& msg);
     void alternativeCallback(const geometry_msgs::Polygon& msg);
+    void matchingCallback(const geometry_msgs::Point32& msg);
 
     std::mutex robotLocations_mutex;
-    //std::map<int, Point3D> robotLocations; // Associative array indicating the the robot locations we know about.
-    Point3D robotLocations[ROBOT_COUNT]; // Locations of robots we know about.
+    Point3D robotLocations[ROBOT_COUNT]; // Locations of robots we know about, indexed by ID.
 
     /** Called when a we're informed a robot's location has changed.
      *
@@ -92,7 +109,7 @@ private:
 
     void findAlternatePaths();
 
-    void setupWalls();
+    void transmitMatchingResult();
 
     std::string baseName;
     // This will be used to get the name of other robots we're coordinating with.
@@ -123,6 +140,8 @@ public:
         baseName = robotBaseName;
 
         currentState = NOT_STARTED;
+
+        myMatching = new Matching(driver->getID());
     }
 
     // Drives along a list of grid points until interrupted.

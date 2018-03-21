@@ -6,6 +6,10 @@
 
 #IncludeRegexTransform: 
 
+../src/bipartite-matching-dutta/bipartite-matching-dutta/Header.h
+stdio.h
+-
+
 ../src/dstar-lite/Dstar.h
 math.h
 -
@@ -51,6 +55,8 @@ Alternative.h
 ../src/include/Alternative.h
 vector
 -
+Matching.h
+../src/include/Matching.h
 
 ../src/include/Countdown.h
 mutex
@@ -66,6 +72,12 @@ Point3D.h
 PointD3D.h
 ../src/include/PointD3D.h
 list
+-
+
+../src/include/Matching.h
+map
+-
+Alternative.h
 -
 
 ../src/include/Point3D.h
@@ -143,6 +155,8 @@ message_filters/subscriber.h
 /home/student/catkin_ws/src/pathdriver/src/message_filters/subscriber.h
 std_msgs/Bool.h
 /home/student/catkin_ws/src/pathdriver/src/std_msgs/Bool.h
+Header.h
+/home/student/catkin_ws/src/pathdriver/src/Header.h
 
 /home/student/catkin_ws/src/pathdriver/src/Grid4C.cpp
 Grid4C.h
@@ -153,6 +167,10 @@ list
 -
 cmath
 -
+
+/home/student/catkin_ws/src/pathdriver/src/Matching.cpp
+Matching.h
+/home/student/catkin_ws/src/pathdriver/src/Matching.h
 
 /home/student/catkin_ws/src/pathdriver/src/Point3D.cpp
 include/Point3D.h
@@ -201,6 +219,26 @@ regex
 -
 message_filters/subscriber.h
 /home/student/catkin_ws/src/pathdriver/src/message_filters/subscriber.h
+
+/home/student/catkin_ws/src/pathdriver/src/bipartite-matching-dutta/bipartite-matching-dutta/Header.h
+stdio.h
+-
+
+/home/student/catkin_ws/src/pathdriver/src/bipartite-matching-dutta/bipartite-matching-dutta/hetero_working.cpp
+Header.h
+/home/student/catkin_ws/src/pathdriver/src/bipartite-matching-dutta/bipartite-matching-dutta/Header.h
+stdio.h
+-
+math.h
+-
+iostream
+-
+sstream
+-
+algorithm
+-
+vector
+-
 
 /home/student/catkin_ws/src/pathdriver/src/dstar-lite/Dstar.cpp
 Dstar.h

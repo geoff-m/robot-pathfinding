@@ -142,7 +142,7 @@ add_executable(pathdriver src/main.cpp
         src/VrepPioneerDriver.cpp
         src/dstar-lite/Dstar.cpp
         src/BMController.cpp src/Alternative.cpp src/include/Alternative.h
-        src/bipartite-matching-dutta/bipartite-matching-dutta/hetero_working.cpp)
+        src/bipartite-matching-dutta/bipartite-matching-dutta/hetero_working.cpp src/Matching.cpp src/include/Matching.h)
 
 
 ## Rename C++ executable without prefix
