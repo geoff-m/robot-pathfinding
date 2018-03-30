@@ -1,36 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true" buildAllGenerated="true">
-    <generated>
-      <config projectName="pathdriver" targetName="std_msgs_generate_messages_py" />
-      <config projectName="pathdriver" targetName="roscpp_generate_messages_nodejs" />
-      <config projectName="pathdriver" targetName="rosgraph_msgs_generate_messages_cpp" />
-      <config projectName="pathdriver" targetName="geometry_msgs_generate_messages_eus" />
-      <config projectName="pathdriver" targetName="rosgraph_msgs_generate_messages_nodejs" />
-      <config projectName="pathdriver" targetName="tests" />
-      <config projectName="pathdriver" targetName="geometry_msgs_generate_messages_nodejs" />
-      <config projectName="pathdriver" targetName="download_extra_data" />
-      <config projectName="pathdriver" targetName="run_tests" />
-      <config projectName="pathdriver" targetName="gtest_main" />
-      <config projectName="pathdriver" targetName="geometry_msgs_generate_messages_py" />
-      <config projectName="pathdriver" targetName="doxygen" />
-      <config projectName="pathdriver" targetName="std_msgs_generate_messages_lisp" />
-      <config projectName="pathdriver" targetName="roscpp_generate_messages_eus" />
-      <config projectName="pathdriver" targetName="std_msgs_generate_messages_cpp" />
-      <config projectName="pathdriver" targetName="geometry_msgs_generate_messages_lisp" />
-      <config projectName="pathdriver" targetName="roscpp_generate_messages_lisp" />
-      <config projectName="pathdriver" targetName="roscpp_generate_messages_py" />
-      <config projectName="pathdriver" targetName="clean_test_results" />
-      <config projectName="pathdriver" targetName="std_msgs_generate_messages_nodejs" />
-      <config projectName="pathdriver" targetName="rosgraph_msgs_generate_messages_eus" />
-      <config projectName="pathdriver" targetName="pathdriver" />
-      <config projectName="pathdriver" targetName="geometry_msgs_generate_messages_cpp" />
-      <config projectName="pathdriver" targetName="rosgraph_msgs_generate_messages_lisp" />
-      <config projectName="pathdriver" targetName="rosgraph_msgs_generate_messages_py" />
-      <config projectName="pathdriver" targetName="gtest" />
-      <config projectName="pathdriver" targetName="roscpp_generate_messages_cpp" />
-      <config projectName="pathdriver" targetName="std_msgs_generate_messages_eus" />
-    </generated>
+    <generated />
   </component>
   <component name="CMakeSettings">
     <configurations>
@@ -38,29 +9,22 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="786d234f-2f93-4f16-8229-484413794d8d" name="Default" comment="Robot motion control is now synchronized between main thread and ROS callbacks.">
+    <list default="true" id="786d234f-2f93-4f16-8229-484413794d8d" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" afterPath="$PROJECT_DIR$/CMakeLists.txt" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pathdriver.dir/DependInfo.cmake" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pathdriver.dir/DependInfo.cmake" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pathdriver.dir/build.make" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pathdriver.dir/build.make" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pathdriver.dir/cmake_clean.cmake" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pathdriver.dir/cmake_clean.cmake" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pathdriver.dir/flags.make" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pathdriver.dir/flags.make" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pathdriver.dir/link.txt" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pathdriver.dir/link.txt" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pathdriver.dir/progress.make" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pathdriver.dir/progress.make" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pathdriver.dir/src/BMController.cpp.o" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pathdriver.dir/src/main.cpp.o" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pathdriver.dir/src/main.cpp.o" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Makefile" afterPath="$PROJECT_DIR$/cmake-build-debug/Makefile" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/devel/lib/pathdriver/pathdriver" afterPath="$PROJECT_DIR$/cmake-build-debug/devel/lib/pathdriver/pathdriver" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/pathdriver.cbp" afterPath="$PROJECT_DIR$/cmake-build-debug/pathdriver.cbp" />
-      <change beforePath="$PROJECT_DIR$/src/BMController.cpp" afterPath="$PROJECT_DIR$/src/BMController.cpp" />
-      <change beforePath="$PROJECT_DIR$/src/VrepPioneerDriver.cpp" afterPath="$PROJECT_DIR$/src/VrepPioneerDriver.cpp" />
-      <change beforePath="$PROJECT_DIR$/src/bipartite-matching-dutta/bipartite-matching-dutta/hetero_working.cpp" afterPath="$PROJECT_DIR$/src/bipartite-matching-dutta/bipartite-matching-dutta/hetero_working.cpp" />
-      <change beforePath="$PROJECT_DIR$/src/include/BMController.h" afterPath="$PROJECT_DIR$/src/include/BMController.h" />
-      <change beforePath="$PROJECT_DIR$/src/main.cpp" afterPath="$PROJECT_DIR$/src/main.cpp" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.9.6/CMakeCCompiler.cmake" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.9.6/CMakeCCompiler.cmake" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.9.6/CMakeCXXCompiler.cmake" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.9.6/CMakeCXXCompiler.cmake" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.9.6/CMakeDetermineCompilerABI_C.bin" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.9.6/CMakeDetermineCompilerABI_C.bin" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.9.6/CMakeDetermineCompilerABI_CXX.bin" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.9.6/CMakeDetermineCompilerABI_CXX.bin" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.9.6/CMakeSystem.cmake" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.9.6/CMakeSystem.cmake" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.9.6/CompilerIdC/a.out" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.9.6/CompilerIdC/a.out" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.9.6/CompilerIdCXX/a.out" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.9.6/CompilerIdCXX/a.out" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/feature_tests.bin" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/feature_tests.bin" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
+    <ignored path="/usr/src/gtest/CMakeFiles/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -68,36 +32,15 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="DockManager">
-    <window id="1">
-      <content type="file-editors">
-        <state>
-          <leaf>
-            <file leaf-file-name="matching structure" pinned="false" current-in-tab="true">
-              <entry file="file://$PROJECT_DIR$/matching structure">
-                <provider selected="true" editor-type-id="text-editor">
-                  <state relative-caret-position="108">
-                    <caret line="6" column="26" lean-forward="false" selection-start-line="6" selection-start-column="26" selection-end-line="6" selection-end-column="26" />
-                    <folding />
-                  </state>
-                </provider>
-              </entry>
-            </file>
-          </leaf>
-        </state>
-      </content>
-    </window>
-  </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file leaf-file-name="main.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1290">
+            <state relative-caret-position="1314">
               <caret line="73" column="20" lean-forward="false" selection-start-line="73" selection-start-column="20" selection-end-line="73" selection-end-column="20" />
               <folding>
-                <element signature="e#42#59#0" expanded="true" />
+                <element signature="e#42#59#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -109,24 +52,23 @@
             <state relative-caret-position="198">
               <caret line="11" column="21" lean-forward="false" selection-start-line="11" selection-start-column="21" selection-end-line="11" selection-end-column="21" />
               <folding>
-                <element signature="e#107#136#0" expanded="true" />
+                <element signature="e#107#136#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BMController.cpp" pinned="false" current-in-tab="false">
+      <file leaf-file-name="BMController.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/BMController.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="191">
-              <caret line="161" column="22" lean-forward="true" selection-start-line="161" selection-start-column="22" selection-end-line="161" selection-end-column="22" />
+            <state relative-caret-position="376">
+              <caret line="428" column="44" lean-forward="true" selection-start-line="428" selection-start-column="44" selection-end-line="428" selection-end-column="44" />
               <folding>
-                <element signature="e#78#103#0" expanded="true" />
-                <element signature="e#4564#4845#0" expanded="false" />
-                <element signature="e#4895#5096#0" expanded="false" />
-                <element signature="e#14810#14939#0" expanded="false" />
-                <element signature="e#14941#15072#0" expanded="false" />
-                <element signature="e#24165#24777#0" expanded="false" />
+                <element signature="e#5227#5508#0" expanded="false" />
+                <element signature="e#5558#5759#0" expanded="false" />
+                <element signature="e#20114#20243#0" expanded="false" />
+                <element signature="e#20245#20376#0" expanded="false" />
+                <element signature="e#31048#31660#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -135,11 +77,9 @@
       <file leaf-file-name="BMController.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/include/BMController.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1128">
-              <caret line="118" column="26" lean-forward="false" selection-start-line="118" selection-start-column="26" selection-end-line="118" selection-end-column="26" />
-              <folding>
-                <element signature="e#197#234#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="2430">
+              <caret line="135" column="26" lean-forward="false" selection-start-line="135" selection-start-column="26" selection-end-line="135" selection-end-column="26" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -164,11 +104,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="VrepPioneerDriver.cpp" pinned="false" current-in-tab="true">
+      <file leaf-file-name="VrepPioneerDriver.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/VrepPioneerDriver.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="173">
-              <caret line="160" column="20" lean-forward="true" selection-start-line="160" selection-start-column="20" selection-end-line="160" selection-end-column="20" />
+            <state relative-caret-position="3330">
+              <caret line="185" column="63" lean-forward="false" selection-start-line="185" selection-start-column="63" selection-end-line="185" selection-end-column="63" />
               <folding>
                 <element signature="e#6020#6270#0" expanded="false" />
               </folding>
@@ -181,9 +121,7 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="828">
               <caret line="46" column="12" lean-forward="false" selection-start-line="46" selection-start-column="12" selection-end-line="46" selection-end-column="12" />
-              <folding>
-                <element signature="e#132#149#0" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -276,17 +214,23 @@
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/src/bipartite-matching-dutta/bipartite-matching-dutta/hetero_working.cpp" />
         <option value="$PROJECT_DIR$/src/main.cpp" />
-        <option value="$PROJECT_DIR$/src/BMController.cpp" />
         <option value="$PROJECT_DIR$/src/VrepPioneerDriver.cpp" />
+        <option value="$PROJECT_DIR$/src/BMController.cpp" />
       </list>
     </option>
   </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
   <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="1531" />
+    <option name="x" value="110" />
     <option name="y" value="24" />
-    <option name="width" value="1209" />
-    <option name="height" value="948" />
+    <option name="width" value="928" />
+    <option name="height" value="951" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -327,125 +271,10 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Build All">
+  <component name="RunManager">
     <configuration name="Build All" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="pathdriver" RUN_TARGET_NAME="pathdriver" EXPLICIT_BUILD_TARGET_NAME="all">
       <envs />
     </configuration>
-    <configuration name="clean_test_results" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="pathdriver" TARGET_NAME="clean_test_results" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="pathdriver" RUN_TARGET_NAME="pathdriver">
-      <envs />
-    </configuration>
-    <configuration name="download_extra_data" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="pathdriver" TARGET_NAME="download_extra_data" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="pathdriver" RUN_TARGET_NAME="pathdriver">
-      <envs />
-    </configuration>
-    <configuration name="doxygen" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="pathdriver" TARGET_NAME="doxygen" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="pathdriver" RUN_TARGET_NAME="pathdriver">
-      <envs />
-    </configuration>
-    <configuration name="geometry_msgs_generate_messages_cpp" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="pathdriver" TARGET_NAME="geometry_msgs_generate_messages_cpp" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="pathdriver" RUN_TARGET_NAME="pathdriver">
-      <envs />
-    </configuration>
-    <configuration name="geometry_msgs_generate_messages_eus" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="pathdriver" TARGET_NAME="geometry_msgs_generate_messages_eus" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="pathdriver" RUN_TARGET_NAME="pathdriver">
-      <envs />
-    </configuration>
-    <configuration name="geometry_msgs_generate_messages_lisp" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="pathdriver" TARGET_NAME="geometry_msgs_generate_messages_lisp" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="pathdriver" RUN_TARGET_NAME="pathdriver">
-      <envs />
-    </configuration>
-    <configuration name="geometry_msgs_generate_messages_nodejs" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="pathdriver" TARGET_NAME="geometry_msgs_generate_messages_nodejs" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="pathdriver" RUN_TARGET_NAME="pathdriver">
-      <envs />
-    </configuration>
-    <configuration name="geometry_msgs_generate_messages_py" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="pathdriver" TARGET_NAME="geometry_msgs_generate_messages_py" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="pathdriver" RUN_TARGET_NAME="pathdriver">
-      <envs />
-    </configuration>
-    <configuration name="gtest" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="pathdriver" TARGET_NAME="gtest" CONFIG_NAME="Debug">
-      <envs />
-    </configuration>
-    <configuration name="gtest_main" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="pathdriver" TARGET_NAME="gtest_main" CONFIG_NAME="Debug">
-      <envs />
-    </configuration>
-    <configuration name="pathdriver" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="pathdriver" TARGET_NAME="pathdriver" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="pathdriver" RUN_TARGET_NAME="pathdriver">
-      <envs />
-    </configuration>
-    <configuration name="roscpp_generate_messages_cpp" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="pathdriver" TARGET_NAME="roscpp_generate_messages_cpp" CONFIG_NAME="Debug">
-      <envs />
-    </configuration>
-    <configuration name="roscpp_generate_messages_eus" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="pathdriver" TARGET_NAME="roscpp_generate_messages_eus" CONFIG_NAME="Debug">
-      <envs />
-    </configuration>
-    <configuration name="roscpp_generate_messages_lisp" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="pathdriver" TARGET_NAME="roscpp_generate_messages_lisp" CONFIG_NAME="Debug">
-      <envs />
-    </configuration>
-    <configuration name="roscpp_generate_messages_nodejs" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="pathdriver" TARGET_NAME="roscpp_generate_messages_nodejs" CONFIG_NAME="Debug">
-      <envs />
-    </configuration>
-    <configuration name="roscpp_generate_messages_py" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="pathdriver" TARGET_NAME="roscpp_generate_messages_py" CONFIG_NAME="Debug">
-      <envs />
-    </configuration>
-    <configuration name="rosgraph_msgs_generate_messages_cpp" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="pathdriver" TARGET_NAME="rosgraph_msgs_generate_messages_cpp" CONFIG_NAME="Debug">
-      <envs />
-    </configuration>
-    <configuration name="rosgraph_msgs_generate_messages_eus" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="pathdriver" TARGET_NAME="rosgraph_msgs_generate_messages_eus" CONFIG_NAME="Debug">
-      <envs />
-    </configuration>
-    <configuration name="rosgraph_msgs_generate_messages_lisp" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="pathdriver" TARGET_NAME="rosgraph_msgs_generate_messages_lisp" CONFIG_NAME="Debug">
-      <envs />
-    </configuration>
-    <configuration name="rosgraph_msgs_generate_messages_nodejs" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="pathdriver" TARGET_NAME="rosgraph_msgs_generate_messages_nodejs" CONFIG_NAME="Debug">
-      <envs />
-    </configuration>
-    <configuration name="rosgraph_msgs_generate_messages_py" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="pathdriver" TARGET_NAME="rosgraph_msgs_generate_messages_py" CONFIG_NAME="Debug">
-      <envs />
-    </configuration>
-    <configuration name="run_tests" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="pathdriver" TARGET_NAME="run_tests" CONFIG_NAME="Debug">
-      <envs />
-    </configuration>
-    <configuration name="std_msgs_generate_messages_cpp" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="pathdriver" TARGET_NAME="std_msgs_generate_messages_cpp" CONFIG_NAME="Debug">
-      <envs />
-    </configuration>
-    <configuration name="std_msgs_generate_messages_eus" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="pathdriver" TARGET_NAME="std_msgs_generate_messages_eus" CONFIG_NAME="Debug">
-      <envs />
-    </configuration>
-    <configuration name="std_msgs_generate_messages_lisp" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="pathdriver" TARGET_NAME="std_msgs_generate_messages_lisp" CONFIG_NAME="Debug">
-      <envs />
-    </configuration>
-    <configuration name="std_msgs_generate_messages_nodejs" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="pathdriver" TARGET_NAME="std_msgs_generate_messages_nodejs" CONFIG_NAME="Debug">
-      <envs />
-    </configuration>
-    <configuration name="std_msgs_generate_messages_py" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="pathdriver" TARGET_NAME="std_msgs_generate_messages_py" CONFIG_NAME="Debug">
-      <envs />
-    </configuration>
-    <configuration name="tests" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="pathdriver" TARGET_NAME="tests" CONFIG_NAME="Debug">
-      <envs />
-    </configuration>
-    <list size="29">
-      <item index="0" class="java.lang.String" itemvalue="Application.Build All" />
-      <item index="1" class="java.lang.String" itemvalue="Application.clean_test_results" />
-      <item index="2" class="java.lang.String" itemvalue="Application.download_extra_data" />
-      <item index="3" class="java.lang.String" itemvalue="Application.doxygen" />
-      <item index="4" class="java.lang.String" itemvalue="Application.geometry_msgs_generate_messages_cpp" />
-      <item index="5" class="java.lang.String" itemvalue="Application.geometry_msgs_generate_messages_eus" />
-      <item index="6" class="java.lang.String" itemvalue="Application.geometry_msgs_generate_messages_lisp" />
-      <item index="7" class="java.lang.String" itemvalue="Application.geometry_msgs_generate_messages_nodejs" />
-      <item index="8" class="java.lang.String" itemvalue="Application.geometry_msgs_generate_messages_py" />
-      <item index="9" class="java.lang.String" itemvalue="Application.pathdriver" />
-      <item index="10" class="java.lang.String" itemvalue="Application.roscpp_generate_messages_cpp" />
-      <item index="11" class="java.lang.String" itemvalue="Application.roscpp_generate_messages_eus" />
-      <item index="12" class="java.lang.String" itemvalue="Application.roscpp_generate_messages_lisp" />
-      <item index="13" class="java.lang.String" itemvalue="Application.roscpp_generate_messages_nodejs" />
-      <item index="14" class="java.lang.String" itemvalue="Application.roscpp_generate_messages_py" />
-      <item index="15" class="java.lang.String" itemvalue="Application.rosgraph_msgs_generate_messages_cpp" />
-      <item index="16" class="java.lang.String" itemvalue="Application.rosgraph_msgs_generate_messages_eus" />
-      <item index="17" class="java.lang.String" itemvalue="Application.rosgraph_msgs_generate_messages_lisp" />
-      <item index="18" class="java.lang.String" itemvalue="Application.rosgraph_msgs_generate_messages_nodejs" />
-      <item index="19" class="java.lang.String" itemvalue="Application.rosgraph_msgs_generate_messages_py" />
-      <item index="20" class="java.lang.String" itemvalue="Application.run_tests" />
-      <item index="21" class="java.lang.String" itemvalue="Application.std_msgs_generate_messages_cpp" />
-      <item index="22" class="java.lang.String" itemvalue="Application.std_msgs_generate_messages_eus" />
-      <item index="23" class="java.lang.String" itemvalue="Application.std_msgs_generate_messages_lisp" />
-      <item index="24" class="java.lang.String" itemvalue="Application.std_msgs_generate_messages_nodejs" />
-      <item index="25" class="java.lang.String" itemvalue="Application.std_msgs_generate_messages_py" />
-      <item index="26" class="java.lang.String" itemvalue="Application.tests" />
-      <item index="27" class="java.lang.String" itemvalue="Application.gtest" />
-      <item index="28" class="java.lang.String" itemvalue="Application.gtest_main" />
-    </list>
   </component>
   <component name="ShelveChangesManager" show_recycled="false">
     <option name="remove_strategy" value="false" />
@@ -501,6 +330,10 @@
       <workItem from="1520616464441" duration="23000" />
       <workItem from="1520616520425" duration="480000" />
       <workItem from="1520617307126" duration="11950000" />
+      <workItem from="1521861531039" duration="15000" />
+      <workItem from="1522205910897" duration="2726000" />
+      <workItem from="1522393983567" duration="122000" />
+      <workItem from="1522424777681" duration="33000" />
     </task>
     <task id="LOCAL-00001" summary="Changed Point3D and PointD3D to classes, and added the empty ones.">
       <created>1517279647602</created>
@@ -537,33 +370,40 @@
       <option name="project" value="LOCAL" />
       <updated>1519075193775</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Robot motion control is now synchronized between main thread and ROS callbacks.">
+      <created>1522424808108</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1522424808108</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="225636000" />
+    <option name="totallyTimeSpent" value="228532000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1531" y="24" width="1282" height="1036" extended-state="6" />
+    <frame x="110" y="24" width="1857" height="987" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2140625" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27252504" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32814237" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3161512" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32814237" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32814237" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2925473" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2925473" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27252504" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32814237" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
     </layout>
@@ -588,6 +428,9 @@
       <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2925473" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
@@ -646,41 +489,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///opt/ros/kinetic/include/ros/common.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-562">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///opt/ros/kinetic/include/ros/advertise_options.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-597">
-          <caret line="40" column="19" lean-forward="false" selection-start-line="40" selection-start-column="19" selection-end-line="40" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///opt/ros/kinetic/include/ros/ros.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="388">
-          <caret line="44" column="0" lean-forward="false" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///opt/ros/kinetic/include/geometry_msgs/Point32.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="213">
-          <caret line="56" column="57" lean-forward="false" selection-start-line="56" selection-start-column="57" selection-end-line="56" selection-end-column="57" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///opt/ros/kinetic/include/ros/node_handle.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="123">
-          <caret line="213" column="7" lean-forward="true" selection-start-line="213" selection-start-column="7" selection-end-line="213" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file:///opt/ros/kinetic/include/ros/common.h" />
+    <entry file="file:///opt/ros/kinetic/include/ros/advertise_options.h" />
+    <entry file="file:///opt/ros/kinetic/include/ros/ros.h" />
+    <entry file="file:///opt/ros/kinetic/include/geometry_msgs/Point32.h" />
+    <entry file="file:///opt/ros/kinetic/include/ros/node_handle.h" />
     <entry file="file://$PROJECT_DIR$/package.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-36">
@@ -688,20 +501,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///opt/ros/kinetic/include/message_filters/subscriber.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="213">
-          <caret line="94" column="6" lean-forward="false" selection-start-line="94" selection-start-column="6" selection-end-line="94" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///opt/ros/kinetic/include/message_filters/simple_filter.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="213">
-          <caret line="59" column="6" lean-forward="false" selection-start-line="59" selection-start-column="6" selection-end-line="59" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file:///opt/ros/kinetic/include/message_filters/subscriber.h" />
+    <entry file="file:///opt/ros/kinetic/include/message_filters/simple_filter.h" />
     <entry file="file:///usr/include/boost/function/function_template.hpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="207">
@@ -716,13 +517,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///opt/ros/kinetic/include/ros/serialization.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="847" column="0" lean-forward="false" selection-start-line="847" selection-start-column="0" selection-end-line="847" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file:///opt/ros/kinetic/include/ros/serialization.h" />
     <entry file="file:///usr/include/c++/5/bits/shared_ptr_base.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="414">
@@ -781,20 +576,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/PointD3D.h" />
     <entry file="file://$PROJECT_DIR$/src/main.h" />
-    <entry file="file:///opt/ros/kinetic/include/ros/publisher.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="117" column="0" lean-forward="false" selection-start-line="117" selection-start-column="0" selection-end-line="117" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///opt/ros/kinetic/include/ros/topic.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="107" column="0" lean-forward="false" selection-start-line="107" selection-start-column="0" selection-end-line="107" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file:///opt/ros/kinetic/include/ros/publisher.h" />
+    <entry file="file:///opt/ros/kinetic/include/ros/topic.h" />
     <entry file="file:///usr/include/c++/5/thread">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="207">
@@ -860,49 +643,54 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/include/VrepPioneerDriver.h">
+    <entry file="file://$PROJECT_DIR$/src/include/Countdown.h" />
+    <entry file="file://$PROJECT_DIR$/src/bipartite-matching-dutta/bipartite-matching-dutta/hetero_working.cpp" />
+    <entry file="file:///usr/include/x86_64-linux-gnu/c++/5/bits/gthr-default.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="828">
-          <caret line="46" column="12" lean-forward="false" selection-start-line="46" selection-start-column="12" selection-end-line="46" selection-end-column="12" />
-          <folding>
-            <element signature="e#132#149#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="202">
+          <caret line="747" column="0" lean-forward="false" selection-start-line="747" selection-start-column="0" selection-end-line="747" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/include/Countdown.h">
+    <entry file="file:///usr/include/c++/5/mutex">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="25" column="36" lean-forward="false" selection-start-line="25" selection-start-column="36" selection-end-line="25" selection-end-column="36" />
-          <folding>
-            <element signature="e#117#133#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="17" column="57" lean-forward="false" selection-start-line="17" selection-start-column="57" selection-end-line="17" selection-end-column="57" />
-          <folding />
+        <state relative-caret-position="202">
+          <caret line="385" column="0" lean-forward="false" selection-start-line="385" selection-start-column="0" selection-end-line="385" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/matching structure">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="6" column="26" lean-forward="false" selection-start-line="6" selection-start-column="26" selection-end-line="6" selection-end-column="26" />
-          <folding />
+        <state relative-caret-position="568">
+          <caret line="36" column="0" lean-forward="false" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/bipartite-matching-dutta/bipartite-matching-dutta/hetero_working.cpp">
+    <entry file="file://$PROJECT_DIR$/src/main.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="866">
-          <caret line="194" column="49" lean-forward="true" selection-start-line="194" selection-start-column="49" selection-end-line="194" selection-end-column="49" />
+        <state relative-caret-position="1314">
+          <caret line="73" column="20" lean-forward="false" selection-start-line="73" selection-start-column="20" selection-end-line="73" selection-end-column="20" />
           <folding>
-            <element signature="e#0#19#0" expanded="false" />
+            <element signature="e#42#59#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/include/main.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="11" column="21" lean-forward="false" selection-start-line="11" selection-start-column="21" selection-end-line="11" selection-end-column="21" />
+          <folding>
+            <element signature="e#107#136#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/include/BMController.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2430">
+          <caret line="135" column="26" lean-forward="false" selection-start-line="135" selection-start-column="26" selection-end-line="135" selection-end-column="26" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -914,73 +702,42 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/include/main.h">
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="11" column="21" lean-forward="false" selection-start-line="11" selection-start-column="21" selection-end-line="11" selection-end-column="21" />
-          <folding>
-            <element signature="e#107#136#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1290">
-          <caret line="73" column="20" lean-forward="false" selection-start-line="73" selection-start-column="20" selection-end-line="73" selection-end-column="20" />
-          <folding>
-            <element signature="e#42#59#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/include/x86_64-linux-gnu/c++/5/bits/gthr-default.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="202">
-          <caret line="747" column="0" lean-forward="false" selection-start-line="747" selection-start-column="0" selection-end-line="747" selection-end-column="0" />
+        <state relative-caret-position="306">
+          <caret line="17" column="57" lean-forward="false" selection-start-line="17" selection-start-column="57" selection-end-line="17" selection-end-column="57" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/include/c++/5/mutex">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="202">
-          <caret line="385" column="0" lean-forward="false" selection-start-line="385" selection-start-column="0" selection-end-line="385" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/include/BMController.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1128">
-          <caret line="118" column="26" lean-forward="false" selection-start-line="118" selection-start-column="26" selection-end-line="118" selection-end-column="26" />
-          <folding>
-            <element signature="e#197#234#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/BMController.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="191">
-          <caret line="161" column="22" lean-forward="true" selection-start-line="161" selection-start-column="22" selection-end-line="161" selection-end-column="22" />
-          <folding>
-            <element signature="e#78#103#0" expanded="true" />
-            <element signature="e#4564#4845#0" expanded="false" />
-            <element signature="e#4895#5096#0" expanded="false" />
-            <element signature="e#14810#14939#0" expanded="false" />
-            <element signature="e#14941#15072#0" expanded="false" />
-            <element signature="e#24165#24777#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/VrepPioneerDriver.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="173">
-          <caret line="160" column="20" lean-forward="true" selection-start-line="160" selection-start-column="20" selection-end-line="160" selection-end-column="20" />
+        <state relative-caret-position="3330">
+          <caret line="185" column="63" lean-forward="false" selection-start-line="185" selection-start-column="63" selection-end-line="185" selection-end-column="63" />
           <folding>
             <element signature="e#6020#6270#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/include/VrepPioneerDriver.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="828">
+          <caret line="46" column="12" lean-forward="false" selection-start-line="46" selection-start-column="12" selection-end-line="46" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/BMController.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="376">
+          <caret line="428" column="44" lean-forward="true" selection-start-line="428" selection-start-column="44" selection-end-line="428" selection-end-column="44" />
+          <folding>
+            <element signature="e#5227#5508#0" expanded="false" />
+            <element signature="e#5558#5759#0" expanded="false" />
+            <element signature="e#20114#20243#0" expanded="false" />
+            <element signature="e#20245#20376#0" expanded="false" />
+            <element signature="e#31048#31660#0" expanded="false" />
           </folding>
         </state>
       </provider>

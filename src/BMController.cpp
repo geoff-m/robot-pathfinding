@@ -242,7 +242,7 @@ void BMController::robotLocationChanged(int id)
 
                     coordinatingWith.emplace_back(i);
                 } else {
-                    printf("We will not coordinate with robot %d because it is inactive.\n", i);
+                    printf("Robot %d: I will not coordinate with robot %d because it is inactive.\n", myID, i);
 
                     // todo: mark other robot's location as impassable with D* and replan.
                     dstar.updateCell(robotLocations[i].getX(), robotLocations[i].getY(), NONTRAVERSABLE_COST);
@@ -360,7 +360,7 @@ void BMController::setState(State newState)
 
                     waitForAllMatchings();
 
-                    // todo: Decide if my matching is the best by the priority-ordered criteria:
+                    // Decide if my matching is the best by the priority-ordered criteria:
                         // 1. involving the most robots (the "maximum matching") (max on cardinality)
                         // 2. having the lowest weight
                         // 3. originating from the robot with lowest ID number.
