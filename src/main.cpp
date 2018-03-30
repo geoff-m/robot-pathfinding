@@ -87,12 +87,13 @@ int main(int argc, char *argv[]) {
 
 
     controllers[0]->navigateTo(1, 6);
-    controllers[1]->navigateTo(1, 4);
+    controllers[1]->navigateTo(1, 0);
 
 
+    std::cout << "Main: Waiting for robots to finish...\n";
     activeWorkers->wait();
 
-    std::cout << "Exiting pathdriver application." << endl;
+    std::cout << "Exiting pathdriver application.\n";
     spinner.stop();
     std::this_thread::sleep_for(std::chrono::seconds(1));
     // We must destroy all controllers, and then all drivers, to avoid crash on exit.

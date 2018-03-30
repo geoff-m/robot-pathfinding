@@ -50,6 +50,13 @@ bool Point3D::operator ==(const Point3D other) const
     return (x == other.x) && (y == other.y) && (z == other.z);
 }
 
+bool Point3D::operator ==(const state other) const
+{
+    if (isEmpty)
+        return false;
+    return (x == other.x) && (y == other.y);
+}
+
 bool Point3D::operator !=(const Point3D other) const
 {
     return (x != other.x) || (y != other.y) || (z != other.z) || (isEmpty != other.isEmpty);

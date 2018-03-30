@@ -32,3 +32,13 @@ int Matching::getCost() const
 {
     return cost;
 }
+
+Point3D Matching::getPlaceFor(int robotID)
+{
+    return dict[robotID];
+}
+
+bool Matching::hasPlaceFor(int robotID)
+{
+    return dict.find(robotID) != dict.end();
+}

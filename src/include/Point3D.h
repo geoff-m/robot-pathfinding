@@ -6,6 +6,7 @@
 #define PATHDRIVER_POINT3D_H
 
 #include <ostream>
+#include "Dstar.h"
 
 class Point3D {
     bool isEmpty;
@@ -26,6 +27,9 @@ public:
     Point3D operator-(const Point3D other) const;
     bool operator ==(const Point3D other) const;
     bool operator !=(const Point3D other) const;
+
+    // Convenience method to compare to Dstar's "state" structure.
+    bool operator ==(const state other) const;
 
     bool isUninitialized() const;
 

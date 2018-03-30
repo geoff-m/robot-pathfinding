@@ -111,9 +111,17 @@ private:
 
     void transmitMatchingResult();
 
+    void transmitFullMatching();
+
+    Point3D awaitFullMatching(int sourceId);
+
+    list<Point3D> getPathFromFirstPoint(Point3D pt);
+
     std::string baseName;
     // This will be used to get the name of other robots we're coordinating with.
     // That is, it must be the same for all such robots.
+
+    std::thread* driveThread;
 
 public:
     BMController(VrepPioneerDriver* driver,

@@ -13,10 +13,9 @@ private:
     int id;
     int cardinality;
     int cost;
+    bool everSetCardinality = false;
 
     std::map<int, Point3D> dict;
-
-    bool everSetCardinality = false;
 
 public:
     Matching()

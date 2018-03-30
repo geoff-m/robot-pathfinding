@@ -9,6 +9,7 @@
 #include "message_filters/subscriber.h"
 #include "std_msgs/Bool.h"
 #include "Header.h" // from bipartite-matching-dutta
+#include <chrono>
 
 extern Countdown* activeWorkers;
 
@@ -153,9 +154,20 @@ void BMController::navigateTo(int row, int col)
     list<state> path = dstar.getPath();
     list<Point3D> waypoints = fromState(path);
 
+    // Stop current driving activity, if any.
+    driver->disableMovement();
+    if (driveThread != nullptr)
+        driveThread->join();
+
     // Begin following this path.
-    driveAlong(waypoints);
-    std::printf("Robot %d:\tNo longer following initially planned path.\n", myID);
+    driver->enableMovement();
+
+    //driveThread = new std::thread(this->driveAlong, waypoints); // this doesn't compile.
+    driveThread = new std::thread(std::bind(&BMController::driveAlong, this, waypoints));
+
+    //driveAlong(waypoints); // old synchronous version
+
+    //std::printf("Robot %d:\tNo longer following initially planned path.\n", myID);
 }
 
 // Drives along a list of grid points until interrupted.
@@ -208,7 +220,7 @@ void BMController::robotLocationChanged(int id)
     if (id == myID)
     {
         // Update my own position.
-        myGridLoc = grid.get()->getGridPoint(*driver->myLoc.get());
+        myGridLoc = grid.get()->getGridPoint(*driver->myLoc); // was *driver->myLoc.get()
         robotLocations[myID] = myGridLoc;
 
         std::printf("Robot %d:\tI'm now at (%d, %d).\n", myID, myGridLoc.getX(), myGridLoc.getY());
@@ -222,10 +234,10 @@ void BMController::robotLocationChanged(int id)
             // Check distance
             Point3D gridDifference = myGridLoc - robotLocations[i];
             double proximity = gridDifference.manhattanNorm();
-            std::printf("Robot %d:\tDistance between me and %d: %.1f\n", myID, i, proximity);
-            if (proximity < MINIMUM_SAFE_DISTANCE)
+            std::printf("Robot %d:\tI have moved to within %.1f of Robot %d.\n", myID, proximity, i);
+            if (proximity <= MINIMUM_SAFE_DISTANCE)
             {
-                std::printf("Robot %d:\tRobot %d is within %.0f grid units of me!\n", myID, i, proximity);
+                std::printf("Robot %d:\tRobot %d is within MSD! (%.0f units)\n", myID, i, proximity);
                 // React to nearby robot.
 
 
@@ -241,11 +253,13 @@ void BMController::robotLocationChanged(int id)
                     robotMatchings[i].setCost(-1);
 
                     coordinatingWith.emplace_back(i);
+                    std::printf("Robot %d:\tcoordinatingWith.size() has grown to %d \n", myID, (int)coordinatingWith.size());
                 } else {
-                    printf("Robot %d: I will not coordinate with robot %d because it is inactive.\n", myID, i);
+                    std::printf("Robot %d: I will not coordinate with robot %d because it is inactive.\n", myID, i);
 
-                    // todo: mark other robot's location as impassable with D* and replan.
+                    // Mark other robot's location as impassable with D*.
                     dstar.updateCell(robotLocations[i].getX(), robotLocations[i].getY(), NONTRAVERSABLE_COST);
+                    // Set flag to indicate we will have to replan.
                     goalIsolation = true;
                 }
                 // this special value Alternative(0, -1) indicates we're coordinating with that robot and haven't received its alt yet.
@@ -253,34 +267,65 @@ void BMController::robotLocationChanged(int id)
         }
         if (goalIsolation)
         {
+            // We marked some cells as nontraversable because of inactive robots.
+            // Now replan our path to avoid these cells.
+
+            // First stop current driving activity.
+            driver->disableMovement();
+            if (driveThread != nullptr)
+                driveThread->join();
+
             dstar.updateStart(myGridLoc.getX(), myGridLoc.getY());
             dstar.replan();
             list<state> path = dstar.getPath();
             list<Point3D> waypoints = fromState(path);
-            driveAlong(waypoints);
+
+            // Begin following the new path.
+            driver->enableMovement();
+            //driveThread = new std::thread(this->driveAlong, waypoints);
+            driveThread = new std::thread(std::bind(&BMController::driveAlong, this, waypoints));
         }
     } else {
         // Some non-self robot has moved. We must check its distance to us.
         myGridLoc = robotLocations[myID];
         Point3D gridDifference = myGridLoc - robotLocations[id];
         double proximity = gridDifference.manhattanNorm();
-        std::printf("Distance between me (%d) and %d: %.2f\n", myID, id, proximity);
+        std::printf("Robot %d:\tRobot %d has moved to within %.0f of me.\n", myID, id, proximity);
         if (proximity < MINIMUM_SAFE_DISTANCE)
         {
-            std::printf("Robot %d:\tRobot %d is within %.0f grid units of me!\n", myID, id, proximity);
-            startCoordinating = true;
+            std::printf("Robot %d:\tRobot %d is within MSD!\n", myID, id, proximity);
+            if (checkIsCoordinating(id)) // Don't coordinate with nearby robot if it's inactive.
+            {
+                startCoordinating = true;
+                robotAlternatives[id][0] = Alternative(Point3D(), -1);
+
+                robotMatchings[id] = Matching(id);
+                robotMatchings[id].setCost(-1);
+
+                coordinatingWith.emplace_back(id);
+                std::printf("Robot %d:\tcoordinatingWith.size() has grown to %d \n", myID, (int)coordinatingWith.size());
+            } else {
+                std::printf("Robot %d: I will not coordinate with robot %d because it is inactive.\n", myID, id);
+
+                // Mark other robot's location as impassable with D*.
+                dstar.updateCell(robotLocations[id].getX(), robotLocations[id].getY(), NONTRAVERSABLE_COST);
+                // Set flag to indicate we will have to replan.
+                goalIsolation = true;
+            }
         }
     }
     if (startCoordinating)
     {
         // React to nearby robot.
+        std::printf("Robot %d:\tI'm about to start coordinating with %d other robots.\n", myID, (int)coordinatingWith.size());
         setState(COORDINATING);
     }
 }
 
 void BMController::setState(State newState)
 {
-    printf("Robot %d:\t", driver->getID());
+    int myID = driver->getID();
+    printf("Robot %d:\t", myID);
     switch (currentState)
     {
         case NOT_STARTED:
@@ -324,7 +369,7 @@ void BMController::setState(State newState)
                 case REACHED_GOAL:
                     std::cout << "Changing state: Following Path --> Reached Goal\n";
                     // stop motors.
-                   driver->disableMovement();
+                    driver->disableMovement();
 
                     // Publish that we are not longer up for coordination.
                     disableCoordination();
@@ -346,9 +391,9 @@ void BMController::setState(State newState)
                     findAlternatePaths();
 
                     // Wait until I've received everyone else's alternatives.
-                    printf("Beginning to wait for alternatives.\n");
+                    printf("Robot %d:\tBeginning to wait for alternatives.\n", myID);
                     waitForAllAlternatives();
-                    printf("I now have all necessary alternatives.\n");
+                    printf("Robot %d:\tI now have all necessary alternatives.\n", myID);
 
                     // Do bipartite matching.
                     computeMatching();
@@ -361,35 +406,41 @@ void BMController::setState(State newState)
                     waitForAllMatchings();
 
                     // Decide if my matching is the best by the priority-ordered criteria:
-                        // 1. involving the most robots (the "maximum matching") (max on cardinality)
-                        // 2. having the lowest weight
-                        // 3. originating from the robot with lowest ID number.
+                    // 1. involving the most robots (the "maximum matching") (max on cardinality)
+                    // 2. having the lowest weight
+                    // 3. originating from the robot with lowest ID number.
                     // For n=2, these are all trivial.
-			int bestMatchingId = findBestMatchingID();
+                    int bestMatchingId = findBestMatchingID();
 
+                    list<Point3D> newPath;
                     // If mine is the best, transmit it.
-			if (bestMatchingId == driver->getId())
-			{
-				transmitFullMatching();
-			} else {
-                    // If mine is not the best, listen for the full matching result from the robot that has the best matching.
-				Point3D whereToGo = awaitFullMatching(bestMatchingId);
-				if (whereToGo.z == -1)
-				{
-					// don't move for a certain time interval.
-				} else {
-					
-				}
-			}
+                    if (bestMatchingId == myID)
+                    {
+                        transmitFullMatching();
+                        newPath = getPathFromFirstPoint(myMatching->getPlaceFor(myID));
+                    } else {
+                        // If mine is not the best, listen for the full matching result from the robot that has the best matching.
+                        Point3D whereToGo = awaitFullMatching(bestMatchingId);
+                        if (whereToGo.getZ() == -1)
+                        {
+                            // don't move for a certain time interval.
+                            std::printf("Robot %d: I was absent from the best matching.\n", myID);
+                            const int WAIT_SECONDS = 3;
+                            std::printf("Robot %d: Waiting for %d seconds.\n", myID, WAIT_SECONDS);
+                            std::this_thread::sleep_for(std::chrono::seconds(WAIT_SECONDS));
 
+                            // now go back to following path...?
 
+                        } else {
+                            newPath = getPathFromFirstPoint(myMatching->getPlaceFor(myID));
+                        }
+                    }
                     // Change state back to FOLLOWING_PATH and go to the location prescribed in the best matching.
-
-                    // Done coordinating.
                     coordinatingWith.clear(); // Clear the list of robots I'm coordinating with.
-
+                    driver->enableMovement();
+                    //driveThread = new std::thread(this->driveAlong, newPath);
+                    driveThread = new std::thread(std::bind(&BMController::driveAlong, this, newPath));
                     setState(FOLLOWING_PATH);
-
                     break;
             }
             break;
@@ -411,63 +462,77 @@ void BMController::setState(State newState)
     }
 }
 
+// Returns the alternative path that begins with the given point.
+list<Point3D> BMController::getPathFromFirstPoint(Point3D pt)
+{
+    state altStart = *(myAlternative1.begin());
+
+    if (pt == altStart)
+    {
+        return fromState(myAlternative1);
+    } else {
+        altStart = *(myAlternative2.begin());
+        if (pt == altStart)
+        {
+            return fromState(myAlternative2);
+        } else {
+            // I was prescribed to go to a location that does not match either of my alternatives!
+            __glibcxx_assert(false);
+        }
+    }
+}
+
+
 // Returns the point this robot should go to according to the matching published by the robot with the specified ID.
 // This method blocks until an answer has been recieved.
 // If this robot is not present in the matching, a Point3D with z=-1 is returned.
 Point3D BMController::awaitFullMatching(int sourceId) // new method, not added to class definition yet.
 {
-	int myID = driver->getID();
-	__glibcxx_assert(sourceId != myID); // We shouldn't be trying to receive matching from ourself!
+    int myID = driver->getID();
+    __glibcxx_assert(sourceId != myID); // We shouldn't be trying to receive matching from ourself!
 
-	// Build the name of the ROS topic that will publish the full matching.
-	std::string topicName(baseName);
-	topicName.append('_' + std::to_string(sourceId) + "/out/fullMatching");
+    // Build the name of the ROS topic that will publish the full matching.
+    std::string topicName(baseName);
+    topicName.append('_' + std::to_string(sourceId) + "/out/fullMatching");
 
-	// Recieve the full matching.
-	auto msg = ros::topic::waitForMessage<geometry_msgs::Polygon>(topicName);
+    // Recieve the full matching.
+    auto msg = ros::topic::waitForMessage<geometry_msgs::Polygon>(topicName);
 
-	// Search for my own ID in the matching.
-	auto pts = msg.points;
-	Point3D ret;
-	for (auto iter = pts.begin(); iter != pts.end(); ++iter)
-	{
-		geometry_msgs::Point32 current = *iter;
-		if (current.z == myID)
-		{
-			ret.x = current.x;
-			ret.y = current.y;
-			ret.z = 0;
-			return ret;
-		}
-	}
-	// We failed to find our own ID among any of those in the matching.
-	ret.x = -1;
-	ret.y = -1;
-	ret.z = -1;
-	return ret;
+    // Search for my own ID in the matching.
+    auto pts = msg->points;
+    for (auto iter = pts.begin(); iter != pts.end(); ++iter)
+    {
+        geometry_msgs::Point32 current = *iter;
+        if (current.z == myID)
+        {
+            return Point3D(current.x, current.y, 0);
+        }
+    }
+    // We failed to find our own ID among any of those in the matching.
+    return Point3D(-1, -1, -1);
 }
 
-void BMController::transmitFullMatching() // new method, not added to class definition yet.
+void BMController::transmitFullMatching()
 {
-	geometry_msgs::Polygon msg;
-        for (auto iter = coordinatingWith.begin(); iter != coordinatingWith.end(); ++iter)
-	{
-		int id = *iter;
-		geometry_msgs::Point32 pt;
-		pt.z = id;
-		if (myMatching->hasPlaceFor(id))
-		{
-			Point3D place = myMatching->getPlaceFor(id);
-			pt.x = place.x;
-			pt.y = place.y;
+    geometry_msgs::Polygon msg;
+    for (auto iter = coordinatingWith.begin(); iter != coordinatingWith.end(); ++iter)
+    {
+        int id = *iter;
+        geometry_msgs::Point32 pt;
+        pt.z = id;
+        if (myMatching->hasPlaceFor(id))
+        {
+            Point3D place = myMatching->getPlaceFor(id);
+            pt.x = place.getX();
+            pt.y = place.getY();
 
-		} else {
-			pt.x = -1;
-			pt.y = -1;
-		}
-		msg.points.push_back(pt);
-	}
-	fullMatchingPublisher.publish(msg);
+        } else {
+            pt.x = -1;
+            pt.y = -1;
+        }
+        msg.points.push_back(pt);
+    }
+    fullMatchingPublisher.publish(msg);
 }
 
 int BMController::findBestMatchingID()
@@ -477,64 +542,63 @@ int BMController::findBestMatchingID()
     //      2. having the lowest weight
     //      3. originating from the robot with lowest ID number.
 
-	// Select the matchings with highest cardinality.
-	vector<int> bestCardMatches;
-	int maxCardinality = -1;
-        for (auto iter = coordinatingWith.begin(); iter != coordinatingWith.end(); ++iter)
-	{
-		int otherId = *iter;
-		Matching otherMatching = robotMatchings[id];
-		int otherMatchingCard = otherMatching.getCardinality();
-		if (otherMatchingCard > maxCardinality)
-		{
-			// This robot's matching is the new best so far.
-			maxCardinality = otherMatchingCard;
-			bestCardMatches.clear();
-			bestCardMatches.push_back(otherId);
-		} else {
-			if (otherMatchingCard == maxCardinality)
-			{
-				// This robot's matching ties for the best so far.
-				bestCardMatches.push_back(otherId);
-			}
-		}
-	}
+    // Select the matchings with highest cardinality.
+    vector<int> bestCardMatches;
+    int maxCardinality = -1;
+    for (auto iter = coordinatingWith.begin(); iter != coordinatingWith.end(); ++iter)
+    {
+        int otherId = *iter;
+        Matching otherMatching = robotMatchings[otherId];
+        int otherMatchingCard = otherMatching.getCardinality();
+        if (otherMatchingCard > maxCardinality)
+        {
+            // This robot's matching is the new best so far.
+            maxCardinality = otherMatchingCard;
+            bestCardMatches.clear();
+            bestCardMatches.push_back(otherId);
+        } else {
+            if (otherMatchingCard == maxCardinality)
+            {
+                // This robot's matching ties for the best so far.
+                bestCardMatches.push_back(otherId);
+            }
+        }
+    }
 
-	// Of these, select the matchings with lowest cost.
-	vector<int> bestCostMatches;
-	int minCost = MAX_INT;
-	for (auto iter = bestCardMatches.begin(); iter != bestCardMatches.end(); ++iter)
-	{
-		int otherId = *iter;
-		Matching otherMatching = robotMatchings[id];
-		int otherMatchingCost = otherMatching.getCost();
-		if (otherMatchingCost < minCost)
-		{
-			// This robot's matching is the new best so far.
-			minCost = otherMatchingCost;
-			bestCostMatches.clear();
-			bestCostMatches.push_back(otherId);
-		} else {
-			if (otherMatchingCost == minCost)
-			{
-				// This robot's matching ties for the best so far.
-				bestCostMatches.push_back(otherId);
-			}
-		}
-	}
+    // Of these, select the matchings with lowest cost.
+    vector<int> bestCostMatches;
+    int minCost = INT_MAX;
+    for (auto iter = bestCardMatches.begin(); iter != bestCardMatches.end(); ++iter)
+    {
+        int otherId = *iter;
+        Matching otherMatching = robotMatchings[otherId];
+        int otherMatchingCost = otherMatching.getCost();
+        if (otherMatchingCost < minCost)
+        {
+            // This robot's matching is the new best so far.
+            minCost = otherMatchingCost;
+            bestCostMatches.clear();
+            bestCostMatches.push_back(otherId);
+        } else {
+            if (otherMatchingCost == minCost)
+            {
+                // This robot's matching ties for the best so far.
+                bestCostMatches.push_back(otherId);
+            }
+        }
+    }
 
-	// Of these, select the matching with lowest ID.
-	return bestCostMatches.min(); // Does this function exist? Else...
-	int ret = ROBOT_COUNT + 1; // at least as high as the maximum robot ID.
-	for (auto iter = bestCostMatches.begin(); iter != bestCostMatches.end(); ++iter)
-	{
-		int otherId = *iter;
-		if (ret > otherId)
-		{
-			ret = otherId;
-		}
-	}
-	return ret;
+    // Of these, select the matching with lowest ID.
+    int ret = ROBOT_COUNT + 1; // at least as high as the maximum robot ID.
+    for (auto iter = bestCostMatches.begin(); iter != bestCostMatches.end(); ++iter)
+    {
+        int otherId = *iter;
+        if (ret > otherId)
+        {
+            ret = otherId;
+        }
+    }
+    return ret;
 }
 
 void BMController::enableCoordination()
@@ -581,6 +645,8 @@ void BMController::computeMatching()
     altLoc = alt.NextStep;
     matcher.addAlternative2(true, altLoc.getX(), altLoc.getY(), alt.TotalCost);
 
+    std::printf("Robot %d:\tI'm coordinating with %d other robots.\n", myID, (int)coordinatingWith.size());
+
     for (auto iter = coordinatingWith.begin(); iter != coordinatingWith.end(); ++iter)
     {
         int id = *iter;
@@ -589,7 +655,7 @@ void BMController::computeMatching()
                                 a1.NextStep.getX(),
                                 a1.NextStep.getY(),
                                 a1.TotalCost
-                                );
+        );
         Alternative a2 = robotAlternatives[id][1];
         matcher.addAlternative2(false,
                                 a2.NextStep.getX(),
@@ -633,7 +699,7 @@ void BMController::waitForAllMatchings()
             if (m.getCost() == -1)
             {
                 done = false;
-                printf("Robot %d: Waiting for matching info from robot %d...\n", driver->getID(), id);
+                printf("Robot %d:\tWaiting for matching info from robot %d...\n", driver->getID(), id);
                 break;
             }
         }
@@ -658,7 +724,7 @@ void BMController::waitForAllAlternatives()
             if (a1.TotalCost == -1 || a2.TotalCost == -1)
             {
                 done = false;
-                printf("Robot %d: Waiting for alternative(s) from robot %d...\n", driver->getID(), id);
+                printf("Robot %d:\tWaiting for alternative(s) from robot %d...\n", driver->getID(), id);
                 break;
             }
         }
@@ -675,7 +741,7 @@ void BMController::findAlternatePaths()
     dstar.updateStart(self.getX(), self.getY());
 
     // Print path before blocking cells for first alternative.
-    std::printf("Original path:  ");
+    std::printf("Robot %d:\tOriginal path:  ", myID);
     printPath(dstar.getPath());
 
     // todo: change this so that only robots WITHIN MSD of us are blocked for D*.
@@ -691,7 +757,7 @@ void BMController::findAlternatePaths()
             {
                 if (other != self) // Don't block it if it's our own location.
                 {
-                    std::printf("Blocking cell (%d, %d)...\n", other.getX(), other.getY());
+                    std::printf("Robot %d:\tBlocking cell (%d, %d)...\n", myID, other.getX(), other.getY());
                     dstar.updateCell(other.getX(), other.getY(), NONTRAVERSABLE_COST);
                 }
             }
@@ -704,7 +770,7 @@ void BMController::findAlternatePaths()
 
     // Broadcast the next point and total cost of this alternate path.
     list<state> path = dstar.getPath();
-    std::printf("Replanned path 1: ");
+    std::printf("Robot %d:\tReplanned path 1: ", myID);
     printPath(path);
 
     // Store the path for my own use later, during matching.
@@ -748,7 +814,7 @@ void BMController::findAlternatePaths()
     printf("Robot %d:\tReplanned 2nd alt path. Return value = %s\n", myID, replanRet ? "ok" : "fail");
 
     path = dstar.getPath();
-    std::printf("Replanned path 2: ");
+    std::printf("Robot %d:\tReplanned path 2: ", myID);
     printPath(path);
 
     // Store the path for my own use later, during matching.
@@ -835,7 +901,7 @@ void BMController::alternativeCallback(const geometry_msgs::Polygon& msg)
     auto loc = msg.points[1];
     Point3D gridLoc(loc.x, loc.y, loc.z);
     std::cout << "Robot " << driver->getID() << ":\tReceived robot " << id << "'s alternative #" << altNumber << ": [" <<
-                                                loc.x << ", " << loc.y << ", " << loc.z << "]\n";
+              loc.x << ", " << loc.y << ", " << loc.z << "]\n";
 
     Alternative alt;
     alt.NextStep = gridLoc;
@@ -849,40 +915,40 @@ void BMController::alternativeCallback(const geometry_msgs::Polygon& msg)
 }
 
 
-    /* For evasion:
-     *
-     * for each known nearby robot (class-level var)
-     * {
-     *  // Mark the robot's location as blocked.
-        dstar.updateCell(location.x, location.y, NONTRAVERSABLE_COST);
+/* For evasion:
+ *
+ * for each known nearby robot (class-level var)
+ * {
+ *  // Mark the robot's location as blocked.
+    dstar.updateCell(location.x, location.y, NONTRAVERSABLE_COST);
 
-       }
+   }
 
-       compute BM (alg. 1 pp. 859)
+   compute BM (alg. 1 pp. 859)
 
-       broadcast the resulting matching i found (latch)
+   broadcast the resulting matching i found (latch)
 
-       wait for receipt of all nearby robot's matchings // sic. wait as long as necessary to receive matching results
+   wait for receipt of all nearby robot's matchings // sic. wait as long as necessary to receive matching results
 
-       choose best matching based on max size (break ties with min. weight)
+   choose best matching based on max size (break ties with min. weight)
 
-       broadcast that choice (just for good measure)
+   broadcast that choice (just for good measure)
 
-       move according to that choice.
+   move according to that choice.
 
-     *
-     */
+ *
+ */
 
 
-    /*
-     * Give reach robot a state:
-     * -Reached goal (not moving)
-     * -Following path (moving)
-     * -Coordinating (not moving)
-     *
-     * see picture on phone for 5 steps involved in coordinating
-     *
-     */
+/*
+ * Give reach robot a state:
+ * -Reached goal (not moving)
+ * -Following path (moving)
+ * -Coordinating (not moving)
+ *
+ * see picture on phone for 5 steps involved in coordinating
+ *
+ */
 
 void BMController::setupWalls()
 {

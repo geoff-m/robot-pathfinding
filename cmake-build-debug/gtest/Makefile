@@ -102,16 +102,16 @@ list_install_components/fast: list_install_components
 
 .PHONY : list_install_components/fast
 
-# Special rule for the target edit_cache
-edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/opt/clion-2017.3.2/bin/cmake/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
-.PHONY : edit_cache
+# Special rule for the target rebuild_cache
+rebuild_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
+	/opt/clion-2017.3.2/bin/cmake/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : rebuild_cache
 
-# Special rule for the target edit_cache
-edit_cache/fast: edit_cache
+# Special rule for the target rebuild_cache
+rebuild_cache/fast: rebuild_cache
 
-.PHONY : edit_cache/fast
+.PHONY : rebuild_cache/fast
 
 # Special rule for the target test
 test:
@@ -124,16 +124,16 @@ test/fast: test
 
 .PHONY : test/fast
 
-# Special rule for the target rebuild_cache
-rebuild_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/opt/clion-2017.3.2/bin/cmake/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : rebuild_cache
+# Special rule for the target edit_cache
+edit_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	/opt/clion-2017.3.2/bin/cmake/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+.PHONY : edit_cache
 
-# Special rule for the target rebuild_cache
-rebuild_cache/fast: rebuild_cache
+# Special rule for the target edit_cache
+edit_cache/fast: edit_cache
 
-.PHONY : rebuild_cache/fast
+.PHONY : edit_cache/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -168,88 +168,121 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
-gtest/CMakeFiles/gtest_main.dir/rule:
-	cd /home/student/catkin_ws/src/pathdriver/cmake-build-debug && $(MAKE) -f CMakeFiles/Makefile2 gtest/CMakeFiles/gtest_main.dir/rule
-.PHONY : gtest/CMakeFiles/gtest_main.dir/rule
+gtest/CMakeFiles/gmock_main.dir/rule:
+	cd /home/student/catkin_ws/src/pathdriver/cmake-build-debug && $(MAKE) -f CMakeFiles/Makefile2 gtest/CMakeFiles/gmock_main.dir/rule
+.PHONY : gtest/CMakeFiles/gmock_main.dir/rule
 
 # Convenience name for target.
-gtest_main: gtest/CMakeFiles/gtest_main.dir/rule
+gmock_main: gtest/CMakeFiles/gmock_main.dir/rule
 
-.PHONY : gtest_main
+.PHONY : gmock_main
 
 # fast build rule for target.
-gtest_main/fast:
-	cd /home/student/catkin_ws/src/pathdriver/cmake-build-debug && $(MAKE) -f gtest/CMakeFiles/gtest_main.dir/build.make gtest/CMakeFiles/gtest_main.dir/build
-.PHONY : gtest_main/fast
+gmock_main/fast:
+	cd /home/student/catkin_ws/src/pathdriver/cmake-build-debug && $(MAKE) -f gtest/CMakeFiles/gmock_main.dir/build.make gtest/CMakeFiles/gmock_main.dir/build
+.PHONY : gmock_main/fast
 
 # Convenience name for target.
-gtest/CMakeFiles/gtest.dir/rule:
-	cd /home/student/catkin_ws/src/pathdriver/cmake-build-debug && $(MAKE) -f CMakeFiles/Makefile2 gtest/CMakeFiles/gtest.dir/rule
-.PHONY : gtest/CMakeFiles/gtest.dir/rule
+gtest/CMakeFiles/gmock.dir/rule:
+	cd /home/student/catkin_ws/src/pathdriver/cmake-build-debug && $(MAKE) -f CMakeFiles/Makefile2 gtest/CMakeFiles/gmock.dir/rule
+.PHONY : gtest/CMakeFiles/gmock.dir/rule
 
 # Convenience name for target.
-gtest: gtest/CMakeFiles/gtest.dir/rule
+gmock: gtest/CMakeFiles/gmock.dir/rule
 
-.PHONY : gtest
+.PHONY : gmock
 
 # fast build rule for target.
-gtest/fast:
-	cd /home/student/catkin_ws/src/pathdriver/cmake-build-debug && $(MAKE) -f gtest/CMakeFiles/gtest.dir/build.make gtest/CMakeFiles/gtest.dir/build
-.PHONY : gtest/fast
+gmock/fast:
+	cd /home/student/catkin_ws/src/pathdriver/cmake-build-debug && $(MAKE) -f gtest/CMakeFiles/gmock.dir/build.make gtest/CMakeFiles/gmock.dir/build
+.PHONY : gmock/fast
 
-src/gtest-all.o: src/gtest-all.cc.o
+src/gmock-all.o: src/gmock-all.cc.o
 
-.PHONY : src/gtest-all.o
-
-# target to build an object file
-src/gtest-all.cc.o:
-	cd /home/student/catkin_ws/src/pathdriver/cmake-build-debug && $(MAKE) -f gtest/CMakeFiles/gtest.dir/build.make gtest/CMakeFiles/gtest.dir/src/gtest-all.cc.o
-.PHONY : src/gtest-all.cc.o
-
-src/gtest-all.i: src/gtest-all.cc.i
-
-.PHONY : src/gtest-all.i
-
-# target to preprocess a source file
-src/gtest-all.cc.i:
-	cd /home/student/catkin_ws/src/pathdriver/cmake-build-debug && $(MAKE) -f gtest/CMakeFiles/gtest.dir/build.make gtest/CMakeFiles/gtest.dir/src/gtest-all.cc.i
-.PHONY : src/gtest-all.cc.i
-
-src/gtest-all.s: src/gtest-all.cc.s
-
-.PHONY : src/gtest-all.s
-
-# target to generate assembly for a file
-src/gtest-all.cc.s:
-	cd /home/student/catkin_ws/src/pathdriver/cmake-build-debug && $(MAKE) -f gtest/CMakeFiles/gtest.dir/build.make gtest/CMakeFiles/gtest.dir/src/gtest-all.cc.s
-.PHONY : src/gtest-all.cc.s
-
-src/gtest_main.o: src/gtest_main.cc.o
-
-.PHONY : src/gtest_main.o
+.PHONY : src/gmock-all.o
 
 # target to build an object file
-src/gtest_main.cc.o:
-	cd /home/student/catkin_ws/src/pathdriver/cmake-build-debug && $(MAKE) -f gtest/CMakeFiles/gtest_main.dir/build.make gtest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o
-.PHONY : src/gtest_main.cc.o
+src/gmock-all.cc.o:
+	cd /home/student/catkin_ws/src/pathdriver/cmake-build-debug && $(MAKE) -f gtest/CMakeFiles/gmock_main.dir/build.make gtest/CMakeFiles/gmock_main.dir/src/gmock-all.cc.o
+	cd /home/student/catkin_ws/src/pathdriver/cmake-build-debug && $(MAKE) -f gtest/CMakeFiles/gmock.dir/build.make gtest/CMakeFiles/gmock.dir/src/gmock-all.cc.o
+.PHONY : src/gmock-all.cc.o
 
-src/gtest_main.i: src/gtest_main.cc.i
+src/gmock-all.i: src/gmock-all.cc.i
 
-.PHONY : src/gtest_main.i
+.PHONY : src/gmock-all.i
 
 # target to preprocess a source file
-src/gtest_main.cc.i:
-	cd /home/student/catkin_ws/src/pathdriver/cmake-build-debug && $(MAKE) -f gtest/CMakeFiles/gtest_main.dir/build.make gtest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.i
-.PHONY : src/gtest_main.cc.i
+src/gmock-all.cc.i:
+	cd /home/student/catkin_ws/src/pathdriver/cmake-build-debug && $(MAKE) -f gtest/CMakeFiles/gmock_main.dir/build.make gtest/CMakeFiles/gmock_main.dir/src/gmock-all.cc.i
+	cd /home/student/catkin_ws/src/pathdriver/cmake-build-debug && $(MAKE) -f gtest/CMakeFiles/gmock.dir/build.make gtest/CMakeFiles/gmock.dir/src/gmock-all.cc.i
+.PHONY : src/gmock-all.cc.i
 
-src/gtest_main.s: src/gtest_main.cc.s
+src/gmock-all.s: src/gmock-all.cc.s
 
-.PHONY : src/gtest_main.s
+.PHONY : src/gmock-all.s
 
 # target to generate assembly for a file
-src/gtest_main.cc.s:
-	cd /home/student/catkin_ws/src/pathdriver/cmake-build-debug && $(MAKE) -f gtest/CMakeFiles/gtest_main.dir/build.make gtest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.s
-.PHONY : src/gtest_main.cc.s
+src/gmock-all.cc.s:
+	cd /home/student/catkin_ws/src/pathdriver/cmake-build-debug && $(MAKE) -f gtest/CMakeFiles/gmock_main.dir/build.make gtest/CMakeFiles/gmock_main.dir/src/gmock-all.cc.s
+	cd /home/student/catkin_ws/src/pathdriver/cmake-build-debug && $(MAKE) -f gtest/CMakeFiles/gmock.dir/build.make gtest/CMakeFiles/gmock.dir/src/gmock-all.cc.s
+.PHONY : src/gmock-all.cc.s
+
+src/gmock_main.o: src/gmock_main.cc.o
+
+.PHONY : src/gmock_main.o
+
+# target to build an object file
+src/gmock_main.cc.o:
+	cd /home/student/catkin_ws/src/pathdriver/cmake-build-debug && $(MAKE) -f gtest/CMakeFiles/gmock_main.dir/build.make gtest/CMakeFiles/gmock_main.dir/src/gmock_main.cc.o
+.PHONY : src/gmock_main.cc.o
+
+src/gmock_main.i: src/gmock_main.cc.i
+
+.PHONY : src/gmock_main.i
+
+# target to preprocess a source file
+src/gmock_main.cc.i:
+	cd /home/student/catkin_ws/src/pathdriver/cmake-build-debug && $(MAKE) -f gtest/CMakeFiles/gmock_main.dir/build.make gtest/CMakeFiles/gmock_main.dir/src/gmock_main.cc.i
+.PHONY : src/gmock_main.cc.i
+
+src/gmock_main.s: src/gmock_main.cc.s
+
+.PHONY : src/gmock_main.s
+
+# target to generate assembly for a file
+src/gmock_main.cc.s:
+	cd /home/student/catkin_ws/src/pathdriver/cmake-build-debug && $(MAKE) -f gtest/CMakeFiles/gmock_main.dir/build.make gtest/CMakeFiles/gmock_main.dir/src/gmock_main.cc.s
+.PHONY : src/gmock_main.cc.s
+
+usr/src/gtest/src/gtest-all.o: usr/src/gtest/src/gtest-all.cc.o
+
+.PHONY : usr/src/gtest/src/gtest-all.o
+
+# target to build an object file
+usr/src/gtest/src/gtest-all.cc.o:
+	cd /home/student/catkin_ws/src/pathdriver/cmake-build-debug && $(MAKE) -f gtest/CMakeFiles/gmock_main.dir/build.make gtest/CMakeFiles/gmock_main.dir/usr/src/gtest/src/gtest-all.cc.o
+	cd /home/student/catkin_ws/src/pathdriver/cmake-build-debug && $(MAKE) -f gtest/CMakeFiles/gmock.dir/build.make gtest/CMakeFiles/gmock.dir/usr/src/gtest/src/gtest-all.cc.o
+.PHONY : usr/src/gtest/src/gtest-all.cc.o
+
+usr/src/gtest/src/gtest-all.i: usr/src/gtest/src/gtest-all.cc.i
+
+.PHONY : usr/src/gtest/src/gtest-all.i
+
+# target to preprocess a source file
+usr/src/gtest/src/gtest-all.cc.i:
+	cd /home/student/catkin_ws/src/pathdriver/cmake-build-debug && $(MAKE) -f gtest/CMakeFiles/gmock_main.dir/build.make gtest/CMakeFiles/gmock_main.dir/usr/src/gtest/src/gtest-all.cc.i
+	cd /home/student/catkin_ws/src/pathdriver/cmake-build-debug && $(MAKE) -f gtest/CMakeFiles/gmock.dir/build.make gtest/CMakeFiles/gmock.dir/usr/src/gtest/src/gtest-all.cc.i
+.PHONY : usr/src/gtest/src/gtest-all.cc.i
+
+usr/src/gtest/src/gtest-all.s: usr/src/gtest/src/gtest-all.cc.s
+
+.PHONY : usr/src/gtest/src/gtest-all.s
+
+# target to generate assembly for a file
+usr/src/gtest/src/gtest-all.cc.s:
+	cd /home/student/catkin_ws/src/pathdriver/cmake-build-debug && $(MAKE) -f gtest/CMakeFiles/gmock_main.dir/build.make gtest/CMakeFiles/gmock_main.dir/usr/src/gtest/src/gtest-all.cc.s
+	cd /home/student/catkin_ws/src/pathdriver/cmake-build-debug && $(MAKE) -f gtest/CMakeFiles/gmock.dir/build.make gtest/CMakeFiles/gmock.dir/usr/src/gtest/src/gtest-all.cc.s
+.PHONY : usr/src/gtest/src/gtest-all.cc.s
 
 # Help Target
 help:
@@ -261,17 +294,20 @@ help:
 	@echo "... install/local"
 	@echo "... install"
 	@echo "... list_install_components"
-	@echo "... edit_cache"
-	@echo "... test"
-	@echo "... gtest_main"
 	@echo "... rebuild_cache"
-	@echo "... gtest"
-	@echo "... src/gtest-all.o"
-	@echo "... src/gtest-all.i"
-	@echo "... src/gtest-all.s"
-	@echo "... src/gtest_main.o"
-	@echo "... src/gtest_main.i"
-	@echo "... src/gtest_main.s"
+	@echo "... test"
+	@echo "... gmock_main"
+	@echo "... edit_cache"
+	@echo "... gmock"
+	@echo "... src/gmock-all.o"
+	@echo "... src/gmock-all.i"
+	@echo "... src/gmock-all.s"
+	@echo "... src/gmock_main.o"
+	@echo "... src/gmock_main.i"
+	@echo "... src/gmock_main.s"
+	@echo "... usr/src/gtest/src/gtest-all.o"
+	@echo "... usr/src/gtest/src/gtest-all.i"
+	@echo "... usr/src/gtest/src/gtest-all.s"
 .PHONY : help
 
 
