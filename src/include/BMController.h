@@ -70,13 +70,14 @@ private:
     void disableCoordination();
     bool checkIsCoordinating(int robotId); // helper method to check whether another robot should be coordinated with.
 
-    ros::Publisher altPublisher; // Publisher of alternative path data.
+    ros::Publisher alt1Publisher; // Publisher of alternative path data.
     /* Format: geometry_msgs::Polygon
      * First point: x = this robot's id
      *              y = which alternative, 1 or 2
      *              z = total cost of alternative path
      * Second point: The next point proposed by the alternative path.
      */
+    ros::Publisher alt2Publisher;
     vector<message_filters::Subscriber<geometry_msgs::Polygon>*> locationSubscribers;
     vector<message_filters::Subscriber<geometry_msgs::Polygon>*> altSubscribers;
     vector<message_filters::Subscriber<geometry_msgs::Point32>*> matchingSubscribers;
@@ -115,7 +116,7 @@ private:
 
     Point3D awaitFullMatching(int sourceId);
 
-    list<Point3D> getPathFromFirstPoint(Point3D pt);
+    list<Point3D>* getPathFromFirstPoint(Point3D pt);
 
     std::string baseName;
     // This will be used to get the name of other robots we're coordinating with.

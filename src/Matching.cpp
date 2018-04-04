@@ -9,6 +9,7 @@ void Matching::add(int robotID, Point3D placeToGo)
     __glibcxx_assert(!everSetCardinality); // Add method and cardinality setter shouldn't be used on same instance.
 
     dict.emplace(std::make_pair(robotID, placeToGo));
+    cardinality += 1; // Increment cardinality since we just added one point.
 }
 
 void Matching::setCardinality(int n)
@@ -20,7 +21,12 @@ void Matching::setCardinality(int n)
 
 int Matching::getCardinality() const
 {
-    return (int)dict.size();
+    if (everSetCardinality)
+    {
+        return cardinality;
+    } else {
+        return (int)dict.size();
+    }
 }
 
 void Matching::setCost(int cost)
