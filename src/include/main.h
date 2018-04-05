@@ -10,5 +10,6 @@
 #include "Countdown.h"
 
 #define ROBOT_COUNT 2
+#define ROW_COLUMN_COUNT 25
 
 #endif //PATHDRIVER_MAIN_H

@@ -22,6 +22,7 @@ static int getPathCost(list<state>& path);
 static void printPath(list<state> path);
 static std::string vectorToString(const vector<int> v);
 static list<Point3D>* fromState(list<state> s);
+static Point3D getSecond(list<state> path);
 
 void BMController::registerCallbacks(const char* baseName, int robotCount)
 {
@@ -205,7 +206,7 @@ void BMController::driveAlong(list<Point3D> waypoints)
         if (!driver->driveTo(grid->getWorldPoint(current)))
         {
             //std::printf("Robot %d:\tDriver was interrupted!\n", myID);
-            break;
+            return;
         }
 
         // Increment distance travelled.
@@ -216,6 +217,8 @@ void BMController::driveAlong(list<Point3D> waypoints)
         last = new Point3D(current);
     }
 
+    std::printf("Robot %d:\tFinished following path.\n", myID);
+    setState(REACHED_GOAL);
 }
 
 // make each controller subscribe to every other robot's out/location topic
@@ -249,13 +252,18 @@ void BMController::robotLocationChanged(int id)
             if (i == myID)
                 continue; // Don't check distance to myself.
 
-            if (std::find(coordinatingWith.begin(), coordinatingWith.end(), i) != coordinatingWith.end())
+            if (currentState == COORDINATING)
             {
-                std::printf("Robot %d:\tIgnoring location update from Robot %d because we're already coordinating.\n",
-                myID, i);
-                continue; // Skip because we're already coordinating with this robot.
+                if (std::find(coordinatingWith.begin(), coordinatingWith.end(), i) != coordinatingWith.end())
+                {
+                    std::printf("Robot %d:\tIgnoring location update from Robot %d because we're already coordinating.\n",
+                                myID, i);
+                    continue; // Skip because we're already coordinating with this robot.
+                }
+                __glibcxx_assert(coordinatingWith.empty());
+            } else {
+
             }
-            __glibcxx_assert(coordinatingWith.empty());
 
             // Check distance
             Point3D gridDifference = myGridLoc - robotLocations[i];
@@ -487,10 +495,20 @@ void BMController::setState(State newState)
             switch (newState)
             {
                 case REACHED_GOAL:
-                    std::cout << "Invalid state transition: Coordinating --> Reached Goal\n";
+                    //std::cout << "Invalid state transition: Coordinating --> Reached Goal\n";
+                    std::cout << "Changing state: Coordinating --> Reached Goal\n";
+                    // stop motors.
+                    driver->disableMovement();
+
+                    // Publish that we are not longer up for coordination.
+                    disableCoordination();
+
+                    // Signal to main thread that we're done.
+                    activeWorkers->signal();
                     break;
                 case FOLLOWING_PATH:
                     std::cout << "Changing state: Coordinating --> Following Path\n";
+                    currentState = newState;
                     // We're following the collision-avoidance path.
                     break;
                 case COORDINATING:
@@ -501,20 +519,43 @@ void BMController::setState(State newState)
     }
 }
 
+static Point3D getSecond(list<state> path)
+{
+    auto iter = path.begin();
+    iter++;
+    state pt = *iter;
+    return Point3D(pt.x, pt.y, 0);
+}
+
 // Returns the alternative path that begins with the given point.
 list<Point3D>* BMController::getPathFromFirstPoint(Point3D pt)
 {
-    state altStart = *(myAlternative1.begin());
+    int myid = driver->getID();
 
+    Point3D altStart = getSecond(myAlternative1);
+    std::printf("Robot %d:\tSecond point in my 1st alternative path is (%d, %d).\n", myid, altStart.getX(), altStart.getY());
+
+    list<Point3D>* ret;
     if (pt == altStart)
     {
-        return fromState(myAlternative1);
+        std::printf("Robot %d:\t(%d, %d) == (%d, %d), indicating my 1st alternative.\n", myid,
+        pt.getX(), pt.getY(), altStart.getX(), altStart.getY());
+        ret = fromState(myAlternative1);
+        ret->pop_front();
+        return ret;
     } else {
-        altStart = *(myAlternative2.begin());
+        altStart = getSecond(myAlternative2);
+        std::printf("Robot %d:\tSecond point in my 2nd alternative path is (%d, %d).\n", myid, altStart.getX(), altStart.getY());
         if (pt == altStart)
         {
-            return fromState(myAlternative2);
+            std::printf("Robot %d:\t(%d, %d) == (%d, %d), indicating my 2nd alternative.\n", myid,
+                        pt.getX(), pt.getY(), altStart.getX(), altStart.getY());
+            ret = fromState(myAlternative2);
+            ret->pop_front();
+            return ret;
         } else {
+            std::printf("Robot %d:\t(%d, %d) does not match either of my alternatives!\n", myid,
+                        pt.getX(), pt.getY());
             // I was prescribed to go to a location that does not match either of my alternatives!
             __glibcxx_assert(false);
         }
@@ -868,7 +909,10 @@ void BMController::findAlternatePaths()
             {
                 for (const auto neighbor : grid->getNeighbors(other))
                 {
-                    dstar.updateCell(neighbor.getX(), neighbor.getY(), NONTRAVERSABLE_COST);
+                    if (neighbor != self || true) // todo: fix
+                    {
+                        dstar.updateCell(neighbor.getX(), neighbor.getY(), NONTRAVERSABLE_COST);
+                    }
                 }
             }
         }
@@ -1055,7 +1099,7 @@ static std::string vectorToString(const vector<int> v)
     for (auto iter = v.begin(); iter != v.end(); ++iter)
     {
         int current = *iter;
-        ret.append(to_string(current));
+        ret.append(to_string(current) + ", ");
     }
     return ret;
 }

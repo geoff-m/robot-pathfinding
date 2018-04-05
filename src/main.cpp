@@ -23,7 +23,7 @@ int main(int argc, char *argv[]) {
 
     ROS_DEBUG("Constructing grid\n");
     const float GRID_SCALE = 2.0f;
-    std::shared_ptr<Grid4C> grid(new Grid4C(gridOrigin, 25, 25, 1, GRID_SCALE, GRID_SCALE, GRID_SCALE));
+    std::shared_ptr<Grid4C> grid(new Grid4C(gridOrigin, ROW_COLUMN_COUNT, ROW_COLUMN_COUNT, 1, GRID_SCALE, GRID_SCALE, GRID_SCALE));
 
     ROS_DEBUG("Constructing node\n");
     ros::NodeHandle* node = new ros::NodeHandle();
@@ -77,8 +77,7 @@ int main(int argc, char *argv[]) {
         drivers[i]->driveTo(worldGridLoc);
     }
 
-    //activeWorkers = new Semaphore(ROBOT_COUNT);
-    activeWorkers = new Countdown(1);
+    activeWorkers = new Countdown(ROBOT_COUNT);
 
     printf("Setup done.\n\n");
 
