@@ -96,7 +96,7 @@ private:
     ros::NodeHandle* nh;
     void registerCallbacks(const char* baseName, int robotCount);
     void locationCallback(const geometry_msgs::Polygon& msg);
-    void alternativeCallback(const geometry_msgs::Polygon& msg);
+    void receiveAlternative(const geometry_msgs::Polygon &msg);
     void matchingCallback(const geometry_msgs::Point32& msg);
 
     std::mutex robotLocations_mutex;

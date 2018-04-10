@@ -70,7 +70,7 @@ void BMController::registerCallbacks(const char* baseName, int robotCount)
             std::string alternative2Topic = rosName + "/out/alternative2";
             std::printf("Controller %d is registering callback for \"%s\"...\n", ownId, alternative2Topic.c_str());
             altSubscribers.emplace_back(new message_filters::Subscriber<geometry_msgs::Polygon>(*nh, alternative2Topic, 1));
-            altSubscribers.back()->registerCallback(&BMController::alternativeCallback, this);
+            altSubscribers.back()->registerCallback(&BMController::receiveAlternative, this);
 
             // Set up subscriber for matching.
             std::string matchingTopic = rosName + "/out/matchingResult";
@@ -381,7 +381,7 @@ void BMController::setState(State newState)
                     std::cout << "No state change: Not Started --> Not Started\n";
                     break;
                 case FOLLOWING_PATH:
-                    std::cout << "Changing state: Not Started --> Following Path\n";
+                    std::cout << "CHANGING STATE: Not Started --> Following Path\n";
                     currentState = newState;
 
                     // Mark ourselves as able to coordinate.
@@ -413,7 +413,7 @@ void BMController::setState(State newState)
             switch (newState)
             {
                 case REACHED_GOAL:
-                    std::cout << "Changing state: Following Path --> Reached Goal\n";
+                    std::cout << "CHANGING STATE: Following Path --> Reached Goal\n";
                     // stop motors.
                     driver->disableMovement();
 
@@ -427,7 +427,7 @@ void BMController::setState(State newState)
                     std::cout << "No state change: Following Path --> Following Path\n";
                     break;
                 case COORDINATING:
-                    std::cout << "Changing state: Following Path --> Coordinating\n";
+                    std::cout << "CHANGING STATE: Following Path --> Coordinating\n";
                     currentState = newState;
 
                     // Stop moving.
@@ -496,7 +496,7 @@ void BMController::setState(State newState)
             {
                 case REACHED_GOAL:
                     //std::cout << "Invalid state transition: Coordinating --> Reached Goal\n";
-                    std::cout << "Changing state: Coordinating --> Reached Goal\n";
+                    std::cout << "CHANGING STATE: Coordinating --> Reached Goal\n";
                     // stop motors.
                     driver->disableMovement();
 
@@ -507,7 +507,7 @@ void BMController::setState(State newState)
                     activeWorkers->signal();
                     break;
                 case FOLLOWING_PATH:
-                    std::cout << "Changing state: Coordinating --> Following Path\n";
+                    std::cout << "CHANGING STATE: Coordinating --> Following Path\n";
                     currentState = newState;
                     // We're following the collision-avoidance path.
                     break;
@@ -519,7 +519,7 @@ void BMController::setState(State newState)
     }
 }
 
-static Point3D getSecond(list<state> path)
+static Point3D getSecond(list<state> path) // This works.
 {
     auto iter = path.begin();
     iter++;
@@ -562,9 +562,8 @@ list<Point3D>* BMController::getPathFromFirstPoint(Point3D pt)
     }
 }
 
-
 // Returns the point this robot should go to according to the matching published by the robot with the specified ID.
-// This method blocks until an answer has been recieved.
+// This method blocks until an answer has been received.
 // If this robot is not present in the matching, a Point3D with z=-1 is returned.
 Point3D BMController::awaitFullMatching(int sourceId) // new method, not added to class definition yet.
 {
@@ -625,7 +624,6 @@ int BMController::findBestMatchingID()
     // Select the matchings with highest cardinality.
     int myID = driver->getID();
     coordinatingWith.emplace_back(myID); // Consider also myself here.
-
 
     vector<int> bestCardMatches;
     int maxCardinality = -1;
@@ -717,8 +715,8 @@ bool BMController::checkIsCoordinating(int robotId)
 
 void BMController::computeMatching()
 {
-    BipartiteMatcher matcher;
     int myID = driver->getID();
+    BipartiteMatcher matcher(myID);
     auto myGridLoc = grid.get()->getGridPoint(*driver->myLoc);
 
     matcher.addSelf(myGridLoc.getX(), myGridLoc.getY(), totalDistanceTravelled);
@@ -805,36 +803,24 @@ void BMController::waitForAllMatchings()
 // Blocks until we've received alternatives from all the robots within our D_safe.
 void BMController::waitForAllAlternatives()
 {
-    while (true)
+    for (auto iter = coordinatingWith.begin(); iter != coordinatingWith.end(); ++iter)
     {
-        bool done = true;
-        for (auto iter = coordinatingWith.begin(); iter != coordinatingWith.end(); ++iter)
-        {
-            int id = *iter;
-            Alternative a1 = robotAlternatives[id][0];
-            Alternative a2 = robotAlternatives[id][1];
-            if (a1.TotalCost == -1)
-            {
-                printf("Robot %d:\tWaiting for alternative 1 from robot %d...\n", driver->getID(), id);
-                //done = false;
-                //break;
-                std::string topicName(baseName);
-                topicName.append('_' + std::to_string(id) + "/out/alternative1");
-                auto msg = ros::topic::waitForMessage<geometry_msgs::Polygon>(topicName);
-                alternativeCallback(*msg);
-            }
-            if (a2.TotalCost == -1)
-            {
-                printf("Robot %d:\tWaiting for alternative 2 from robot %d...\n", driver->getID(), id);
-                std::string topicName(baseName);
-                topicName.append('_' + std::to_string(id) + "/out/alternative2");
-                auto msg = ros::topic::waitForMessage<geometry_msgs::Polygon>(topicName);
-                alternativeCallback(*msg);
-            }
-        }
-        if (done)
-            return;
-        sleep(1); // sleep 1 second before checking again.
+        int id = *iter;
+        //Alternative a1 = robotAlternatives[id][0];
+        //Alternative a2 = robotAlternatives[id][1];
+        printf("Robot %d:\tWaiting for alternative 1 from robot %d...\n", driver->getID(), id);
+        //done = false;
+        //break;
+        std::string topicName(baseName);
+        topicName.append('_' + std::to_string(id) + "/out/alternative1");
+        auto msg = ros::topic::waitForMessage<geometry_msgs::Polygon>(topicName);
+        receiveAlternative(*msg);
+
+        printf("Robot %d:\tWaiting for alternative 2 from robot %d...\n", driver->getID(), id);
+        topicName = baseName;
+        topicName.append('_' + std::to_string(id) + "/out/alternative2");
+        msg = ros::topic::waitForMessage<geometry_msgs::Polygon>(topicName);
+        receiveAlternative(*msg);
     }
 }
 
@@ -996,7 +982,7 @@ void BMController::matchingCallback(const geometry_msgs::Point32& msg)
     robotMatchings[id] = newMatching;
 }
 
-void BMController::alternativeCallback(const geometry_msgs::Polygon& msg)
+void BMController::receiveAlternative(const geometry_msgs::Polygon &msg)
 {
     if (!(currentState == FOLLOWING_PATH || currentState == COORDINATING))
     {
