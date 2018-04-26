@@ -11,7 +11,7 @@
 #include "Grid4C.h"
 #include "RobotDriver.h"
 #include <memory>
-#include "VrepPioneerDriver.h"
+#include "RobotDriver.h"
 #include "geometry_msgs/Point32.h"
 #include "geometry_msgs/Polygon.h"
 #include <map>
@@ -20,6 +20,7 @@
 #include "Alternative.h"
 #include <vector>
 #include "Matching.h"
+#include "logging.h"
 
 // This class contains the beliefs and knowledge of a single robot.
 class BMController {
@@ -29,11 +30,13 @@ private:
     void computeMatching();
     Matching* myMatching;
 
+    int myID;
+
     int altsWaiting; // The number of robots I'm waiting to hear alternatives from.
 
     vector<int> coordinatingWith; // The IDs of the robots I'm currently involved in coordination with.
 
-    int totalDistanceTravelled; // Measured in cells. // todo: implement me
+    int totalDistanceTravelled; // Measured in cells.
 
     enum State {
         NOT_STARTED,
@@ -50,7 +53,7 @@ private:
     void markRowNontraversable(int row, int colStart, int colEnd);
     void setupWalls();
 
-    VrepPioneerDriver* driver;
+    RobotDriver* driver;
     std::shared_ptr<Grid4C> grid;
 
     ros::Publisher participatingPublisher; // Publishes a bool indicating whether or not I should be coordinated with.
@@ -79,8 +82,8 @@ private:
      */
     ros::Publisher alt2Publisher;
     vector<message_filters::Subscriber<geometry_msgs::Polygon>*> locationSubscribers;
-    vector<message_filters::Subscriber<geometry_msgs::Polygon>*> altSubscribers;
-    vector<message_filters::Subscriber<geometry_msgs::Point32>*> matchingSubscribers;
+    //vector<message_filters::Subscriber<geometry_msgs::Polygon>*> altSubscribers;
+    //vector<message_filters::Subscriber<geometry_msgs::Point32>*> matchingSubscribers;
     //vector<ros::Subscriber> locationSubscribers;
     //vector<ros::Subscriber> altSubscribers;
 
@@ -123,13 +126,32 @@ private:
     // That is, it must be the same for all such robots.
 
     std::thread* driveThread;
+    list<Point3D>* currentPath; // The path that was most recently used to start driving.
+
+    // Logging.
+    Log* log;
+    void updateLog();
+    int initialPathLength;
+    double timeStarted;
+    std::mutex statsGuard;
+    void incSendCounter();
+    long messagesSent;
+    void incReceiveCounter();
+    long messagesReceived;
+    void incCoordinationCounter();
+    int timesCoordinated;
+    void addRobotsCoordinatedCounter(int robots);
+    long robotsCoordinatedWith;
+
+    void stopDriving();
 
 public:
-    BMController(VrepPioneerDriver* driver,
+    BMController(RobotDriver* driver,
                  Grid4C* g,
                  ros::NodeHandle& node,
                  const char* robotBaseName, // The name of the robot without any ID appended.
-                 int robotCount) // IDs range from 0 to robotCount-1.
+                 int robotCount, // IDs range from 0 to robotCount-1.
+                 Log* logger)
     {
         this->driver = driver;
         //this->driver.reset(driver);
@@ -137,6 +159,8 @@ public:
         grid.reset(g);
 
         nh = &node;
+
+        myID = driver->getID();
 
         // Mark the borders of the grid as nontraversable for D*.
         // We assume only 2-dimensional case at this point.
@@ -151,6 +175,8 @@ public:
         currentState = NOT_STARTED;
 
         myMatching = new Matching(driver->getID());
+
+        log = logger;
     }
 
     // Drives along a list of grid points until interrupted.

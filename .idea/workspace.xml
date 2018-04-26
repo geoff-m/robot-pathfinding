@@ -1,37 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BookmarkManager">
+    <bookmark url="file://$PROJECT_DIR$/src/BMController.cpp" line="905" />
+  </component>
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true" buildAllGenerated="true">
     <generated>
-      <config projectName="pathdriver" targetName="geometry_msgs_generate_messages_nodejs" />
-      <config projectName="pathdriver" targetName="run_tests" />
-      <config projectName="pathdriver" targetName="std_msgs_generate_messages_nodejs" />
-      <config projectName="pathdriver" targetName="clean_test_results" />
-      <config projectName="pathdriver" targetName="rosgraph_msgs_generate_messages_py" />
-      <config projectName="pathdriver" targetName="roscpp_generate_messages_cpp" />
-      <config projectName="pathdriver" targetName="gmock_main" />
-      <config projectName="pathdriver" targetName="geometry_msgs_generate_messages_py" />
-      <config projectName="pathdriver" targetName="geometry_msgs_generate_messages_eus" />
-      <config projectName="pathdriver" targetName="gtest" />
-      <config projectName="pathdriver" targetName="gtest_main" />
-      <config projectName="pathdriver" targetName="tests" />
+      <config projectName="pathdriver" targetName="std_msgs_generate_messages_py" />
       <config projectName="pathdriver" targetName="roscpp_generate_messages_nodejs" />
-      <config projectName="pathdriver" targetName="rosgraph_msgs_generate_messages_nodejs" />
-      <config projectName="pathdriver" targetName="rosgraph_msgs_generate_messages_eus" />
-      <config projectName="pathdriver" targetName="gmock" />
-      <config projectName="pathdriver" targetName="download_extra_data" />
-      <config projectName="pathdriver" targetName="roscpp_generate_messages_lisp" />
-      <config projectName="pathdriver" targetName="std_msgs_generate_messages_eus" />
-      <config projectName="pathdriver" targetName="geometry_msgs_generate_messages_cpp" />
-      <config projectName="pathdriver" targetName="rosgraph_msgs_generate_messages_lisp" />
       <config projectName="pathdriver" targetName="rosgraph_msgs_generate_messages_cpp" />
-      <config projectName="pathdriver" targetName="geometry_msgs_generate_messages_lisp" />
-      <config projectName="pathdriver" targetName="roscpp_generate_messages_py" />
+      <config projectName="pathdriver" targetName="geometry_msgs_generate_messages_eus" />
+      <config projectName="pathdriver" targetName="rosgraph_msgs_generate_messages_nodejs" />
+      <config projectName="pathdriver" targetName="geometry_msgs_generate_messages_nodejs" />
+      <config projectName="pathdriver" targetName="tests" />
+      <config projectName="pathdriver" targetName="run_tests" />
+      <config projectName="pathdriver" targetName="download_extra_data" />
+      <config projectName="pathdriver" targetName="gtest_main" />
+      <config projectName="pathdriver" targetName="geometry_msgs_generate_messages_py" />
       <config projectName="pathdriver" targetName="doxygen" />
-      <config projectName="pathdriver" targetName="pathdriver" />
+      <config projectName="pathdriver" targetName="std_msgs_generate_messages_lisp" />
       <config projectName="pathdriver" targetName="std_msgs_generate_messages_cpp" />
       <config projectName="pathdriver" targetName="roscpp_generate_messages_eus" />
-      <config projectName="pathdriver" targetName="std_msgs_generate_messages_py" />
-      <config projectName="pathdriver" targetName="std_msgs_generate_messages_lisp" />
+      <config projectName="pathdriver" targetName="geometry_msgs_generate_messages_lisp" />
+      <config projectName="pathdriver" targetName="roscpp_generate_messages_lisp" />
+      <config projectName="pathdriver" targetName="roscpp_generate_messages_py" />
+      <config projectName="pathdriver" targetName="clean_test_results" />
+      <config projectName="pathdriver" targetName="std_msgs_generate_messages_nodejs" />
+      <config projectName="pathdriver" targetName="gmock_main" />
+      <config projectName="pathdriver" targetName="rosgraph_msgs_generate_messages_eus" />
+      <config projectName="pathdriver" targetName="geometry_msgs_generate_messages_cpp" />
+      <config projectName="pathdriver" targetName="pathdriver" />
+      <config projectName="pathdriver" targetName="rosgraph_msgs_generate_messages_lisp" />
+      <config projectName="pathdriver" targetName="rosgraph_msgs_generate_messages_py" />
+      <config projectName="pathdriver" targetName="gmock" />
+      <config projectName="pathdriver" targetName="gtest" />
+      <config projectName="pathdriver" targetName="roscpp_generate_messages_cpp" />
+      <config projectName="pathdriver" targetName="std_msgs_generate_messages_eus" />
     </generated>
   </component>
   <component name="CMakeSettings">
@@ -40,15 +43,29 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="786d234f-2f93-4f16-8229-484413794d8d" name="Default" comment="Reworked bipartite matching code for this particular application.">
+    <list default="true" id="786d234f-2f93-4f16-8229-484413794d8d" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/src/VrepQuadricopterDriver.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/VrepQuadricopterDriver.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/include/logging.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/logging.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Makefile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/devel/lib/pathdriver/pathdriver" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/pathdriver.cbp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/pathdriver.cbp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/BMController.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/BMController.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Matching.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Matching.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/VrepPioneerDriver.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/VrepPioneerDriver.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/bipartite-matching-dutta" beforeDir="false" afterPath="$PROJECT_DIR$/src/bipartite-matching-dutta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/bipartite-matching-dutta/bipartite-matching-dutta/Header.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/bipartite-matching-dutta/bipartite-matching-dutta/Header.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/bipartite-matching-dutta/bipartite-matching-dutta/hetero_working.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/bipartite-matching-dutta/bipartite-matching-dutta/hetero_working.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dstar-lite/Dstar.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/dstar-lite/Dstar.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/include/BMController.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/include/BMController.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/include/Matching.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/include/Matching.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/include/RobotDriver.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/include/RobotDriver.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/include/VrepPioneerDriver.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/include/VrepPioneerDriver.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.cpp" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <ignored path="/usr/src/gtest/CMakeFiles/" />
@@ -62,20 +79,68 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="main.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main.cpp">
+      <file leaf-file-name="VrepPioneerDriver.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/VrepPioneerDriver.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret line="19" column="40" selection-start-line="19" selection-start-column="40" selection-end-line="19" selection-end-column="40" />
+            <state relative-caret-position="381">
+              <caret line="159" column="25" selection-start-line="159" selection-start-column="25" selection-end-line="159" selection-end-column="25" />
+              <folding>
+                <element signature="e#42#80#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/include/main.h">
+      <file leaf-file-name="logging.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/logging.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
-              <caret line="12" column="24" selection-start-line="12" selection-start-column="8" selection-end-line="12" selection-end-column="24" />
+            <state relative-caret-position="409">
+              <caret line="125" column="46" lean-forward="true" selection-start-line="125" selection-start-column="46" selection-end-line="125" selection-end-column="46" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="VrepQuadricopterDriver.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/VrepQuadricopterDriver.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="238">
+              <caret line="45" column="5" lean-forward="true" selection-start-line="45" selection-start-column="5" selection-end-line="45" selection-end-column="5" />
+              <folding>
+                <element signature="e#129#145#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="VrepQuadricopterDriver.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/VrepQuadricopterDriver.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="389">
+              <caret line="174" column="16" selection-start-line="174" selection-start-column="16" selection-end-line="174" selection-end-column="16" />
+              <folding>
+                <element signature="e#41#76#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="VrepPioneerDriver.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/include/VrepPioneerDriver.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="299">
+              <caret line="55" column="23" selection-start-line="55" selection-start-column="23" selection-end-line="55" selection-end-column="23" />
+              <folding>
+                <element signature="e#132#149#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RobotDriver.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/include/RobotDriver.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="126">
+              <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
             </state>
           </provider>
         </entry>
@@ -83,32 +148,12 @@
       <file leaf-file-name="BMController.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/BMController.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="125">
-              <caret line="432" column="35" lean-forward="true" selection-start-line="432" selection-start-column="35" selection-end-line="432" selection-end-column="35" />
+            <state relative-caret-position="544">
+              <caret line="191" column="33" selection-start-line="191" selection-start-column="33" selection-end-line="191" selection-end-column="33" />
               <folding>
-                <element signature="e#22447#22592#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Matching.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Matching.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
-              <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="hetero_working.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/bipartite-matching-dutta/bipartite-matching-dutta/hetero_working.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="230">
-              <caret line="61" column="42" selection-start-line="61" selection-start-column="42" selection-end-line="61" selection-end-column="42" />
-              <folding>
-                <element signature="e#0#19#0" expanded="true" />
-                <element signature="e#2583#2837#0" />
+                <element signature="e#718#4410#0" />
+                <element signature="e#6411#6612#0" />
+                <element signature="e#6614#6812#0" />
               </folding>
             </state>
           </provider>
@@ -117,31 +162,10 @@
       <file leaf-file-name="Header.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/bipartite-matching-dutta/bipartite-matching-dutta/Header.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="37" selection-start-line="37" selection-end-line="37" />
+            <state relative-caret-position="425">
+              <caret line="66" column="4" selection-start-line="66" selection-start-column="4" selection-end-line="66" selection-end-column="35" />
               <folding>
                 <element signature="e#14#32#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Countdown.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/include/Countdown.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="558">
-              <caret line="31" column="21" selection-start-line="31" selection-start-column="21" selection-end-line="31" selection-end-column="21" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="VrepPioneerDriver.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/VrepPioneerDriver.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4266">
-              <caret line="237" column="16" selection-start-line="237" selection-start-column="16" selection-end-line="237" selection-end-column="16" />
-              <folding>
-                <element signature="e#6020#6270#0" />
               </folding>
             </state>
           </provider>
@@ -151,36 +175,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>neighbor</find>
-      <find>find_best</find>
-      <find>myalts</find>
-      <find>computema</find>
-      <find>9999</find>
-      <find>second</find>
-      <find>mann</find>
-      <find>weights</find>
-      <find>solve</find>
-      <find>find</find>
-      <find>find(</find>
-      <find>matched row and</find>
-      <find>compute</find>
-      <find>displayw</find>
-      <find>alternativecall</find>
-      <find>receive</find>
-      <find>&quot;Changing state</find>
-      <find>matcher.add</find>
-      <find>we</find>
-      <find>bipartitematcher</find>
-      <find>initialize</find>
-      <find>matcher %</find>
-      <find>weigh</find>
-      <find>display_matc</find>
-      <find>display</find>
-      <find>robot %d</find>
-      <find>consider</find>
-      <find>waitforall</find>
-      <find>display_</find>
-      <find>allalter</find>
+      <find>times</find>
+      <find>~</find>
+      <find>= myID</find>
+      <find>getid</find>
+      <find>initialpath</find>
+      <find>plan</find>
+      <find>naviga</find>
+      <find>setl</find>
+      <find>log</find>
+      <find>drive</find>
+      <find>drivealong</find>
+      <find>printf</find>
+      <find>state change</find>
+      <find>drivealong th</find>
+      <find>add</find>
+      <find>addalt</find>
+      <find>self</find>
+      <find>my ma</find>
+      <find>has</find>
+      <find>level</find>
+      <find>join</find>
+      <find>stop</find>
+      <find>beginning to foll</find>
+      <find>state cha</find>
+      <find>driving</find>
+      <find>stopping</find>
+      <find>drivealong threa</find>
+      <find>now at</find>
+      <find>i will not</find>
+      <find>facedir</find>
     </findStrings>
     <replaceStrings>
       <replace>y</replace>
@@ -221,25 +245,31 @@
         <option value="$PROJECT_DIR$/src/Alternative.h" />
         <option value="$PROJECT_DIR$/src/include/Alternative.h" />
         <option value="$PROJECT_DIR$/src/Grid4C.cpp" />
-        <option value="$PROJECT_DIR$/src/include/RobotDriver.h" />
-        <option value="$PROJECT_DIR$/src/CMakeLists.txt" />
-        <option value="$PROJECT_DIR$/src/include/VrepPioneerDriver.h" />
         <option value="$PROJECT_DIR$/src/Semaphore.cpp" />
         <option value="$PROJECT_DIR$/src/Semaphore.h" />
         <option value="$PROJECT_DIR$/src/include/Semaphore.h" />
-        <option value="$PROJECT_DIR$/src/include/Countdown.h" />
         <option value="$PROJECT_DIR$/matching structure" />
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
-        <option value="$PROJECT_DIR$/src/VrepPioneerDriver.cpp" />
-        <option value="$PROJECT_DIR$/src/include/Matching.h" />
         <option value="$PROJECT_DIR$/src/Point3D.cpp" />
         <option value="$PROJECT_DIR$/src/include/Point3D.h" />
-        <option value="$PROJECT_DIR$/src/include/BMController.h" />
         <option value="$PROJECT_DIR$/src/include/main.h" />
-        <option value="$PROJECT_DIR$/src/main.cpp" />
+        <option value="$PROJECT_DIR$/src/include/Matching.h" />
         <option value="$PROJECT_DIR$/src/Matching.cpp" />
+        <option value="$PROJECT_DIR$/src/CMakeLists.txt" />
+        <option value="$PROJECT_DIR$/src/include/Countdown.h" />
+        <option value="$PROJECT_DIR$/src/dstar-lite/Dstar.cpp" />
+        <option value="$PROJECT_DIR$/src/logging.h" />
+        <option value="$PROJECT_DIR$/src/main.cpp" />
+        <option value="$PROJECT_DIR$/src/logging.cpp" />
+        <option value="$PROJECT_DIR$/src/include/logging.h" />
         <option value="$PROJECT_DIR$/src/bipartite-matching-dutta/bipartite-matching-dutta/Header.h" />
         <option value="$PROJECT_DIR$/src/bipartite-matching-dutta/bipartite-matching-dutta/hetero_working.cpp" />
+        <option value="$PROJECT_DIR$/src/include/BMController.h" />
+        <option value="$PROJECT_DIR$/src/include/VrepPioneerDriver.h" />
+        <option value="$PROJECT_DIR$/src/include/RobotDriver.h" />
+        <option value="$PROJECT_DIR$/src/VrepPioneerDriver.cpp" />
+        <option value="$PROJECT_DIR$/src/VrepQuadricopterDriver.h" />
+        <option value="$PROJECT_DIR$/src/VrepQuadricopterDriver.cpp" />
         <option value="$PROJECT_DIR$/src/BMController.cpp" />
       </list>
     </option>
@@ -250,7 +280,7 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
+  <component name="OCFindUsagesOptions" text="false" ivars="false" properties="true" derivedClasses="false" />
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="1287" />
     <option name="y" value="-4" />
@@ -262,7 +292,53 @@
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
-    <panes />
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="pathdriver" type="b2602c69:ProjectViewProjectNode" />
+              <item name="pathdriver" type="47feb1d3:ProjectViewModuleNode" />
+            </path>
+            <path>
+              <item name="pathdriver" type="b2602c69:ProjectViewProjectNode" />
+              <item name="pathdriver" type="47feb1d3:ProjectViewModuleNode" />
+              <item name="pathdriver" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="pathdriver" type="b2602c69:ProjectViewProjectNode" />
+              <item name="pathdriver" type="47feb1d3:ProjectViewModuleNode" />
+              <item name="pathdriver" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="pathdriver" type="b2602c69:ProjectViewProjectNode" />
+              <item name="pathdriver" type="47feb1d3:ProjectViewModuleNode" />
+              <item name="pathdriver" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="bipartite-matching-dutta" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="pathdriver" type="b2602c69:ProjectViewProjectNode" />
+              <item name="pathdriver" type="47feb1d3:ProjectViewModuleNode" />
+              <item name="pathdriver" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="bipartite-matching-dutta" type="462c0819:PsiDirectoryNode" />
+              <item name="bipartite-matching-dutta" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="pathdriver" type="b2602c69:ProjectViewProjectNode" />
+              <item name="pathdriver" type="47feb1d3:ProjectViewModuleNode" />
+              <item name="pathdriver" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="include" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -410,7 +486,10 @@
       <workItem from="1522428877178" duration="16802000" />
       <workItem from="1522803858468" duration="9990000" />
       <workItem from="1522862530732" duration="16912000" />
-      <workItem from="1523323977636" duration="7118000" />
+      <workItem from="1523323977636" duration="10311000" />
+      <workItem from="1523474630864" duration="13645000" />
+      <workItem from="1524186578387" duration="19504000" />
+      <workItem from="1524683729051" duration="16127000" />
     </task>
     <task id="LOCAL-00001" summary="Changed Point3D and PointD3D to classes, and added the empty ones.">
       <created>1517279647602</created>
@@ -475,11 +554,18 @@
       <option name="project" value="LOCAL" />
       <updated>1522972774762</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Data and methods used by BipartiteMatcher are now instance-specific, where appropriate.">
+      <created>1523331989532</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1523331989532</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="279354000" />
+    <option name="totallyTimeSpent" value="331823000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -494,14 +580,13 @@
     <frame x="1279" y="-11" width="1282" height="1036" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="1" weight="0.2140625" />
+      <window_info content_ui="combo" id="Project" order="1" weight="0.2140016" />
       <window_info anchor="bottom" id="TODO" order="11" weight="0.32925472" />
       <window_info anchor="bottom" id="Messages" order="0" weight="0.27201784" />
       <window_info anchor="bottom" id="CMake" order="1" weight="0.31520534" />
       <window_info anchor="bottom" id="Event Log" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Find" order="6" weight="0.3277592" />
       <window_info anchor="bottom" id="Version Control" order="3" />
-      <window_info anchor="bottom" id="Run" order="7" />
+      <window_info anchor="bottom" id="Run" order="7" weight="0.32998884" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="4" weight="0.3277592" />
       <window_info id="Favorites" order="0" side_tool="true" />
@@ -511,30 +596,10 @@
       <window_info anchor="right" id="Commander" order="1" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="2" weight="0.25" />
       <window_info anchor="right" id="Data View" order="0" />
-      <window_info anchor="bottom" id="Cvs" order="9" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="5" />
-    </layout>
-    <layout-to-restore>
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="3" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="10" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Cvs" order="9" weight="0.25" />
-      <window_info content_ui="combo" id="Project" order="1" weight="0.2140625" />
-      <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
-      <window_info anchor="right" id="Commander" order="1" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="11" weight="0.32925472" />
-      <window_info anchor="bottom" id="Run" order="7" />
-      <window_info anchor="right" id="Data View" order="0" />
       <window_info anchor="bottom" id="Find" order="6" weight="0.3277592" />
-      <window_info active="true" anchor="bottom" id="Debug" order="8" visible="true" weight="0.29208472" />
-      <window_info anchor="bottom" id="Messages" order="0" weight="0.27201784" />
-      <window_info anchor="bottom" id="Terminal" order="4" weight="0.32814237" />
-      <window_info anchor="bottom" id="Event Log" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Version Control" order="3" />
-      <window_info anchor="bottom" id="Message" order="5" />
-      <window_info anchor="bottom" id="CMake" order="1" weight="0.31520534" />
-      <window_info id="Favorites" order="0" side_tool="true" />
-    </layout-to-restore>
+    </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -553,18 +618,29 @@
     <MESSAGE value="Added driver thread to BMController. Some bug fixes." />
     <MESSAGE value="Various bug fixes." />
     <MESSAGE value="Reworked bipartite matching code for this particular application." />
-    <option name="LAST_COMMIT_MESSAGE" value="Reworked bipartite matching code for this particular application." />
+    <MESSAGE value="Data and methods used by BipartiteMatcher are now instance-specific, where appropriate." />
+    <option name="LAST_COMMIT_MESSAGE" value="Data and methods used by BipartiteMatcher are now instance-specific, where appropriate." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/BMController.cpp</url>
-          <line>556</line>
-          <option name="timeStamp" value="131" />
+          <line>566</line>
+          <option name="timeStamp" value="146" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/src/main.cpp</url>
+          <line>177</line>
+          <option name="timeStamp" value="167" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/src/include/logging.h</url>
+          <line>55</line>
+          <option name="timeStamp" value="176" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="146" />
+      <option name="time" value="185" />
     </breakpoint-manager>
   </component>
   <component name="debuggerHistoryManager">
@@ -584,178 +660,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file:///usr/include/boost/smart_ptr/detail/shared_count.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="442" selection-start-line="442" selection-end-line="442" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/include/boost/core/checked_delete.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="33" selection-start-line="33" selection-end-line="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Alternative.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/PointD3D.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="8" column="43" selection-start-line="8" selection-start-column="43" selection-end-line="8" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/include/Grid4C.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="5" selection-start-line="5" selection-end-line="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/PointD3D.h" />
-    <entry file="file://$PROJECT_DIR$/src/main.h" />
-    <entry file="file://$PROJECT_DIR$/src/CMakeLists.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="245">
-          <caret line="102" column="2" selection-start-line="102" selection-start-column="2" selection-end-line="102" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Grid4C.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="103">
-          <caret line="98" selection-start-line="98" selection-end-line="98" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Semaphore.h" />
-    <entry file="file://$PROJECT_DIR$/src/Semaphore.h" />
-    <entry file="file://$PROJECT_DIR$/src/include/PointD3D.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="307">
-          <caret line="25" column="35" selection-start-line="25" selection-start-column="35" selection-end-line="25" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/matching structure">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="568">
-          <caret line="36" selection-start-line="36" selection-end-line="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/include/RobotDriver.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="16" column="16" selection-start-line="16" selection-start-column="16" selection-end-line="16" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/include/VrepPioneerDriver.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="188">
-          <caret line="47" column="14" selection-start-line="47" selection-start-column="9" selection-end-line="47" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/include/Matching.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="612">
-          <caret line="34" column="11" selection-start-line="34" selection-start-column="11" selection-end-line="34" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="17" column="57" selection-start-line="17" selection-start-column="57" selection-end-line="17" selection-end-column="57" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/include/boost/bind/bind.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="904" selection-start-line="904" selection-end-line="904" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/dstar-lite/Dstar.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1512">
-          <caret line="84" column="37" selection-start-line="84" selection-start-column="37" selection-end-line="84" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/include/x86_64-linux-gnu/c++/5/bits/gthr-default.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="202">
-          <caret line="747" selection-start-line="747" selection-end-line="747" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/include/c++/5/mutex">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="202">
-          <caret line="385" selection-start-line="385" selection-end-line="385" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///opt/ros/kinetic/include/ros/topic.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="202">
-          <caret line="91" selection-start-line="91" selection-end-line="91" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/include/boost/function/function_template.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="202">
-          <caret line="772" selection-start-line="772" selection-end-line="772" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///opt/ros/kinetic/include/ros/subscription_callback_helper.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="202">
-          <caret line="143" selection-start-line="143" selection-end-line="143" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/include/boost/bind/mem_fn_template.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="202">
-          <caret line="164" selection-start-line="164" selection-end-line="164" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///opt/ros/kinetic/include/std_msgs/Float32.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="202">
-          <caret line="162" selection-start-line="162" selection-end-line="162" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/include/c++/5/thread">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="202">
-          <caret line="114" selection-start-line="114" selection-end-line="114" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/include/boost/smart_ptr/make_shared_object.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="202">
-          <caret line="70" selection-start-line="70" selection-end-line="70" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///usr/include/c++/5/bits/stl_iterator.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="202">
@@ -767,13 +671,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2052">
           <caret line="114" selection-start-line="114" selection-end-line="114" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/include/c++/5/bits/stl_list.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15120">
-          <caret line="840" selection-start-line="840" selection-end-line="840" />
         </state>
       </provider>
     </entry>
@@ -795,13 +692,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="101">
           <caret line="31" column="26" selection-start-line="31" selection-start-column="26" selection-end-line="31" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/dstar-lite/Dstar.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="377" column="27" selection-start-line="377" selection-start-column="27" selection-end-line="377" selection-end-column="27" />
+          <folding>
+            <element signature="e#113#131#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -812,65 +705,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///usr/include/c++/5/functional">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="599" selection-start-line="599" selection-end-line="599" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/include/BMController.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2034">
-          <caret line="113" selection-start-line="113" selection-end-line="113" />
-          <folding>
-            <element signature="e#197#234#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///usr/include/boost/smart_ptr/shared_ptr.hpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="193">
           <caret line="647" selection-start-line="647" selection-end-line="647" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///opt/ros/kinetic/include/ros/publisher.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="202">
-          <caret line="107" selection-start-line="107" selection-end-line="107" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/VrepPioneerDriver.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4266">
-          <caret line="237" column="16" selection-start-line="237" selection-start-column="16" selection-end-line="237" selection-end-column="16" />
-          <folding>
-            <element signature="e#6020#6270#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/include/Countdown.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="558">
-          <caret line="31" column="21" selection-start-line="31" selection-start-column="21" selection-end-line="31" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/include/main.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="12" column="24" selection-start-line="12" selection-start-column="8" selection-end-line="12" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret line="19" column="40" selection-start-line="19" selection-start-column="40" selection-end-line="19" selection-end-column="40" />
         </state>
       </provider>
     </entry>
@@ -881,54 +719,341 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///usr/include/c++/5/bits/stl_tree.h">
+    <entry file="file:///usr/include/c++/5/bits/stl_list.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="569">
+          <caret line="840" selection-start-line="840" selection-end-line="840" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/include/c++/5/bits/stl_function.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="201">
-          <caret line="204" selection-start-line="204" selection-end-line="204" />
+          <caret line="385" selection-start-line="385" selection-end-line="385" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Matching.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/include/c++/5/bits/stl_map.h">
+    <entry file="file:///usr/include/c++/5/bits/stl_tree.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="193">
-          <caret line="531" selection-start-line="531" selection-end-line="531" />
+          <caret line="1671" selection-start-line="1671" selection-end-line="1671" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/bipartite-matching-dutta/bipartite-matching-dutta/Header.h">
+    <entry file="file:///usr/include/c++/5/backward/hashtable.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="37" selection-start-line="37" selection-end-line="37" />
+        <state relative-caret-position="201">
+          <caret line="812" selection-start-line="812" selection-end-line="812" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/include/x86_64-linux-gnu/c++/5/bits/gthr-default.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="202">
+          <caret line="747" selection-start-line="747" selection-end-line="747" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/include/c++/5/mutex">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="193">
+          <caret line="134" selection-start-line="134" selection-end-line="134" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/include/c++/5/cmath">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="201">
+          <caret line="482" selection-start-line="482" selection-end-line="482" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/include/c++/5/ext/hash_map">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="201">
+          <caret line="212" selection-start-line="212" selection-end-line="212" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/include/c++/5/new">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="263">
+          <caret line="129" selection-start-line="129" selection-end-line="129" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/dstar-lite/Dstar.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="274">
+          <caret line="97" column="10" selection-start-line="97" selection-start-column="10" selection-end-line="97" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/include/c++/5/thread">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="193">
+          <caret line="291" selection-start-line="291" selection-end-line="291" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-7">
+          <caret line="126" lean-forward="true" selection-start-line="126" selection-end-line="126" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/include/Matching.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="36" column="17" selection-start-line="36" selection-start-column="17" selection-end-line="36" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///opt/ros/kinetic/include/ros/subscription_callback_helper.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="202">
+          <caret line="143" selection-start-line="143" selection-end-line="143" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/include/boost/function/function_template.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="772" selection-start-line="772" selection-end-line="772" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///opt/ros/kinetic/include/ros/topic.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="202">
+          <caret line="107" selection-start-line="107" selection-end-line="107" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="371">
+          <caret line="142" column="28" selection-start-line="142" selection-start-column="28" selection-end-line="142" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/dstar-lite/Dstar.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="526">
+          <caret line="625" column="14" lean-forward="true" selection-start-line="625" selection-start-column="14" selection-end-line="625" selection-end-column="14" />
           <folding>
-            <element signature="e#14#32#0" expanded="true" />
+            <element signature="e#155#222#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/include/c++/5/bits/shared_ptr_base.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="93">
+          <caret line="373" selection-start-line="373" selection-end-line="373" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/include/c++/5/bits/shared_ptr.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="201">
+          <caret line="92" selection-start-line="92" selection-end-line="92" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/matching structure">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="648">
+          <caret line="36" selection-start-line="36" selection-end-line="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="125" column="1" selection-start-line="125" selection-start-column="1" selection-end-line="125" selection-end-column="1" />
+          <folding>
+            <element signature="e#42#59#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/include/main.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="12" column="27" selection-start-line="12" selection-start-column="27" selection-end-line="12" selection-end-column="27" />
+          <folding>
+            <element signature="e#107#136#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/include/c++/5/bits/stl_algobase.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="417">
+          <caret line="395" column="33" lean-forward="true" selection-start-line="395" selection-start-column="33" selection-end-line="395" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/include/logging.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="58" column="80" selection-start-line="58" selection-start-column="80" selection-end-line="58" selection-end-column="80" />
+          <folding>
+            <element signature="e#101#121#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/bipartite-matching-dutta/bipartite-matching-dutta/hetero_working.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="230">
-          <caret line="61" column="42" selection-start-line="61" selection-start-column="42" selection-end-line="61" selection-end-column="42" />
+        <state relative-caret-position="199">
+          <caret line="205" column="57" selection-start-line="205" selection-start-column="57" selection-end-line="205" selection-end-column="57" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
-            <element signature="e#2583#2837#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/include/c++/5/bits/stl_map.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="193">
+          <caret line="522" selection-start-line="522" selection-end-line="522" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Matching.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="364">
+          <caret line="48" selection-start-line="48" selection-end-line="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/include/boost/bind/bind.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="201">
+          <caret line="312" selection-start-line="312" selection-end-line="312" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/include/boost/bind/mem_fn_template.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="193">
+          <caret line="164" selection-start-line="164" selection-end-line="164" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/include/BMController.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="389">
+          <caret line="145" column="4" selection-start-line="145" selection-start-column="4" selection-end-line="145" selection-end-column="23" />
+          <folding>
+            <element signature="e#197#234#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/bipartite-matching-dutta/bipartite-matching-dutta/Header.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="66" column="4" selection-start-line="66" selection-start-column="4" selection-end-line="66" selection-end-column="35" />
+          <folding>
+            <element signature="e#14#32#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/include/Countdown.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="335">
+          <caret line="29" selection-start-line="29" selection-end-line="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/include/c++/5/functional">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="193">
+          <caret line="1073" selection-start-line="1073" selection-end-line="1073" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/include/boost/smart_ptr/shared_array.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="139">
+          <caret line="220" column="42" lean-forward="true" selection-start-line="220" selection-start-column="42" selection-end-line="220" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///opt/ros/kinetic/include/ros/publisher.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="193">
+          <caret line="117" selection-start-line="117" selection-end-line="117" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/include/VrepPioneerDriver.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="299">
+          <caret line="55" column="23" selection-start-line="55" selection-start-column="23" selection-end-line="55" selection-end-column="23" />
+          <folding>
+            <element signature="e#132#149#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/include/RobotDriver.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/VrepQuadricopterDriver.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="389">
+          <caret line="174" column="16" selection-start-line="174" selection-start-column="16" selection-end-line="174" selection-end-column="16" />
+          <folding>
+            <element signature="e#41#76#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/logging.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="409">
+          <caret line="125" column="46" lean-forward="true" selection-start-line="125" selection-start-column="46" selection-end-line="125" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/VrepPioneerDriver.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="381">
+          <caret line="159" column="25" selection-start-line="159" selection-start-column="25" selection-end-line="159" selection-end-column="25" />
+          <folding>
+            <element signature="e#42#80#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/VrepQuadricopterDriver.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="45" column="5" lean-forward="true" selection-start-line="45" selection-start-column="5" selection-end-line="45" selection-end-column="5" />
+          <folding>
+            <element signature="e#129#145#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/BMController.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="125">
-          <caret line="432" column="35" lean-forward="true" selection-start-line="432" selection-start-column="35" selection-end-line="432" selection-end-column="35" />
+        <state relative-caret-position="544">
+          <caret line="191" column="33" selection-start-line="191" selection-start-column="33" selection-end-line="191" selection-end-column="33" />
           <folding>
-            <element signature="e#22447#22592#0" />
+            <element signature="e#718#4410#0" />
+            <element signature="e#6411#6612#0" />
+            <element signature="e#6614#6812#0" />
           </folding>
         </state>
       </provider>

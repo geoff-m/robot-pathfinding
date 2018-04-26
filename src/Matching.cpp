@@ -12,6 +12,11 @@ void Matching::add(int robotID, Point3D placeToGo)
     cardinality += 1; // Increment cardinality since we just added one point.
 }
 
+void Matching::clear()
+{
+    dict.clear();
+}
+
 void Matching::setCardinality(int n)
 {
     cardinality = n;
@@ -41,7 +46,7 @@ int Matching::getCost() const
 
 Point3D Matching::getPlaceFor(int robotID)
 {
-    return dict[robotID];
+    return dict.at(robotID);
 }
 
 bool Matching::hasPlaceFor(int robotID)

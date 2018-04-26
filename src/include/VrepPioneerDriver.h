@@ -59,11 +59,14 @@ public:
     bool driveTo(PointD3D target) const; // Returns true on success, false if interrupted.
     void followPath(std::list<PointD3D> waypoints) const;
 
-    void faceDirection(double angle) const;
+    bool faceDirection(double angle) const;
     void goForward(float speed) const;
     void stop() const;
     void turnLeft(float speed) const;
     void turnRight(float speed) const;
+
+    PointD3D getLocation() const;
+    PointD3D getOrientation() const;
 
     std::unique_ptr<PointD3D> myLoc;
     std::unique_ptr<PointD3D> myRot;

@@ -170,7 +170,7 @@ double Dstar::setRHS(state u, double rhs) {
  * Returns the 8-way distance between state a and state b.
  */
 double Dstar::eightCondist(state a, state b) {
-  double temp;
+  /*double temp;
   double min = fabs(a.x - b.x);
   double max = fabs(a.y - b.y);
   if (min > max) {
@@ -179,6 +179,8 @@ double Dstar::eightCondist(state a, state b) {
     max = temp;
   }
   return ((M_SQRT2-1.0)*min + max);
+   */
+  return fabs(a.x - b.x) + fabs(a.y - b.y);
 }
 
 /* int Dstar::computeShortestPath()
@@ -408,6 +410,19 @@ void Dstar::getSucc(state u,list<state> &s) {
 
   u.x += 1;
   s.push_front(u);
+  u.x -= 1;
+  u.y += 1;
+  s.push_front(u);
+
+  u.y -= 1;
+  u.x -= 1;
+  s.push_front(u);
+
+  u.x += 1;
+  u.y -= 1;
+  s.push_front(u);
+  /*u.x += 1;
+  s.push_front(u);
   u.y += 1;
   s.push_front(u);
   u.x -= 1;
@@ -422,7 +437,7 @@ void Dstar::getSucc(state u,list<state> &s) {
   s.push_front(u);
   u.x += 1;
   s.push_front(u);
-
+  */
 }
 
 /* void Dstar::getPred(state u,list<state> &s)
@@ -440,6 +455,21 @@ void Dstar::getPred(state u,list<state> &s) {
 
   u.x += 1;
   if (!occupied(u)) s.push_front(u);
+  u.x -= 1;
+  u.y += 1;
+  if (!occupied(u)) s.push_front(u);
+
+  u.y -= 1;
+  u.x -= 1;
+  if (!occupied(u)) s.push_front(u);
+
+  u.x += 1;
+  u.y -= 1;
+  if (!occupied(u))  s.push_front(u);
+
+  /*
+  u.x += 1;
+  if (!occupied(u)) s.push_front(u);
   u.y += 1;
   if (!occupied(u)) s.push_front(u);
   u.x -= 1;
@@ -454,6 +484,7 @@ void Dstar::getPred(state u,list<state> &s) {
   if (!occupied(u)) s.push_front(u);
   u.x += 1;
   if (!occupied(u)) s.push_front(u);
+*/
 
 }
 

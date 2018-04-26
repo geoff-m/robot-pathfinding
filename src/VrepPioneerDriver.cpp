@@ -18,25 +18,15 @@
 #include <time.h>
 #include <regex>
 #include "message_filters/subscriber.h"
+#include "PointD3D.h"
 
 //ros::NodeHandle* nh;
 //ros::Subscriber locationSubscriber, orientationSubscriber;
 
 
 VrepPioneerDriver::VrepPioneerDriver(ros::NodeHandle& node,
-                                    const std::string robotName)
-{
-    std::cout << "Setting up driver for " << robotName << "...\n";
-    nh = &node;
-    /*if (nh.get() == nullptr)
-        nh.reset(&node);
-        */
-    this->robotName = robotName.c_str();
-    this->leftMotorName = "leftMotor";
-    this->rightMotorName = "rightMotor";
-    initTopics();
-    canGo = true;
-}
+                                    const std::string robotName) : VrepPioneerDriver(node, robotName, "leftMotor", "rightMotor")
+{ }
 
 VrepPioneerDriver::VrepPioneerDriver(ros::NodeHandle& node,
                                      const std::string robotName,
@@ -106,10 +96,10 @@ void VrepPioneerDriver::initTopics()
     // regardless of how many instances we may have at runtime.
     // Look into ros "message filters"?
 
-    topicName = topicNameBase + "/in/leftMotor";
+    topicName = topicNameBase + "/in/" + leftMotorName;
     leftMotorPublisher = nh->advertise<std_msgs::Float32>(topicName, 1, true); // true for latching behavior.
 
-    topicName = topicNameBase + "/in/rightMotor";
+    topicName = topicNameBase + "/in/" + rightMotorName;
     rightMotorPublisher = nh->advertise<std_msgs::Float32>(topicName, 1, true); // true for latching behavior.
 
 
@@ -147,7 +137,7 @@ bool VrepPioneerDriver::driveTo(PointD3D target) const
     //std::cout << "Driving to " << target << std::endl;
     std::printf("Robot %d:\tDriving to (world) (%.1f, %.1f)\n", id, target.getX(), target.getY());
 
-    const double MAX_ERROR = 0.15;
+    const double MAX_ERROR = 0.25;
     PointD3D difference = target - *myLoc;
     double error = difference.euclideanNorm();
     clock_t time = clock();
@@ -166,8 +156,9 @@ bool VrepPioneerDriver::driveTo(PointD3D target) const
         }
 
         double direction = radiansToDegrees(atan2(difference.getY(), difference.getX()));
-        faceDirection(direction);
-        goForward(1.0f);
+        if (!faceDirection(direction))
+            return false;
+        goForward(2.0f);
 
         ros::spinOnce(); // wait for position change
         difference = target - *myLoc;
@@ -195,8 +186,20 @@ void VrepPioneerDriver::followPath(std::list<PointD3D> waypoints) const
 }
 
 // Uses ROS to turn until the robot is facing the specified direction (degrees).
-void VrepPioneerDriver::faceDirection(double degrees) const
+bool VrepPioneerDriver::faceDirection(double degrees) const
 {
+    // Check that we haven't been signalled to stop.
+    bool willGo;
+    canGoMutex.lock();
+    willGo = canGo;
+    canGoMutex.unlock();
+    if (!willGo)
+    {
+        std::printf("Driver %d:\tStopping driving because canGo has been cleared!\n", id);
+        stop();
+        return false;
+    }
+
     //std::cout << "facing " << degrees << std::endl;
     const double DEGREE_EPSILON = 3;
     double error;
@@ -208,6 +211,7 @@ void VrepPioneerDriver::faceDirection(double degrees) const
     double absError = fabs(error);
     while (absError > DEGREE_EPSILON)
     {
+
         if (absError < min)
         {
             min = absError;
@@ -225,7 +229,7 @@ void VrepPioneerDriver::faceDirection(double degrees) const
         absError = fabs(error);
     }
     stop();
-
+    return true;
 }
 
 void VrepPioneerDriver::turnLeft(float speed) const
@@ -317,4 +321,14 @@ VrepPioneerDriver::~VrepPioneerDriver()
 const char* VrepPioneerDriver::getName() const
 {
     return robotName;
+}
+
+PointD3D VrepPioneerDriver::getLocation () const
+{
+    return *myLoc;
+}
+
+PointD3D VrepPioneerDriver::getOrientation() const
+{
+    return *myRot;
 }

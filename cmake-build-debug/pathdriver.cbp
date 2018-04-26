@@ -635,6 +635,12 @@
 		<Unit filename="/home/student/catkin_ws/src/pathdriver/src/VrepPioneerDriver.cpp">
 			<Option target="pathdriver"/>
 		</Unit>
+		<Unit filename="/home/student/catkin_ws/src/pathdriver/src/VrepQuadricopterDriver.cpp">
+			<Option target="pathdriver"/>
+		</Unit>
+		<Unit filename="/home/student/catkin_ws/src/pathdriver/src/VrepQuadricopterDriver.h">
+			<Option target="pathdriver"/>
+		</Unit>
 		<Unit filename="/home/student/catkin_ws/src/pathdriver/src/bipartite-matching-dutta/bipartite-matching-dutta/hetero_working.cpp">
 			<Option target="pathdriver"/>
 		</Unit>
@@ -651,6 +657,12 @@
 			<Option target="pathdriver"/>
 		</Unit>
 		<Unit filename="/home/student/catkin_ws/src/pathdriver/src/include/Matching.h">
+			<Option target="pathdriver"/>
+		</Unit>
+		<Unit filename="/home/student/catkin_ws/src/pathdriver/src/include/logging.h">
+			<Option target="pathdriver"/>
+		</Unit>
+		<Unit filename="/home/student/catkin_ws/src/pathdriver/src/logging.cpp">
 			<Option target="pathdriver"/>
 		</Unit>
 		<Unit filename="/home/student/catkin_ws/src/pathdriver/src/main.cpp">

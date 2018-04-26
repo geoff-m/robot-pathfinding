@@ -746,6 +746,33 @@ src/VrepPioneerDriver.cpp.s:
 	$(MAKE) -f CMakeFiles/pathdriver.dir/build.make CMakeFiles/pathdriver.dir/src/VrepPioneerDriver.cpp.s
 .PHONY : src/VrepPioneerDriver.cpp.s
 
+src/VrepQuadricopterDriver.o: src/VrepQuadricopterDriver.cpp.o
+
+.PHONY : src/VrepQuadricopterDriver.o
+
+# target to build an object file
+src/VrepQuadricopterDriver.cpp.o:
+	$(MAKE) -f CMakeFiles/pathdriver.dir/build.make CMakeFiles/pathdriver.dir/src/VrepQuadricopterDriver.cpp.o
+.PHONY : src/VrepQuadricopterDriver.cpp.o
+
+src/VrepQuadricopterDriver.i: src/VrepQuadricopterDriver.cpp.i
+
+.PHONY : src/VrepQuadricopterDriver.i
+
+# target to preprocess a source file
+src/VrepQuadricopterDriver.cpp.i:
+	$(MAKE) -f CMakeFiles/pathdriver.dir/build.make CMakeFiles/pathdriver.dir/src/VrepQuadricopterDriver.cpp.i
+.PHONY : src/VrepQuadricopterDriver.cpp.i
+
+src/VrepQuadricopterDriver.s: src/VrepQuadricopterDriver.cpp.s
+
+.PHONY : src/VrepQuadricopterDriver.s
+
+# target to generate assembly for a file
+src/VrepQuadricopterDriver.cpp.s:
+	$(MAKE) -f CMakeFiles/pathdriver.dir/build.make CMakeFiles/pathdriver.dir/src/VrepQuadricopterDriver.cpp.s
+.PHONY : src/VrepQuadricopterDriver.cpp.s
+
 src/bipartite-matching-dutta/bipartite-matching-dutta/hetero_working.o: src/bipartite-matching-dutta/bipartite-matching-dutta/hetero_working.cpp.o
 
 .PHONY : src/bipartite-matching-dutta/bipartite-matching-dutta/hetero_working.o
@@ -826,6 +853,33 @@ src/geometry.s: src/geometry.cpp.s
 src/geometry.cpp.s:
 	$(MAKE) -f CMakeFiles/pathdriver.dir/build.make CMakeFiles/pathdriver.dir/src/geometry.cpp.s
 .PHONY : src/geometry.cpp.s
+
+src/logging.o: src/logging.cpp.o
+
+.PHONY : src/logging.o
+
+# target to build an object file
+src/logging.cpp.o:
+	$(MAKE) -f CMakeFiles/pathdriver.dir/build.make CMakeFiles/pathdriver.dir/src/logging.cpp.o
+.PHONY : src/logging.cpp.o
+
+src/logging.i: src/logging.cpp.i
+
+.PHONY : src/logging.i
+
+# target to preprocess a source file
+src/logging.cpp.i:
+	$(MAKE) -f CMakeFiles/pathdriver.dir/build.make CMakeFiles/pathdriver.dir/src/logging.cpp.i
+.PHONY : src/logging.cpp.i
+
+src/logging.s: src/logging.cpp.s
+
+.PHONY : src/logging.s
+
+# target to generate assembly for a file
+src/logging.cpp.s:
+	$(MAKE) -f CMakeFiles/pathdriver.dir/build.make CMakeFiles/pathdriver.dir/src/logging.cpp.s
+.PHONY : src/logging.cpp.s
 
 src/main.o: src/main.cpp.o
 
@@ -918,6 +972,9 @@ help:
 	@echo "... src/VrepPioneerDriver.o"
 	@echo "... src/VrepPioneerDriver.i"
 	@echo "... src/VrepPioneerDriver.s"
+	@echo "... src/VrepQuadricopterDriver.o"
+	@echo "... src/VrepQuadricopterDriver.i"
+	@echo "... src/VrepQuadricopterDriver.s"
 	@echo "... src/bipartite-matching-dutta/bipartite-matching-dutta/hetero_working.o"
 	@echo "... src/bipartite-matching-dutta/bipartite-matching-dutta/hetero_working.i"
 	@echo "... src/bipartite-matching-dutta/bipartite-matching-dutta/hetero_working.s"
@@ -927,6 +984,9 @@ help:
 	@echo "... src/geometry.o"
 	@echo "... src/geometry.i"
 	@echo "... src/geometry.s"
+	@echo "... src/logging.o"
+	@echo "... src/logging.i"
+	@echo "... src/logging.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

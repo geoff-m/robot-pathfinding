@@ -34,6 +34,8 @@ public:
 
     void add(int robotID, Point3D placeToGo);
 
+    void clear();
+
     int getCardinality() const;
 
     void setCardinality(int n);
