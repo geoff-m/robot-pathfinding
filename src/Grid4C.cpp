@@ -7,7 +7,6 @@
 #include <list>
 #include <cmath>
 
-#define EMPTY_CELL -1
 int clamp(int min, int val, int max);
 
 // Represents a 6-connected 3-dimensional grid.
@@ -64,7 +63,7 @@ Point3D Grid4C::getGridPoint(const PointD3D worldPoint) const
 {
     int row = (int) lround((worldPoint.getX() - originX) / rowSpacing);
     int col = (int) lround((worldPoint.getY() - originY) / columnSpacing);
-    int lvl = (int) lround((worldPoint.getY() - originZ) / levelSpacing);
+    int lvl = (int) lround((worldPoint.getZ() - originZ) / levelSpacing);
 
     row = clamp(0, row, rows - 1);
     col = clamp(0, col, columns - 1);
@@ -80,8 +79,8 @@ PointD3D Grid4C::getWorldPoint(const Point3D gridPoint) const
         throw std::invalid_argument("That point is not in the grid!");
     }
     return {originX + gridPoint.getX() * rowSpacing,
-                    originY + gridPoint.getY() * columnSpacing,
-                    originZ + gridPoint.getZ() * levelSpacing};
+            originY + gridPoint.getY() * columnSpacing,
+            originZ + gridPoint.getZ() * levelSpacing};
 }
 
 std::list<PointD3D> Grid4C::getWorldPoints(const std::list<Point3D> gridPoints) const {

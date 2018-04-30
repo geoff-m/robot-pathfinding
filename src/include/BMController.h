@@ -5,8 +5,7 @@
 #ifndef PATHDRIVER_BMPLANNER_H
 #define PATHDRIVER_BMPLANNER_H
 
-#include "main.h" // for ROBOT_COUNT.
-
+#include "main.h"
 #include "Dstar.h"
 #include "Grid4C.h"
 #include "RobotDriver.h"
@@ -144,6 +143,9 @@ private:
     long robotsCoordinatedWith;
 
     void stopDriving();
+
+    void WriteLog(const char* fmt...);
+    //void WriteLog(const std::string fmt...);
 
 public:
     BMController(RobotDriver* driver,

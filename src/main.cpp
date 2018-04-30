@@ -22,17 +22,17 @@ int main(int argc, char *argv[]) {
 
     ROS_INFO("Calling rosinit\n");
     ros::init(argc, argv, "pathdriver");
+    //consoleMutex = std::make_shared<std::mutex>();
+    return quadricopterMain();
 
-    Log logger("/home/student/pathfinding-logs/pioneer", ROBOT_COUNT);
-
-    //return quadricopterMain();
+    Log logger("/home/student/pathfinding-tests/pioneer", ROBOT_COUNT);
 
     const PointD3D gridOrigin(0.0f, 0.0f, 0.0f);
 
     ROS_DEBUG("Constructing grid\n");
     // 0.8 is too small
     // 1.5 is too small??
-    const float GRID_SCALE = 0.46f;
+    const float GRID_SCALE = 0.5f;
     std::shared_ptr<Grid4C> grid(new Grid4C(gridOrigin, ROW_COLUMN_COUNT, ROW_COLUMN_COUNT, 1, GRID_SCALE, GRID_SCALE, GRID_SCALE));
 
     ROS_DEBUG("Constructing node\n");
@@ -63,17 +63,6 @@ int main(int argc, char *argv[]) {
     //drivers[1]->driveTo(grid.get()->getWorldPoint(Point3D(0, 1, 0)));
     //drivers[2]->driveTo(grid.get()->getWorldPoint(Point3D(0, 2, 0)));
 
-    ROS_DEBUG("Constructing %d controllers (one for each driver)\n", ROBOT_COUNT);
-    BMController* controllers[ROBOT_COUNT];
-    for (int i = 0; i < ROBOT_COUNT; ++i)
-    {
-        controllers[i] = new BMController(drivers[i], // The driver for the robot to be associated with this controller.
-                                          grid.get(), // The grid that the controller will navigate in.
-                                          *node, // The ROS NodeHandle.
-                                          "Pioneer_p3dx", // The base name of the robot.
-                                          ROBOT_COUNT, // Total number of robots in the scene.
-                                          &logger);
-    }
     for (int i = 0; i < ROBOT_COUNT; ++i) {
         PointD3D actualLoc = *drivers[i]->myLoc;
         Point3D nearestGridLoc = grid->getGridPoint(actualLoc);
@@ -88,6 +77,19 @@ int main(int argc, char *argv[]) {
         drivers[i]->driveTo(worldGridLoc);
     }
 
+    ROS_DEBUG("Constructing %d controllers (one for each driver)\n", ROBOT_COUNT);
+    BMController* controllers[ROBOT_COUNT];
+    for (int i = 0; i < ROBOT_COUNT; ++i)
+    {
+        controllers[i] = new BMController(drivers[i], // The driver for the robot to be associated with this controller.
+                                          grid.get(), // The grid that the controller will navigate in.
+                                          *node, // The ROS NodeHandle.
+                                          "Pioneer_p3dx", // The base name of the robot.
+                                          ROBOT_COUNT, // Total number of robots in the scene.
+                                          &logger);
+    }
+
+
     activeWorkers = new Countdown(ROBOT_COUNT);
 
     printf("Setup done.\n\n");
@@ -96,8 +98,8 @@ int main(int argc, char *argv[]) {
     // update: or we can dispense with threading and use separate processes for multiple robots.
 
 
-    controllers[0]->navigateTo(6, 20);
-    controllers[1]->navigateTo(6, 5);
+    controllers[0]->navigateTo(4, 17);
+    controllers[1]->navigateTo(4, 8);
 
 
     std::cout << "Main: Waiting for robots to finish...\n";
@@ -122,15 +124,35 @@ int main(int argc, char *argv[]) {
 
 }
 
+void traceBoundary(Grid4C* grid, VrepQuadricopterDriver* driver) {
+    int x = grid->getRowCount();
+    int y = grid->getColumnCount();
+    int z = grid->getLevelCount();
+
+    while (true)
+    {
+        driver->driveTo(grid->getWorldPoint(Point3D(0, 0, 0)));
+        driver->driveTo(grid->getWorldPoint(Point3D(x, 0, 0)));
+        driver->driveTo(grid->getWorldPoint(Point3D(x, y, 0)));
+        driver->driveTo(grid->getWorldPoint(Point3D(x, y, z)));
+        driver->driveTo(grid->getWorldPoint(Point3D(0, y, z)));
+        driver->driveTo(grid->getWorldPoint(Point3D(0, 0, z)));
+        driver->driveTo(grid->getWorldPoint(Point3D(x, 0, z)));
+        driver->driveTo(grid->getWorldPoint(Point3D(0, 0, 0)));
+        driver->driveTo(grid->getWorldPoint(Point3D(0, y, 0)));
+    }
+}
+
 int quadricopterMain()
 {
-    Log logger("/home/student/pathfinding-logs/uav", ROBOT_COUNT);
-    const PointD3D gridOrigin(0.0f, 0.0f, 0.0f);
+    std::string logPath("/home/student/pathfinding-tests/uav/");
+    logPath.append(to_string(ROBOT_COUNT));
+    logPath.append("r");
+    Log logger(logPath, ROBOT_COUNT);
+    const PointD3D gridOrigin(-2.0f, -2.0f, 0.5f);
 
     ROS_DEBUG("Constructing grid\n");
-    // 0.8 is too small
-    // 1.5 is too small??
-    const float GRID_SCALE = 1.5f;
+    const float GRID_SCALE = 0.8f;
     std::shared_ptr<Grid4C> grid(new Grid4C(gridOrigin, ROW_COLUMN_COUNT, ROW_COLUMN_COUNT, 1, GRID_SCALE, GRID_SCALE, GRID_SCALE));
 
     ROS_DEBUG("Constructing node\n");
@@ -153,6 +175,24 @@ int quadricopterMain()
     //      ROS is not started.
     //      V-REP simulation is not running.
 
+
+    //traceBoundary(grid.get(),drivers[0]);
+
+
+    for (int i = 0; i < ROBOT_COUNT; ++i) {
+        PointD3D actualLoc = *drivers[i]->myLoc;
+        Point3D nearestGridLoc = grid->getGridPoint(actualLoc);
+        PointD3D worldGridLoc = grid->getWorldPoint(nearestGridLoc);
+        double err = (worldGridLoc - actualLoc).euclideanNorm();
+        const double WORST_CASE = GRID_SCALE / sqrt(3);
+        std::printf("Robot %d is initially %.2f (%.1f%% of worst case) away from nearest grid location, (%d, %d, %d).\n", i,
+                    err,
+                    100 * err / WORST_CASE,
+                    nearestGridLoc.getX(), nearestGridLoc.getY(), nearestGridLoc.getZ());
+
+        drivers[i]->driveTo(worldGridLoc);
+    }
+
     ROS_DEBUG("Constructing %d controllers (one for each driver)\n", ROBOT_COUNT);
     BMController* controllers[ROBOT_COUNT];
     for (int i = 0; i < ROBOT_COUNT; ++i)
@@ -164,19 +204,6 @@ int quadricopterMain()
                                           ROBOT_COUNT, // Total number of robots in the scene.
                                           &logger);
     }
-    for (int i = 0; i < ROBOT_COUNT; ++i) {
-        PointD3D actualLoc = *drivers[i]->myLoc;
-        Point3D nearestGridLoc = grid->getGridPoint(actualLoc);
-        PointD3D worldGridLoc = grid->getWorldPoint(nearestGridLoc);
-        double err = (worldGridLoc - actualLoc).euclideanNorm();
-        const double WORST_CASE = GRID_SCALE / sqrt(2);
-        std::printf("Robot %d is initially %.2f (%.1f%% of worst case) away from nearest grid location, (%d, %d).\n", i,
-                    err,
-                    100 * err / WORST_CASE,
-                    nearestGridLoc.getX(), nearestGridLoc.getY());
-
-        drivers[i]->driveTo(worldGridLoc);
-    }
 
     activeWorkers = new Countdown(ROBOT_COUNT);
 
@@ -185,8 +212,12 @@ int quadricopterMain()
     // later, this will be made to run on its own thread (1 thread per robot)
     // update: or we can dispense with threading and use separate processes for multiple robots.
 
-    controllers[0]->navigateTo(2, 6);
-    controllers[1]->navigateTo(2, 2);
+
+    //consoleMutex = new std::mutex();
+
+    controllers[0]->navigateTo(3, 5);
+    controllers[1]->navigateTo(3, 0);
+    //controllers[2]->navigateTo(8, 0);
 
 
     std::cout << "Main: Waiting for robots to finish...\n";

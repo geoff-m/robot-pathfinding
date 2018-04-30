@@ -14,7 +14,7 @@ public:
 
     void signal()
     {
-        std::printf("Decrementing countdown...\n");
+        //std::printf("Decrementing countdown...\n");
         std::unique_lock<std::mutex> lock(mtx);
         --count;
         cv.notify_one();
@@ -23,7 +23,7 @@ public:
 
     void wait()
     {
-        std::printf("Beginning wait for countdown...\n");
+        //std::printf("Beginning wait for countdown...\n");
         std::unique_lock<std::mutex> lock(mtx);
 
         while(count > 0){

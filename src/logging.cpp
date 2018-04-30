@@ -65,8 +65,6 @@ void Log::writeLog(   int id,
         }
     }
 
-
-
     fprintf(f, "%d\t%d,%d,%d\t%d,%d,%d\t%d\t%d\t%.4f\t%lu\t%lu\t%d\t%lu\n",
              id,
             startLocation.getX(),
@@ -102,16 +100,17 @@ void Log::closeLog(int id)
 {
     FILE* f = files[id];
     if (f != nullptr)
-        fclose(f);
+    {
+        //fclose(f); // this crashes for an unknown reason.
+        f = nullptr;
+    }
 }
 
 Log::~Log()
 {
     for (int i=0; i<fileCount; ++i)
     {
-        FILE* f = files[i];
-        if (f != nullptr)
-            fclose(f);
+       closeLog(i);
     }
     free(files);
 }

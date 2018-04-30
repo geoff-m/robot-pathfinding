@@ -10,12 +10,13 @@
 #include "std_msgs/Bool.h"
 #include "Header.h" // from bipartite-matching-dutta
 #include <chrono>
+#include <algorithm>
+#include <cstdarg>
 
 extern Countdown* activeWorkers;
 
 #define DEFAULT_COST 1 // d*lite's default cost for a node.
 #define NONTRAVERSABLE_COST -1
-#define MINIMUM_SAFE_DISTANCE 3 // measured in cells.
 
 // static helper methods.
 static int getPathCost(list<state>& path);
@@ -163,7 +164,7 @@ void BMController::markRowNontraversable(int row, int colStart, int colEnd)
 
 void BMController::navigateTo(int row, int col)
 {
-    std::printf("Robot %d:\tNavigating to (%d, %d)...\n", myID, row, col);
+    WriteLog("Navigating to (%d, %d)...\n", row, col);
     setState(FOLLOWING_PATH);
 
     // Plan the path.
@@ -195,8 +196,7 @@ void BMController::navigateTo(int row, int col)
 // Drives along a list of grid points until interrupted.
 void BMController::driveAlong(list<Point3D> waypoints)
 {
-    std::cout<< "Robot " << myID << ":\tDriveAlong thread is " << std::this_thread::get_id() << ".\n";
-    std::printf("Robot %d:\tBeginning to follow path: ", myID);
+    WriteLog("Beginning to follow path: ");
     for (auto iter = waypoints.begin(); iter != waypoints.end(); ++iter)
     {
         Point3D current = *iter;
@@ -215,29 +215,29 @@ void BMController::driveAlong(list<Point3D> waypoints)
             {
                 started = true;
             }  else {
-                std::printf("Robot %d:\tWe're already past (%d, %d)\n", myID, current.getX(), current.getY());
+                WriteLog("We're already past (%d, %d)\n", current.getX(), current.getY());
             }
             continue;
         }
 
-        std::printf("Robot %d:\tDriving to (grid): (%d, %d)\n", myID, current.getX(), current.getY());
+        WriteLog("Driving to (grid): (%d, %d)\n", current.getX(), current.getY());
         if (!driver->driveTo(grid->getWorldPoint(current)))
         {
-            //std::printf("Robot %d:\tDriver was interrupted!\n", myID);
+            WriteLog("Driver was interrupted!\n");
             return;
         }
 
         // Increment distance travelled.
         ++totalDistanceTravelled;
-        std::printf("Robot %d:\tmy total distance travelled is %d\n", myID, totalDistanceTravelled);
+        WriteLog("My total distance travelled is %d\n", totalDistanceTravelled);
     }
 
     if (!started)
     {
-        std::printf("Robot %d:\tI never found my own location (%d, %d) anywhere in the path!\n", myID, myloc.getX(), myloc.getY());
+        WriteLog("I never found my own location (%d, %d) anywhere in the path!\n", myloc.getX(), myloc.getY());
     }
 
-    std::printf("Robot %d:\tFinished following path.\n", myID);
+    WriteLog("Finished following path.\n");
     setState(REACHED_GOAL);
 }
 
@@ -249,7 +249,7 @@ void BMController::driveAlong(list<Point3D> waypoints)
 
 void BMController::robotLocationChanged(int id)
 {
-    if ((currentState & FOLLOWING_PATH) == 0)
+    if (currentState != FOLLOWING_PATH)
         return;
 
     robotLocations_mutex.lock();
@@ -262,7 +262,7 @@ void BMController::robotLocationChanged(int id)
     myGridLoc = grid.get()->getGridPoint(driver->getLocation()); // was *driver->myLoc.get()
     robotLocations[myID] = myGridLoc;
 
-    std::printf("Robot %d:\tI'm now at (%d, %d).\n", myID, myGridLoc.getX(), myGridLoc.getY());
+    WriteLog("I'm now at (%d, %d).\n", myGridLoc.getX(), myGridLoc.getY());
 
     // Recompute distances to every other robot.
     for (int i = 0; i < ROBOT_COUNT; ++i)
@@ -274,8 +274,8 @@ void BMController::robotLocationChanged(int id)
         {
             if (std::find(coordinatingWith.begin(), coordinatingWith.end(), i) != coordinatingWith.end())
             {
-                std::printf("Robot %d:\tIgnoring location update from Robot %d because we're already coordinating.\n",
-                            myID, i);
+                WriteLog("Ignoring location update from Robot %d because we're already coordinating.\n",
+                            i);
                 continue; // Skip because we're already coordinating with this robot.
             }
             __glibcxx_assert(coordinatingWith.empty());
@@ -287,7 +287,7 @@ void BMController::robotLocationChanged(int id)
         //std::printf("Robot %d:\tI have moved to within %d cell of Robot %d.\n", myID, cellDistance, i);
         if (cellDistance <= MINIMUM_SAFE_DISTANCE)
         {
-            std::printf("Robot %d:\tRobot %d is within MSD! (%d cells away)\n", myID, i, cellDistance);
+            WriteLog("Robot %d is within MSD. (%d cells away)\n", i, cellDistance);
             // React to nearby robot.
             // Instead of returning immediately, we keep going and mark all robots we need to coordinate with.
 
@@ -306,7 +306,7 @@ void BMController::robotLocationChanged(int id)
                             vectorToString(coordinatingWith).c_str());
                 */
             } else {
-                std::printf("Robot %d: I will not coordinate with robot %d because it is inactive.\n", myID, i);
+                WriteLog("I will not coordinate with robot %d because it is inactive.\n", i);
 
                 // Mark other robot's location as impassable with D*.
                 dstar.updateCell(robotLocations[i].getX(), robotLocations[i].getY(), NONTRAVERSABLE_COST);
@@ -324,7 +324,8 @@ void BMController::robotLocationChanged(int id)
         stopDriving();
 
         dstar.updateStart(myGridLoc.getX(), myGridLoc.getY());
-        dstar.replan();
+        bool replanRet = dstar.replan();
+        WriteLog("Replanned for goal isolation. Return value = %s\n", replanRet ? "ok" : "FAIL");
         list<state> path = dstar.getPath();
         list<Point3D>* waypoints = fromState(path);
         currentPath = waypoints;
@@ -335,7 +336,7 @@ void BMController::robotLocationChanged(int id)
     if (startCoordinating)
     {
         // React to nearby robot.
-        std::printf("Robot %d:\tI'm about to start coordinating with %d other robots.\n", myID, (int)coordinatingWith.size());
+        WriteLog("I'm about to start coordinating with %d other robots.\n", (int)coordinatingWith.size());
         setState(COORDINATING);
     } else {
         if (goalIsolation)
@@ -349,28 +350,26 @@ void BMController::robotLocationChanged(int id)
 
 void BMController::setState(State newState)
 {
-    std::cout<< "Robot " << myID << ":\tState change thread is " << std::this_thread::get_id() << ".\n";
-    std::printf("\nRobot %d:\t", myID);
     switch (currentState)
     {
         case NOT_STARTED:
             switch (newState)
             {
                 case NOT_STARTED:
-                    std::cout << "No state change: Not Started --> Not Started\n";
+                    WriteLog("No state change: Not Started --> Not Started\n");
                     break;
                 case FOLLOWING_PATH:
-                    std::cout << "CHANGING STATE: Not Started --> Following Path\n\n";
+                    WriteLog("CHANGING STATE: Not Started --> Following Path\n\n");
                     currentState = newState;
 
                     // Mark ourselves as able to coordinate.
                     enableCoordination();
                     break;
                 case COORDINATING:
-                    std::cout << "Invalid state transition: Not Started --> Coordinating\n";
+                    WriteLog("Invalid state transition: Not Started --> Coordinating\n");
                     break;
                 case REACHED_GOAL:
-                    std::cout << "Invalid state change: Not Started --> Reached Goal\n";
+                    WriteLog("Invalid state change: Not Started --> Reached Goal\n");
                     break;
             }
             break;
@@ -378,13 +377,13 @@ void BMController::setState(State newState)
             switch (newState)
             {
                 case REACHED_GOAL:
-                    std::cout << "No state change: Reached Goal --> Reached Goal\n";
+                    WriteLog("No state change: Reached Goal --> Reached Goal\n");
                     break;
                 case FOLLOWING_PATH:
-                    std::cout << "Invalid state transition: Reached Goal --> Following Path\n";
+                    WriteLog("Invalid state transition: Reached Goal --> Following Path\n");
                     break;
                 case COORDINATING:
-                    std::cout << "Invalid state transition: Reached Goal --> Coordinating\n";
+                    WriteLog("Invalid state transition: Reached Goal --> Coordinating\n");
                     break;
             }
             break;
@@ -392,11 +391,11 @@ void BMController::setState(State newState)
             switch (newState)
             {
                 case REACHED_GOAL:
-                    std::cout << "CHANGING STATE: Following Path --> Reached Goal\n\n";
+                    WriteLog("CHANGING STATE: Following Path --> Reached Goal\n\n");
                     currentState = newState;
                     // stop motors.
                     driver->disableMovement();
-                    std::printf("Robot %d: Stopping driving.\n", myID);
+                    WriteLog("Stopping driving.\n");
                     stopDriving();
 
                     // Publish that we are not longer up for coordination.
@@ -407,10 +406,10 @@ void BMController::setState(State newState)
 
                     break;
                 case FOLLOWING_PATH:
-                    std::cout << "No state change: Following Path --> Following Path\n";
+                    WriteLog("No state change: Following Path --> Following Path\n");
                     break;
                 case COORDINATING:
-                    std::cout << "CHANGING STATE: Following Path --> Coordinating\n\n";
+                    WriteLog("CHANGING STATE: Following Path --> Coordinating\n\n");
                     currentState = newState;
 
                     // Stop moving.
@@ -425,7 +424,7 @@ void BMController::setState(State newState)
 
                     if (coordinatingWith.empty())
                     {
-                        std::printf("Robot %d:\tResuming driving because coordination timed out.\n", myID);
+                        WriteLog("Resuming driving because coordination timed out.\n");
                         setState(FOLLOWING_PATH);
                     }
                     addRobotsCoordinatedCounter((int)coordinatingWith.size());
@@ -452,16 +451,16 @@ void BMController::setState(State newState)
                     // If mine is the best, transmit it.
                     if (bestMatchingId == myID)
                     {
-                        std::printf("Robot %d:\tMY MATCHING IS THE BEST. I will transmit it now.\n", myID);
+                        WriteLog("MY MATCHING IS THE BEST. I will transmit it now.\n");
                         transmitFullMatching();
                         newPath = getPathFromFirstPoint(myMatching->getPlaceFor(myID));
                     } else {
                         // If mine is not the best, listen for the full matching result from the robot that has the best matching.
-                        std::printf("Robot %d:\tMy matching is not the best. Waiting for full matching from %d...\n", myID, bestMatchingId);
+                        WriteLog("My matching is not the best. Waiting for full matching from %d...\n", bestMatchingId);
                         Point3D whereToGo = awaitFullMatching(bestMatchingId);
                         if (whereToGo.getZ() == -1)
                         {
-                            std::printf("Robot %d:\tI was absent from the best matching.\n", myID);
+                            WriteLog("I was absent from the best matching.\n");
                             newPath = nullptr;
                         } else {
                             newPath = getPathFromFirstPoint(whereToGo);
@@ -470,7 +469,7 @@ void BMController::setState(State newState)
                     if (!newPath) // don't move for a certain time interval.
                     {
                         const int WAIT_SECONDS = 10;
-                        std::printf("Robot %d:\tWaiting for %d seconds.\n", myID, WAIT_SECONDS);
+                        WriteLog("Waiting for %d seconds....\n", WAIT_SECONDS);
                         disableCoordination();
                         std::this_thread::sleep_for(std::chrono::seconds(WAIT_SECONDS));
                         setState(FOLLOWING_PATH);
@@ -478,7 +477,7 @@ void BMController::setState(State newState)
                         // Change state back to FOLLOWING_PATH and go to the location prescribed in the best matching.
 
                         currentPath = newPath;
-                        std::printf("Robot %d:\tResuming driving after coordination.\n", myID);
+                        WriteLog("Resuming driving after coordination.\n");
                         setState(FOLLOWING_PATH);
                     }
 
@@ -490,7 +489,7 @@ void BMController::setState(State newState)
             {
                 case REACHED_GOAL:
                     //std::cout << "Invalid state transition: Coordinating --> Reached Goal\n";
-                    std::cout << "CHANGING STATE: Coordinating --> Reached Goal\n\n";
+                    WriteLog("CHANGING STATE: Coordinating --> Reached Goal\n\n");
                     currentState = newState;
                     // stop motors.
                     stopDriving();
@@ -502,7 +501,7 @@ void BMController::setState(State newState)
                     activeWorkers->signal();
                     break;
                 case FOLLOWING_PATH:
-                    std::cout << "CHANGING STATE: Coordinating --> Following Path\n\n";
+                    WriteLog("CHANGING STATE: Coordinating --> Following Path\n\n");
                     currentState = newState;
                     coordinatingWith.clear(); // Clear the list of robots I'm coordinating with.
                     enableCoordination();
@@ -512,7 +511,7 @@ void BMController::setState(State newState)
                     driveThread = new std::thread(std::bind(&BMController::driveAlong, this, *currentPath));
                     break;
                 case COORDINATING:
-                    std::cout << "No state change: Coordinating --> Coordinating\n";
+                    WriteLog("No state change: Coordinating --> Coordinating\n");
                     break;
             }
             break;
@@ -533,7 +532,7 @@ list<Point3D>* BMController::getPathFromFirstPoint(Point3D pt)
     if (pt == robotLocations[myID])
     {
         // We chose the stay-still alternative. Return null to indicate this.
-        std::printf("Robot %d:\tThe chosen matching says I should stay still at (%d, %d).\n", myID, pt.getX(), pt.getY());
+        WriteLog("The chosen matching says I should stay still at (%d, %d).\n", pt.getX(), pt.getY());
         return nullptr;
     }
 
@@ -543,7 +542,7 @@ list<Point3D>* BMController::getPathFromFirstPoint(Point3D pt)
     list<Point3D>* ret;
     if (pt == altStart)
     {
-        std::printf("Robot %d:\t(%d, %d) == (%d, %d), indicating my 1st alternative.\n", myID,
+        WriteLog("(%d, %d) == (%d, %d), indicating my 1st alternative.\n",
         pt.getX(), pt.getY(), altStart.getX(), altStart.getY());
         ret = fromState(myAlternative1);
         //ret->pop_front();
@@ -553,7 +552,7 @@ list<Point3D>* BMController::getPathFromFirstPoint(Point3D pt)
         //std::printf("Robot %d:\tSecond point in my 2nd alternative path is (%d, %d).\n", myid, altStart.getX(), altStart.getY());
         if (pt == altStart)
         {
-            std::printf("Robot %d:\t(%d, %d) == (%d, %d), indicating my 2nd alternative.\n", myID,
+            WriteLog("(%d, %d) == (%d, %d), indicating my 2nd alternative.\n",
                         pt.getX(), pt.getY(), altStart.getX(), altStart.getY());
             ret = fromState(myAlternative2);
             //ret->pop_front();
@@ -561,10 +560,11 @@ list<Point3D>* BMController::getPathFromFirstPoint(Point3D pt)
         } else {
             // it's hitting this with value from old matching! my matching not getting cleared/recalculated or something the 2nd time 'round?
 
-            std::printf("Robot %d:\t(%d, %d) does not match either of my alternatives!\n", myID,
+            WriteLog("(%d, %d) does not match either of my alternatives!\n",
                         pt.getX(), pt.getY());
             // I was prescribed to go to a location that does not match either of my alternatives!
-            __glibcxx_assert(false);
+            //__glibcxx_assert(false);
+            return nullptr;
         }
     }
 }
@@ -592,7 +592,7 @@ Point3D BMController::awaitFullMatching(int sourceId) // new method, not added t
         int x = (int)current.x;
         int y = (int)current.y;
         int z = (int)current.z;
-        std::printf("Robot %d:\tRobot %d says robot %d should go to (%d, %d)\n", myID, sourceId, z, x, y);
+        WriteLog("Robot %d says robot %d should go to (%d, %d)\n", sourceId, z, x, y);
         if (z == myID)
         {
             return Point3D(x, y, 0);
@@ -645,7 +645,7 @@ int BMController::findBestMatchingID()
         if (otherMatchingCard > maxCardinality)
         {
             // This robot's matching is the new best so far.
-            std::printf("Robot %d:\tNew best cardinality so far (%d): Robot %d\n", myID, otherMatchingCard, otherId);
+            WriteLog("New best cardinality so far (%d): Robot %d\n", otherMatchingCard, otherId);
             maxCardinality = otherMatchingCard;
             bestCardMatches.clear();
             bestCardMatches.push_back(otherId);
@@ -653,7 +653,7 @@ int BMController::findBestMatchingID()
             if (otherMatchingCard == maxCardinality)
             {
                 // This robot's matching ties for the best so far.
-                std::printf("Robot %d:\tTie for best cardinality so far(%d): Robot %d\n", myID, otherMatchingCard, otherId);
+                WriteLog("Tie for best cardinality so far(%d): Robot %d\n", otherMatchingCard, otherId);
                 bestCardMatches.push_back(otherId);
             }
         }
@@ -670,7 +670,7 @@ int BMController::findBestMatchingID()
         if (otherMatchingCost < minCost)
         {
             // This robot's matching is the new best so far.
-            std::printf("Robot %d:\tNew best cost so far (%d): Robot %d\n", myID, otherMatchingCost, otherId);
+            WriteLog("New best cost so far (%d): Robot %d\n", otherMatchingCost, otherId);
             minCost = otherMatchingCost;
             bestCostMatches.clear();
             bestCostMatches.push_back(otherId);
@@ -678,7 +678,7 @@ int BMController::findBestMatchingID()
             if (otherMatchingCost == minCost)
             {
                 // This robot's matching ties for the best so far.
-                std::printf("Robot %d:\tTie for best cost so far(%d): Robot %d\n", myID, otherMatchingCost, otherId);
+                WriteLog("Tie for best cost so far(%d): Robot %d\n", otherMatchingCost, otherId);
                 bestCostMatches.push_back(otherId);
             }
         }
@@ -764,7 +764,7 @@ void BMController::computeMatching()
     matcher.solve();
 
     Point res = matcher.getResult(myID);
-    std::printf("Robot %d:\tMy matching says I should go to (%d, %d).\n", myID, res.X, res.Y);
+    WriteLog("My matching says I should go to (%d, %d).\n", res.X, res.Y);
     myMatching->add(myID, Point3D(res.X, res.Y, 0));
     // Store results in class-level data structure.
     for (auto iter = coordinatingWith.begin(); iter != coordinatingWith.end(); ++iter) {
@@ -772,7 +772,7 @@ void BMController::computeMatching()
         if (matcher.hasResultFor(id))
         {
             res = matcher.getResult(id);
-            std::printf("Robot %d:\tMy matching says %d should go to (%d, %d).\n", myID, id, res.X, res.Y);
+            WriteLog("My matching says %d should go to (%d, %d).\n", id, res.X, res.Y);
             myMatching->add(id, Point3D(res.X, res.Y, 0));
         }
     }
@@ -806,7 +806,7 @@ void BMController::waitForAllMatchings()
             Matching m = robotMatchings[id];
             if (m.getCost() == -1)
             {
-                printf("Robot %d:\tWaiting for matching info from robot %d...\n", myID, id);
+                WriteLog("Waiting for matching info from robot %d...\n", id);
                 //done = false;
                 //break;
                 std::string topicName(baseName);
@@ -826,12 +826,10 @@ void BMController::waitForAllMatchings()
 // Blocks until we've received alternatives from all the robots within our D_safe.
 void BMController::waitForAllAlternatives()
 {
-    for (auto iter = coordinatingWith.begin(); iter != coordinatingWith.end(); ++iter)
+    for (int i=0; i<coordinatingWith.size(); ++i)
     {
-        int id = *iter;
-        //Alternative a1 = robotAlternatives[id][0];
-        //Alternative a2 = robotAlternatives[id][1];
-        printf("Robot %d:\tWaiting for alternative 1 from robot %d...\n", myID, id);
+        int id = coordinatingWith.at(i);
+        WriteLog("Waiting for alternative 1 from robot %d...\n", id);
         //done = false;
         //break;
         std::string topicName(baseName);
@@ -840,15 +838,18 @@ void BMController::waitForAllAlternatives()
         auto msg = ros::topic::waitForMessage<geometry_msgs::Polygon>(topicName, timeout);
         if (!msg)
         {
-           printf("message was null!\n");
+           WriteLog("Message was null!\n");
            // Stop attempting to coordinate with this robot.
-           coordinatingWith.erase(iter);
+            if (std::find(coordinatingWith.begin(), coordinatingWith.end(), id) != coordinatingWith.end())
+            {
+                coordinatingWith.erase(coordinatingWith.begin()+i);
+            }
            continue;
         }
         incReceiveCounter();
         receiveAlternative(*msg);
 
-        printf("Robot %d:\tWaiting for alternative 2 from robot %d...\n", myID, id);
+        WriteLog("Waiting for alternative 2 from robot %d...\n", id);
         topicName = baseName;
         topicName.append('_' + std::to_string(id) + "/out/alternative2");
         msg = ros::topic::waitForMessage<geometry_msgs::Polygon>(topicName);
@@ -863,7 +864,7 @@ void BMController::findAlternatePaths()
     dstar.updateStart(self.getX(), self.getY());
 
     // Print path before blocking cells for first alternative.
-    std::printf("Robot %d:\tOriginal path:  ", myID);
+    WriteLog("Original path: ");
     printPath(dstar.getPath());
 
     // todo: change this so that only robots WITHIN MSD of us are blocked for D*.
@@ -879,22 +880,22 @@ void BMController::findAlternatePaths()
             {
                 if (other != self) // Don't block it if it's our own location.
                 {
-                    std::printf("Robot %d:\tBlocking cell (%d, %d)...\n", myID, other.getX(), other.getY());
+                    WriteLog("Blocking cell (%d, %d)...\n", other.getX(), other.getY());
                     dstar.updateCell(other.getX(), other.getY(), NONTRAVERSABLE_COST);
                 }
             } else {
-                std::printf("Robot %d:\tNot blocking robot %d's location (%d, %d) because it's far enough.\n", myID, id, other.getX(), other.getY());
+                WriteLog("Not blocking robot %d's location (%d, %d) because it's far enough.\n", id, other.getX(), other.getY());
             }
         }
     }
 
     dstar.updateStart(self.getX(), self.getY());
     bool replanRet = dstar.replan();
-    //printf("Robot %d:\tReplanned 1st alt path. Return value = %s\n", myID, replanRet ? "ok" : "fail");
+    WriteLog("Replanned 1st alt path. Return value = %s\n", replanRet ? "ok" : "fail");
 
     // Broadcast the next point and total cost of this alternate path.
     list<state> path = dstar.getPath();
-    std::printf("Robot %d:\tReplanned path 1: ", myID);
+    WriteLog("Replanned path 1: ");
     printPath(path);
 
     // Store the path for my own use later, during matching.
@@ -936,17 +937,18 @@ void BMController::findAlternatePaths()
                     }
                 }
             } else {
-                std::printf("Robot %d:\tNot blocking robot %d's location (%d, %d) because it's far enough OR that robot is not coordinating.\n",
-                            myID, i, other.getX(), other.getY());
+                WriteLog("Not blocking robot %d's location (%d, %d) because it's far enough OR that robot is not coordinating.\n",
+                            i, other.getX(), other.getY());
             }
         }
     }
 
     replanRet = dstar.replan();
-    //printf("Robot %d:\tReplanned 2nd alt path. Return value = %s\n", myID, replanRet ? "ok" : "fail");
+    WriteLog("Replanned 2nd alt path. Return value = %s\n", replanRet ? "ok" : "fail");
 
     path = dstar.getPath();
-    std::printf("Robot %d:\tReplanned path 2: ", myID);
+    WriteLog("Replanned path 2: ");
+
     printPath(path);
 
     // Store the path for my own use later, during matching.
@@ -1051,13 +1053,15 @@ void BMController::stopDriving()
 {
     if (driver)
         driver->disableMovement();
-    if (driveThread)
+    /*
+      if (driveThread && driveThread->joinable())
     {
         auto dtid = driveThread->get_id();
         auto id = this_thread::get_id();
         if (dtid != id)
             driveThread->join();
     }
+     */
 }
 
 void BMController::updateLog() {
@@ -1070,7 +1074,7 @@ void BMController::updateLog() {
             goal = currentPath->back();
         }
 
-        double timeElapsed; // todo: calculate populate me using timeStarted
+        double timeElapsed; // todo: calculate me using timeStarted
 
         statsGuard.lock();
         log->writeLog(myID,
@@ -1112,7 +1116,6 @@ void BMController::addRobotsCoordinatedCounter(int robots)
     robotsCoordinatedWith +=  robots;
     statsGuard.unlock();
 }
-
 
 void BMController::setupWalls()
 {
@@ -1157,4 +1160,20 @@ static std::string vectorToString(const vector<int> v)
         ret.append(to_string(current) + ", ");
     }
     return ret;
+}
+
+void BMController::WriteLog(const char* fmt...)
+{
+    std::stringstream s;
+    s <<  std::this_thread::get_id();
+    std::string tid = s.str();
+    std::string lsd = tid.substr(tid.size() - 4);
+
+    consoleMutex.lock();
+    printf("Robot %d\tThread %s:\t", myID, lsd.c_str());
+    va_list args;
+    va_start (args, fmt);
+    vprintf (fmt, args);
+    va_end (args);
+    consoleMutex.unlock();
 }

@@ -3,7 +3,7 @@
 //
 
 #include "VrepQuadricopterDriver.h"
-
+#include <thread>
 #include <regex>
 
 VrepQuadricopterDriver::VrepQuadricopterDriver(ros::NodeHandle& node,
@@ -128,7 +128,7 @@ bool VrepQuadricopterDriver::driveTo(PointD3D target) const
             std::cout << "Current error distance: " << error << std::endl;
         }
     }
-    stop();
+    std::this_thread::sleep_for(std::chrono::seconds(2)); // to help keep UAV's speed low.
     return true;
 }
 

@@ -570,7 +570,8 @@ void Dstar::updateGoal(int x, int y) {
  * path that is near a 45 degree angle to goal we break ties based on
  *  the metric euclidean(state, goal) + euclidean(state,start).
  */
-bool Dstar::replan() {
+bool Dstar::
+replan() {
 
   path.clear();
 

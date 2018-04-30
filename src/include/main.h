@@ -10,6 +10,9 @@
 #include "Countdown.h"
 
 #define ROBOT_COUNT 2
-#define ROW_COLUMN_COUNT 25
+#define ROW_COLUMN_COUNT 10
+#define MINIMUM_SAFE_DISTANCE 2 // measured in cells.
+
+static std::mutex consoleMutex;
 
 #endif //PATHDRIVER_MAIN_H
