@@ -8,8 +8,8 @@
 #include "Point3D.h"
 
 
-#include "../../../../../../../usr/include/c++/5/string"
-#include "../../../../../../../usr/include/c++/5/chrono"
+#include "/usr/include/c++/5/string"
+#include "/usr/include/c++/5/chrono"
 
 class Log
 {
@@ -56,7 +56,7 @@ public:
                 printf("Failed to open the file for writing: %s!\n", cpath);
             }
 
-            fprintf(f, "ID\tStart\tGoal\tIPL\tCPL\tTime\tSent\tRecvd\tTimes\tRCW\n");
+            fprintf(f, "ID\tStart\t\tGoal\t\tCurrent\t\tIPL\tCPL\tTime\tSent\tRecvd\tTimes\tRCW\n");
 
             files[i] = f;
         }
@@ -65,8 +65,9 @@ public:
     void writeLog(int id,
                   Point3D startLocation,
                   Point3D goalLocation,
+                  Point3D currentLocation,
                   int initialPathLength,
-                  int currentPathLength,
+                  int totalDistanceTravelled,
                   double timeElapsed,
                   long messagesSent,
                   long messagesReceived,

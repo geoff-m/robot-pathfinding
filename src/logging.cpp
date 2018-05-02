@@ -2,13 +2,15 @@
 // Created by Geoff M. on 4/21/18.
 //
 
+#include <sstream>
 #include "logging.h"
 
 void Log::writeLog(   int id,
                       Point3D startLocation,
                       Point3D goalLocation,
+                      Point3D currentLocation,
                       int initialPathLength,
-                      int currentPathLength,
+                      int totalDistanceTravelled,
                       double timeElapsed,
                       long messagesSent,
                       long messagesReceived,
@@ -16,71 +18,31 @@ void Log::writeLog(   int id,
                       long robotsCoordinatedWith)
 {
     FILE* f = files[id];
-    if (startLocation.isUninitialized())
+    std::stringstream line;
+    line << id;
+    line << "\t";
+    line << startLocation;
+    line << "\t";
+    line << goalLocation;
+    line << "\t";
+    line << currentLocation;
+    line << "\t";
+    line << initialPathLength;
+    line << "\t";
+    line << totalDistanceTravelled;
+    line << "\t";
+    line << timeElapsed;
+    line << "\t";
+    line << messagesSent;
+    line << "\t";
+    line << messagesReceived;
+    line << "\t";
+    line << timesCoordinated;
+    line << "\t";
+    line << robotsCoordinatedWith;
+    line << "\n";
 
-    {
-        if (goalLocation.isUninitialized())
-        {
-            fprintf(f, "%d\tx,x,x\tx,x,x\t%d\t%d\t%.4f\t%lu\t%lu\t%d\t%lu\n",
-                    id,
-                    initialPathLength,
-                    currentPathLength,
-                    timeElapsed,
-                    messagesSent,
-                    messagesReceived,
-                    timesCoordinated,
-                    robotsCoordinatedWith
-            );
-        } else {
-            fprintf(f, "%d\tx,x,x\t%d,%d,%d\t%d\t%d\t%.4f\t%lu\t%lu\t%d\t%lu\n",
-                    id,
-                    goalLocation.getX(),
-                    goalLocation.getY(),
-                    goalLocation.getZ(),
-                    initialPathLength,
-                    currentPathLength,
-                    timeElapsed,
-                    messagesSent,
-                    messagesReceived,
-                    timesCoordinated,
-                    robotsCoordinatedWith
-            );
-        }
-    } else {
-        if (goalLocation.isUninitialized())
-        {
-            fprintf(f, "%d\t%d,%d,%d\tx,x,x\t%d\t%d\t%.4f\t%lu\t%lu\t%d\t%lu\n",
-                    id,
-                    startLocation.getX(),
-                    startLocation.getY(),
-                    startLocation.getZ(),
-                    initialPathLength,
-                    currentPathLength,
-                    timeElapsed,
-                    messagesSent,
-                    messagesReceived,
-                    timesCoordinated,
-                    robotsCoordinatedWith
-            );
-        }
-    }
-
-    fprintf(f, "%d\t%d,%d,%d\t%d,%d,%d\t%d\t%d\t%.4f\t%lu\t%lu\t%d\t%lu\n",
-             id,
-            startLocation.getX(),
-            startLocation.getY(),
-            startLocation.getZ(),
-            goalLocation.getX(),
-            goalLocation.getY(),
-            goalLocation.getZ(),
-            initialPathLength,
-            currentPathLength,
-            timeElapsed,
-            messagesSent,
-            messagesReceived,
-            timesCoordinated,
-            robotsCoordinatedWith
-    );
+    fputs(line.str().c_str(), f);
 
     fflush(f);
 }

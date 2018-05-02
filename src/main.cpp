@@ -152,8 +152,10 @@ int quadricopterMain()
     const PointD3D gridOrigin(-2.0f, -2.0f, 0.5f);
 
     ROS_DEBUG("Constructing grid\n");
-    const float GRID_SCALE = 0.8f;
-    std::shared_ptr<Grid4C> grid(new Grid4C(gridOrigin, ROW_COLUMN_COUNT, ROW_COLUMN_COUNT, 1, GRID_SCALE, GRID_SCALE, GRID_SCALE));
+    //const float GRID_SCALE = 0.8f;
+    const float GRID_XY_SCALE = 0.5f;
+    const float GRID_Z_SCALE = 0.3f;
+    std::shared_ptr<Grid4C> grid(new Grid4C(gridOrigin, ROW_COLUMN_COUNT, ROW_COLUMN_COUNT, 1, GRID_XY_SCALE, GRID_XY_SCALE, GRID_Z_SCALE));
 
     ROS_DEBUG("Constructing node\n");
     ros::NodeHandle* node = new ros::NodeHandle();
@@ -175,16 +177,14 @@ int quadricopterMain()
     //      ROS is not started.
     //      V-REP simulation is not running.
 
-
     //traceBoundary(grid.get(),drivers[0]);
-
 
     for (int i = 0; i < ROBOT_COUNT; ++i) {
         PointD3D actualLoc = *drivers[i]->myLoc;
         Point3D nearestGridLoc = grid->getGridPoint(actualLoc);
         PointD3D worldGridLoc = grid->getWorldPoint(nearestGridLoc);
         double err = (worldGridLoc - actualLoc).euclideanNorm();
-        const double WORST_CASE = GRID_SCALE / sqrt(3);
+        const double WORST_CASE = GRID_XY_SCALE / sqrt(2) + GRID_Z_SCALE / 2;
         std::printf("Robot %d is initially %.2f (%.1f%% of worst case) away from nearest grid location, (%d, %d, %d).\n", i,
                     err,
                     100 * err / WORST_CASE,
@@ -209,14 +209,8 @@ int quadricopterMain()
 
     printf("Setup done.\n\n");
 
-    // later, this will be made to run on its own thread (1 thread per robot)
-    // update: or we can dispense with threading and use separate processes for multiple robots.
-
-
-    //consoleMutex = new std::mutex();
-
-    controllers[0]->navigateTo(3, 5);
-    controllers[1]->navigateTo(3, 0);
+    controllers[0]->navigateTo(4, 8);
+    controllers[1]->navigateTo(4, 0);
     //controllers[2]->navigateTo(8, 0);
 
 

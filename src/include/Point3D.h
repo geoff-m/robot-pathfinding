@@ -39,7 +39,7 @@ public:
     {
         if (inst.isEmpty)
         {
-            os << "[EMPTY]";
+            os << "[x, x, x]";
         } else {
             os << "[" << inst.x << ", " << inst.y << ", " << inst.z << "]";
         }

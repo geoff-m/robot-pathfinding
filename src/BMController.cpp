@@ -91,12 +91,13 @@ void BMController::registerCallbacks(const char* baseName, int robotCount)
 
 void BMController::locationCallback(const geometry_msgs::Polygon& msg)
 {
-    incReceiveCounter();
-    updateLog();
     if (!(currentState == FOLLOWING_PATH || currentState == COORDINATING))
     {
         return; // We don't care about other robots' locations if we're not going anywhere.
     }
+    incReceiveCounter();
+    updateLog();
+
     int id = (int)(msg.points[0].x);
     auto loc = msg.points[1];
     PointD3D worldLoc(loc.x, loc.y, loc.z);
@@ -187,10 +188,6 @@ void BMController::navigateTo(int row, int col)
     //driveThread = new std::thread(this->driveAlong, waypoints); // this doesn't compile.
     driveThread = new std::thread(std::bind(&BMController::driveAlong, this, *waypoints));
     currentPath = waypoints;
-
-    //driveAlong(waypoints); // old synchronous version
-
-    //std::printf("Robot %d:\tNo longer following initially planned path.\n", myID);
 }
 
 // Drives along a list of grid points until interrupted.
@@ -543,7 +540,7 @@ list<Point3D>* BMController::getPathFromFirstPoint(Point3D pt)
     if (pt == altStart)
     {
         WriteLog("(%d, %d) == (%d, %d), indicating my 1st alternative.\n",
-        pt.getX(), pt.getY(), altStart.getX(), altStart.getY());
+                 pt.getX(), pt.getY(), altStart.getX(), altStart.getY());
         ret = fromState(myAlternative1);
         //ret->pop_front();
         return ret;
@@ -1067,22 +1064,36 @@ void BMController::stopDriving()
 void BMController::updateLog() {
     if (log != nullptr)
     {
-        bool haveStart = currentPath != nullptr;
+        bool haveStart = currentPath != nullptr && !currentPath->empty();
         Point3D start, goal;
         if (haveStart) {
             start = currentPath->front();
             goal = currentPath->back();
+            if (!grid->contains(start))
+            {
+                std::stringstream msg;
+                msg << "Start location " << start << " is not in grid!\n";
+                auto str = msg.str().c_str();
+                WriteLog(str);
+            }
         }
 
-        double timeElapsed; // todo: calculate me using timeStarted
+        Point3D myLoc;
+        robotLocations_mutex.lock();
+        myLoc = robotLocations[myID];
+        robotLocations_mutex.unlock();
+
+        auto timeElapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::steady_clock::now( ) - timeStarted);
 
         statsGuard.lock();
         log->writeLog(myID,
                       start,
                       goal,
+                      myLoc,
                       initialPathLength,
-                      haveStart ? (int)currentPath->size() : 0,
-                      timeElapsed,
+                      totalDistanceTravelled,
+                      timeElapsed.count() / 1000.0, // seconds
                       messagesSent,
                       messagesReceived,
                       timesCoordinated,
@@ -1168,9 +1179,11 @@ void BMController::WriteLog(const char* fmt...)
     s <<  std::this_thread::get_id();
     std::string tid = s.str();
     std::string lsd = tid.substr(tid.size() - 4);
+    double secondsElapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::steady_clock::now( ) - timeStarted).count() / 1000.0;
 
     consoleMutex.lock();
-    printf("Robot %d\tThread %s:\t", myID, lsd.c_str());
+    printf("%.4f\tRobot %d\tThread %s:\t", secondsElapsed, myID, lsd.c_str());
     va_list args;
     va_start (args, fmt);
     vprintf (fmt, args);

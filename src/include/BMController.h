@@ -20,6 +20,7 @@
 #include <vector>
 #include "Matching.h"
 #include "logging.h"
+#include <chrono>
 
 // This class contains the beliefs and knowledge of a single robot.
 class BMController {
@@ -131,7 +132,7 @@ private:
     Log* log;
     void updateLog();
     int initialPathLength;
-    double timeStarted;
+    std::chrono::time_point<std::chrono::steady_clock> timeStarted = std::chrono::steady_clock::now();
     std::mutex statsGuard;
     void incSendCounter();
     long messagesSent;

@@ -76,7 +76,7 @@ void VrepQuadricopterDriver::disableMovement()
 {
     std::lock_guard<std::mutex> lock(canGoMutex);
     canGo = false;
-    stop();
+    //stop();
 }
 
 bool VrepQuadricopterDriver::isMovementEnabled() const
@@ -91,6 +91,7 @@ bool VrepQuadricopterDriver::driveTo(PointD3D target) const
     //std::cout << "location has " << locationSubscriber.getNumPublishers() << " publishers" << std::endl;
     //std::cout << "Driving to " << target << std::endl;
     std::printf("Robot %d:\tDriving to (world) (%.1f, %.1f)\n", id, target.getX(), target.getY());
+    std::this_thread::sleep_for(std::chrono::seconds(2)); // to help keep UAV's speed low.
 
     const double MAX_ERROR = 0.25;
     PointD3D difference = target - *myLoc;
@@ -114,7 +115,6 @@ bool VrepQuadricopterDriver::driveTo(PointD3D target) const
         if (!willGo)
         {
             std::printf("Driver %d:\tStopping driving because canGo has been cleared!\n", id);
-            stop();
             return false;
         }
 
@@ -128,7 +128,6 @@ bool VrepQuadricopterDriver::driveTo(PointD3D target) const
             std::cout << "Current error distance: " << error << std::endl;
         }
     }
-    std::this_thread::sleep_for(std::chrono::seconds(2)); // to help keep UAV's speed low.
     return true;
 }
 
